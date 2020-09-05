@@ -1,8 +1,8 @@
 {
   "name": "tek-vue-datetime",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "A vue component for select date & time",
-  "author": "Louis Mazel <loic.mazuel@chronotruck.com>",
+  "author": "Hung Nguyen <bahung1221@gmail.com>",
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
     "serve:nuxt": "nuxt src",
@@ -78,9 +78,8 @@
     "time",
     "range",
     "picker",
-    "ctk",
-    "chronotruck",
     "datepicker",
+    "datetimepicker",
     "timepicker"
   ],
   "license": "MIT",

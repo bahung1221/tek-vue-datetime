@@ -8,17 +8,7 @@
       class="ctk-date-time-picker"
     >
       <header>
-        <img
-          v-if="!darkMode"
-          src="./assets/logo.png"
-          alt="logo-chronotruck"
-        >
-        <img
-          v-else
-          src="./assets/logo-dark.png"
-          alt="logo-chronotruck-dark"
-        >
-        <h1>CtkDatetimePicker</h1>
+        <h1>TekVueDateTime</h1>
         <h3>A VueJs component for select date & time</h3>
         <div
           class="container lm-mt-4"
