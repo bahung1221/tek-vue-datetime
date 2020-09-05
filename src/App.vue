@@ -204,6 +204,8 @@
                 :disabled-hours="demo.options.disabledHours"
                 :enabled-dates="demo.options.enabledDates"
                 :minute-interval="demo.options.minuteInterval"
+                :start-minute="demo.options.startMinute"
+                :end-minute="demo.options.endMinute"
                 :first-day-of-week="demo.options.firstDayOfWeek"
                 :min-date="demo.options.minDate"
                 :max-date="demo.options.maxDate"
@@ -330,17 +332,40 @@
           },
           {
             id: '4',
-            title: 'Time Picker - With small input (input-size="sm") & minute-interval="10"',
+            title: 'Time Picker - With small input (input-size="sm") & minute-interval="15" & start-minute="0" & end-minute="59"',
             description: 'Time selector',
             editOption: false,
-            initial: '11:26 am',
-            value: '11:26 am',
+            initial: '11:00 am',
+            value: '11:00 am',
             options: {
               format: 'hh:mm a',
               formatted: 'hh:mm a',
               onlyTime: true,
               color: 'firebrick',
-              minuteInterval: '10',
+              minuteInterval: '15',
+              startMinute: 0,
+              endMinute: 59,
+              label: 'Select time',
+              inputSize: 'sm',
+              id: 'TimePicker',
+              noLabel: true
+            }
+          },
+          {
+            id: '4',
+            title: 'Time Picker - With small input (input-size="sm") & minute-interval="15" & start-minute="0" & end-minute="59" & 24 hours mode',
+            description: 'Time selector',
+            editOption: false,
+            initial: '11:00',
+            value: '11:00',
+            options: {
+              format: 'hh:mm',
+              formatted: 'hh:mm',
+              onlyTime: true,
+              color: 'firebrick',
+              minuteInterval: '15',
+              startMinute: 0,
+              endMinute: 59,
               label: 'Select time',
               inputSize: 'sm',
               id: 'TimePicker',
