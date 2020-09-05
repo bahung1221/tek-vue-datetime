@@ -117,6 +117,7 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | persistent                  | Boolean           | no       | false                       |
 | minute-interval             | Integer           | no       | 1                           |
 | output-format               | String            | no       | null                        |
+| minute-interval             | Integer           | no       | 1                           |
 | only-time                   | Boolean           | no       | false                       |
 | only-date                   | Boolean           | no       | false                       |
 | no-label                    | Boolean           | no       | false                       |
