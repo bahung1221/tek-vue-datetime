@@ -1,6 +1,6 @@
 {
   "name": "tek-vue-datetime",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A vue component for select date & time",
   "author": "Hung Nguyen <bahung1221@gmail.com>",
   "scripts": {
