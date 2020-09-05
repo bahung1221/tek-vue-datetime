@@ -26,21 +26,21 @@
           <a
             class="lm-btn lm-btn-dark lm-mr-2"
             target="_blank"
-            href="https://github.com/chronotruck/vue-ctk-date-time-picker"
+            href="https://github.com/bahung1221/tek-vue-datetime"
           >
             Github
           </a>
           <a
             class="lm-btn lm-btn-dark lm-mr-2"
             target="_blank"
-            href="https://github.com/chronotruck/vue-ctk-date-time-picker/releases"
+            href="https://github.com/bahung1221/tek-vue-datetime/releases"
           >
             Changelog
           </a>
           <a
             class="lm-btn lm-btn-danger"
             target="_blank"
-            href="https://www.npmjs.com/package/vue-ctk-date-time-picker"
+            href="https://www.npmjs.com/package/tek-vue-datetime"
           >
             Npm
           </a>

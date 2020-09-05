@@ -1,35 +1,42 @@
-<!-- ![vue-ctk-date-time-picker](./assets/logo_sticky.png) -->
+<!-- ![tek-vue-datetime](./assets/logo_sticky.png) -->
 
-# VueCtkDateTimePicker
+TekVueDateTime just a fork repo of [VueCtkDateTimePicker](https://github.com/chronotruck/vue-ctk-date-time-picker).
+
+# Why I forked VueCtkDateTimePicker instead create PR for it?
+VueCtkDateTimePicker is an awesome datetime picker I haven't seen ever. I love its styles, its UX behaviour especially its animations.
+
+Unfortunately, VueCtkDateTimePicker isn't maintained anymore by these authors, and it still have some issues that I must resolve to make it work on my projects.
+
+So features that will be add in this fork repo are:
+- Replace **moment** by **dayjs**: Moment is too large. Dayjs is very lightweight.
+- Remove **moment-range** dependency.
+- Move **vue** to peer dependencies list instead dependencies list
+- Add **ranges of minute** feature when using time picker: See [PR from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/pull/310).
+- Add **years/months navigation** arrows: See [Issue from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/issues/264)
+- And fix some bugs...
+
+# TekVueDateTime
 
 > A vue component for select dates (range mode available) & time
 
-[![Build Status](https://circleci.com/gh/chronotruck/vue-ctk-date-time-picker/tree/master.svg?style=shield)](https://circleci.com/gh/chronotruck/vue-ctk-date-time-picker/tree/master)
-
-This documentation is for v2.\*. Find v1 documentation [here](./assets/doc-v1.md)
-
-![vue-ctk-date-time-picker](./assets/illu-animated.gif)
+![tek-vue-datetime](./assets/illu-animated.gif)
 
 ## Dark mode
 
-![vue-ctk-date-time-picker](./assets/illu-animated-dark.gif)
-
-# Demo
-
-[Enjoy](https://chronotruck.github.io/vue-ctk-date-time-picker/)
+![tek-vue-datetime](./assets/illu-animated-dark.gif)
 
 # Installation
 
 Yarn
 
 ```bash
-yarn add vue-ctk-date-time-picker
+yarn add tek-vue-datetime
 ```
 
 NPM
 
 ```bash
-npm i --save vue-ctk-date-time-picker
+npm i --save tek-vue-datetime
 ```
 
 # Usage
@@ -37,8 +44,8 @@ npm i --save vue-ctk-date-time-picker
 ## ES6 Modules / CommonJS
 
 ```js
-import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import VueCtkDateTimePicker from 'tek-vue-datetime';
+import 'tek-vue-datetime/dist/tek-vue-datetime.css';
 
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 ```
@@ -53,7 +60,7 @@ Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 <link
   rel="stylesheet"
   type="text/css"
-  href="${YOUR_PATH}/vue-ctk-date-time-picker.css"
+  href="${YOUR_PATH}/tek-vue-datetime.css"
 />
 
 <div id="app">
@@ -62,12 +69,12 @@ Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 
 <script src="https://unpkg.com/vue" charset="utf-8"></script>
 <script
-  src="${YOUR_PATH}/vue-ctk-date-time-picker.umd.min.js"
+  src="${YOUR_PATH}/tek-vue-datetime.umd.min.js"
   charset="utf-8"
 ></script>
 
 <script type="text/javascript">
-  Vue.component('vue-ctk-date-time-picker', window['vue-ctk-date-time-picker']);
+  Vue.component('tek-vue-datetime', window['tek-vue-datetime']);
   new Vue({
     el: '#app',
     data() {

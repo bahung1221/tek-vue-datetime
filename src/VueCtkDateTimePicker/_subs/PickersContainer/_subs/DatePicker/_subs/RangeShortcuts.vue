@@ -84,7 +84,7 @@
        */
       noticeDeprecation () {
         const useDeprecatedAPI = this.customShortcuts.find(shortcut => typeof shortcut.isSelected !== 'undefined' || typeof shortcut.key === 'undefined')
-        if (useDeprecatedAPI) console.warn('[vue-ctk-date-time-picker]: You\'re using a deprecated API. Check the changelog (https://github.com/chronotruck/vue-ctk-date-time-picker/releases) for migration guide.')
+        if (useDeprecatedAPI) console.warn('[tek-vue-datetime]: You\'re using a deprecated API. Check the changelog (https://github.com/bahung1221/tek-vue-datetime/releases) for migration guide.')
       },
       /**
        * Returns the shortcut values according to the key
