@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import moment from 'moment'
+  import dayjs from 'dayjs'
   import CustomButton from '@/VueCtkDateTimePicker/_subs/CustomButton'
 
   const SHORTCUT_TYPES = ['day', 'date', '-day', 'isoWeek', 'quarter', '-isoWeek', 'month', '-month', 'year', '-year', 'week', '-week']
@@ -102,8 +102,8 @@
          */
         if (typeof value === 'number') {
           return {
-            start: moment().subtract(value, 'd'),
-            end: moment(),
+            start: dayjs().subtract(value, 'd'),
+            end: dayjs(),
             value
           }
         }
@@ -116,7 +116,7 @@
           const { start, end } = value()
 
           if (!start || !end) throw new Error('Missing "start" or "end" values.')
-          if (!moment.isMoment(start) || !moment.isMoment(end)) throw new Error('The "start" or "end" values are not moment objects.')
+          if (!dayjs.isDayjs(start) || !dayjs.isDayjs(end)) throw new Error('The "start" or "end" values are not dayjs objects.')
 
           return {
             start,
@@ -127,38 +127,38 @@
         switch (value) {
         case 'year': case 'month': case 'quarter': case 'week': case 'isoWeek': case 'day': case 'date':
           return {
-            start: moment().startOf(value),
-            end: moment().endOf(value),
+            start: dayjs().startOf(value),
+            end: dayjs().endOf(value),
             value
           }
         case '-month':
           return {
-            start: moment().subtract(1, 'months').startOf('month'),
-            end: moment().subtract(1, 'months').endOf('month'),
+            start: dayjs().subtract(1, 'months').startOf('month'),
+            end: dayjs().subtract(1, 'months').endOf('month'),
             value
           }
         case '-year':
           return {
-            start: moment().subtract(1, 'years').startOf('year'),
-            end: moment().subtract(1, 'years').endOf('year'),
+            start: dayjs().subtract(1, 'years').startOf('year'),
+            end: dayjs().subtract(1, 'years').endOf('year'),
             value
           }
         case '-week':
           return {
-            start: moment().subtract(1, 'weeks').startOf('week'),
-            end: moment().subtract(1, 'weeks').endOf('week'),
+            start: dayjs().subtract(1, 'weeks').startOf('week'),
+            end: dayjs().subtract(1, 'weeks').endOf('week'),
             value
           }
         case '-isoWeek':
           return {
-            start: moment().subtract(1, 'weeks').startOf('isoWeek'),
-            end: moment().subtract(1, 'weeks').endOf('isoWeek'),
+            start: dayjs().subtract(1, 'weeks').startOf('isoWeek'),
+            end: dayjs().subtract(1, 'weeks').endOf('isoWeek'),
             value
           }
         case '-day':
           return {
-            start: moment().subtract(1, 'days').startOf('day'),
-            end: moment().subtract(1, 'days').endOf('day'),
+            start: dayjs().subtract(1, 'days').startOf('day'),
+            end: dayjs().subtract(1, 'days').endOf('day'),
             value
           }
         }

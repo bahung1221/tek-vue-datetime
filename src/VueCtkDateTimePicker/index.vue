@@ -80,7 +80,7 @@
 </template>
 
 <script>
-  import moment from 'moment'
+  import dayjs from 'dayjs'
   import vClickOutside from 'v-click-outside'
 
   import CustomInput from './_subs/CustomInput'
@@ -88,13 +88,13 @@
 
   import props from './props'
 
-  const updateMomentLocale = (locale, firstDayOfWeek) => {
-    moment.locale(locale)
+  const updateDayjsLocale = (locale, firstDayOfWeek) => {
+    dayjs.locale(locale)
     if (firstDayOfWeek) {
       const firstDayNumber = Number.isInteger(firstDayOfWeek) && firstDayOfWeek === 0
         ? 7
-        : firstDayOfWeek || moment.localeData(locale).firstDayOfWeek()
-      moment.updateLocale(locale, {
+        : firstDayOfWeek || dayjs.localeData(locale).firstDayOfWeek()
+      dayjs.updateLocale(locale, {
         week: {
           dow: firstDayNumber
         }
@@ -104,7 +104,7 @@
 
   const nearestMinutes = (startMinute, interval, date, format) => {
     const roundedMinutes = Math.ceil((date.minute() - startMinute) / interval) * interval + startMinute
-    return moment(date.clone().minute(roundedMinutes).second(0), format)
+    return dayjs(date.clone().minute(roundedMinutes).second(0), format)
   }
 
   /**
@@ -164,8 +164,8 @@
       dateTime: {
         get () {
           const dateTime = this.range
-            ? { start: this.value && this.value.start ? moment(this.value.start, this.formatOutput).format('YYYY-MM-DD') : null,
-                end: this.value && this.value.end ? moment(this.value.end, this.formatOutput).format('YYYY-MM-DD') : null }
+            ? { start: this.value && this.value.start ? dayjs(this.value.start, this.formatOutput).format('YYYY-MM-DD') : null,
+                end: this.value && this.value.end ? dayjs(this.value.end, this.formatOutput).format('YYYY-MM-DD') : null }
             : this.getDateTime()
           return dateTime
         },
@@ -217,11 +217,11 @@
         this.pickerOpen = val
       },
       locale (value) {
-        updateMomentLocale(value, this.firstDayOfWeek)
+        updateDayjsLocale(value, this.firstDayOfWeek)
       }
     },
     created () {
-      updateMomentLocale(this.locale, this.firstDayOfWeek)
+      updateDayjsLocale(this.locale, this.firstDayOfWeek)
     },
     mounted () {
       this.pickerPosition = this.getPosition()
@@ -272,39 +272,39 @@
         const hasStartValues = this.value && this.value.start
         const hasEndValues = this.value && this.value.end
         if (hasStartValues || hasEndValues) {
-          const datesFormatted = hasStartValues ? `${moment(this.value.start, this.formatOutput).set({ hour: 0, minute: 0, second: 0 }).format(this.formatted)}` : '...'
-          return hasEndValues ? `${datesFormatted} - ${moment(this.value.end, this.formatOutput).set({ hour: 23, minute: 59, second: 59 }).format(this.formatted)}` : `${datesFormatted} - ...`
+          const datesFormatted = hasStartValues ? `${dayjs(this.value.start, this.formatOutput).set({ hour: 0, minute: 0, second: 0 }).format(this.formatted)}` : '...'
+          return hasEndValues ? `${datesFormatted} - ${dayjs(this.value.end, this.formatOutput).set({ hour: 23, minute: 59, second: 59 }).format(this.formatted)}` : `${datesFormatted} - ...`
         } else {
           return null
         }
       },
       getDateFormatted () {
         const date = this.value
-          ? moment(this.value, this.formatOutput).format(this.formatted)
+          ? dayjs(this.value, this.formatOutput).format(this.formatted)
           : null
         return date
       },
       getRangeDateToSend (payload) {
         const { start, end } = typeof payload !== 'undefined' ? payload : this.value
         return start || end
-          ? { start: start ? moment(start, 'YYYY-MM-DD').set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput) : null,
-              end: end ? moment(end, 'YYYY-MM-DD').set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput) : null,
+          ? { start: start ? dayjs(start, 'YYYY-MM-DD').set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput) : null,
+              end: end ? dayjs(end, 'YYYY-MM-DD').set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput) : null,
               shortcut: payload.value }
-          : { start: moment().format(this.formatOutput),
-              end: moment().format(this.formatOutput),
+          : { start: dayjs().format(this.formatOutput),
+              end: dayjs().format(this.formatOutput),
               shortcut: payload.value }
       },
       getDateTimeToSend (value) {
         const dateTime = typeof value !== 'undefined' ? value : this.value
         const dateToSend = dateTime
-          ? moment(dateTime, 'YYYY-MM-DD HH:mm')
+          ? dayjs(dateTime, 'YYYY-MM-DD HH:mm')
           : null
-        const dateTimeToSend = dateToSend ? nearestMinutes(this.startMinute, this.minuteInterval, moment(dateToSend), 'YYYY-MM-DD HH:mm').format(this.formatOutput) : null
+        const dateTimeToSend = dateToSend ? nearestMinutes(this.startMinute, this.minuteInterval, dayjs(dateToSend), 'YYYY-MM-DD HH:mm').format(this.formatOutput) : null
         return dateTimeToSend
       },
       getDateTime () {
         const date = this.value
-          ? moment(this.value, this.formatOutput)
+          ? dayjs(this.value, this.formatOutput)
           : null
         return date ? nearestMinutes(this.startMinute, this.minuteInterval, date, this.formatOutput).format('YYYY-MM-DD HH:mm') : null
       },

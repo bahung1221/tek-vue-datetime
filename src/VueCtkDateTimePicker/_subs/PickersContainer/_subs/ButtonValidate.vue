@@ -51,7 +51,7 @@
 </template>
 
 <script>
-  import moment from 'moment'
+  import dayjs from 'dayjs'
 
   export default {
     name: 'ButtonValidate',
@@ -85,7 +85,7 @@
     },
     methods: {
       emitNow () {
-        this.$emit('now', moment().format('YYYY-MM-DD HH:mm'))
+        this.$emit('now', dayjs().format('YYYY-MM-DD HH:mm'))
       }
     }
   }

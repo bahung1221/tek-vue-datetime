@@ -1,11 +1,11 @@
-import Moment from 'moment'
+import Dayjs from 'dayjs'
 import { extendMoment } from 'moment-range'
-const moment = extendMoment(Moment)
+const dayjs = extendMoment(Dayjs)
 
 export default class Month {
   constructor (month, year, locale) {
-    moment.locale(locale)
-    this.start = moment([year, month])
+    dayjs.locale(locale)
+    this.start = dayjs([year, month])
     this.end = this.start.clone().endOf('month')
     this.month = month
     this.year = year
@@ -28,7 +28,7 @@ export default class Month {
   }
 
   getMonthDays () {
-    const r1 = moment.range(this.start, this.end).by('days')
+    const r1 = dayjs.range(this.start, this.end).by('days')
     return Array.from(r1)
   }
 }
@@ -36,8 +36,8 @@ export default class Month {
 export const getWeekDays = (locale, firstDay) => {
   const firstDayNumber = firstDay === 0
     ? 7
-    : firstDay || moment.localeData(locale).firstDayOfWeek()
-  let days = moment.weekdaysShort()
+    : firstDay || dayjs.localeData(locale).firstDayOfWeek()
+  let days = dayjs.weekdaysShort()
   const keep = days.splice(firstDayNumber)
   const stay = days
   days = keep.concat(stay)
@@ -45,5 +45,5 @@ export const getWeekDays = (locale, firstDay) => {
 }
 
 export const getMonthsShort = (locale) => {
-  return Array.apply(0, Array(12)).map((_, i) => moment().locale(locale).month(i).format('MMM'))
+  return Array.apply(0, Array(12)).map((_, i) => dayjs().locale(locale).month(i).format('MMM'))
 }

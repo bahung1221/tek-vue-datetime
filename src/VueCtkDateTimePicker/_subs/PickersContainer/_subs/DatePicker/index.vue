@@ -151,7 +151,7 @@
 </template>
 
 <script>
-  import moment from 'moment'
+  import dayjs from 'dayjs'
   import { getWeekDays } from '@/VueCtkDateTimePicker/modules/month'
   import RangeShortcuts from './_subs/RangeShortcuts'
   import YearMonthSelector from './_subs/YearMonthSelector'
@@ -227,7 +227,7 @@
         return day && this.newValue ? day.format('YYYY-MM-DD') === this.newValue.format('YYYY-MM-DD') : null
       },
       isToday (day) {
-        return moment(day.format('YYYY-MM-DD')).isSame(moment().format('YYYY-MM-DD'))
+        return dayjs(day.format('YYYY-MM-DD')).isSame(dayjs().format('YYYY-MM-DD'))
       },
       isDisabled (day) {
         return (
@@ -246,40 +246,40 @@
         return this.enabledDates.length === 0 || this.enabledDates.indexOf(day.format('YYYY-MM-DD')) > -1
       },
       isBeforeMinDate (day) {
-        return day.isBefore(moment(this.minDate, 'YYYY-MM-DD'))
+        return day.isBefore(dayjs(this.minDate, 'YYYY-MM-DD'))
       },
       isAfterEndDate (day) {
-        return moment(day).isAfter(this.maxDate)
+        return dayjs(day).isAfter(this.maxDate)
       },
       isSelected (day) {
         const date = [
           ...(this.value && this.value.start
-            ? [moment(this.value.start).format('YYYY-MM-DD')]
-            : this.range ? [] : [moment(this.value).format('YYYY-MM-DD')]),
+            ? [dayjs(this.value.start).format('YYYY-MM-DD')]
+            : this.range ? [] : [dayjs(this.value).format('YYYY-MM-DD')]),
           ...(this.value && this.value.end
-            ? [moment(this.value.end).format('YYYY-MM-DD')]
-            : this.range ? [] : [moment(this.value).format('YYYY-MM-DD')])
+            ? [dayjs(this.value.end).format('YYYY-MM-DD')]
+            : this.range ? [] : [dayjs(this.value).format('YYYY-MM-DD')])
         ]
         return date.indexOf(day.format('YYYY-MM-DD')) > -1
       },
       isBetween (day) {
         const range = this.value && this.value.end
-          ? moment.range(moment(this.value.start), moment(this.value.end)).contains(day)
+          ? dayjs.range(dayjs(this.value.start), dayjs(this.value.end)).contains(day)
           : false
         return range
       },
       firstInRange (day) {
-        return this.value && this.value.start ? moment(moment(this.value.start).format('YYYY-MM-DD')).isSame(day.format('YYYY-MM-DD')) : false
+        return this.value && this.value.start ? dayjs(dayjs(this.value.start).format('YYYY-MM-DD')).isSame(day.format('YYYY-MM-DD')) : false
       },
       lastInRange (day) {
-        return this.value && this.value.end ? moment(moment(this.value.end).format('YYYY-MM-DD')).isSame(day.format('YYYY-MM-DD')) : false
+        return this.value && this.value.end ? dayjs(dayjs(this.value.end).format('YYYY-MM-DD')).isSame(day.format('YYYY-MM-DD')) : false
       },
       isDayDisabledWeekly (day) {
-        const dayConst = moment(day).day()
+        const dayConst = dayjs(day).day()
         return this.disabledWeekly.indexOf(dayConst) > -1
       },
       isWeekEndDay (day) {
-        const dayConst = moment(day).day()
+        const dayConst = dayjs(day).day()
         const weekendsDaysNumbers = [6, 0]
         return this.noWeekendsDays ? weekendsDaysNumbers.indexOf(dayConst) > -1 : false
       },
@@ -288,7 +288,7 @@
           this.$refs['range-shortcuts'].selectedShortcut = null
         }
         if (this.range) {
-          if (!this.value.start || this.value.end || day.isBefore(moment(this.value.start))) {
+          if (!this.value.start || this.value.end || day.isBefore(dayjs(this.value.start))) {
             this.value.start = day.format('YYYY-MM-DD')
             this.value.end = null
           } else {
@@ -296,7 +296,7 @@
           }
           this.$emit('input', this.value)
         } else {
-          this.$emit('input', moment(day).format('YYYY-MM-DD'))
+          this.$emit('input', dayjs(day).format('YYYY-MM-DD'))
         }
       },
       changeMonth (val) {

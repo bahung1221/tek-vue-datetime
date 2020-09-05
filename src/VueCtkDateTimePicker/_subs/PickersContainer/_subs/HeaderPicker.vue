@@ -106,7 +106,7 @@
 </template>
 
 <script>
-  import moment from 'moment'
+  import dayjs from 'dayjs'
 
   export default {
     name: 'HeaderPicker',
@@ -132,10 +132,10 @@
         const date = this.value
           ? this.range
             ? (this.value.end || this.value.start)
-              ? moment(this.value.end ? this.value.end : this.value.start, 'YYYY-MM-DD HH:mm')
-              : moment()
-            : moment(this.value, 'YYYY-MM-DD HH:mm')
-          : moment()
+              ? dayjs(this.value.end ? this.value.end : this.value.start, 'YYYY-MM-DD HH:mm')
+              : dayjs()
+            : dayjs(this.value, 'YYYY-MM-DD HH:mm')
+          : dayjs()
         return date
       },
       year () {
@@ -153,8 +153,8 @@
         if (!hasStartValues && !hasEndValues) {
           return '... - ...'
         } else if (hasStartValues || hasEndValues) {
-          const datesFormatted = hasStartValues ? `${moment(this.value.start).format('ll')}` : '...'
-          return hasEndValues ? `${datesFormatted} - ${moment(this.value.end).format('ll')}` : `${datesFormatted} - ...`
+          const datesFormatted = hasStartValues ? `${dayjs(this.value.start).format('ll')}` : '...'
+          return hasEndValues ? `${datesFormatted} - ${dayjs(this.value.end).format('ll')}` : `${datesFormatted} - ...`
         } else {
           return null
         }
