@@ -89,11 +89,13 @@
   import props from './props'
 
   const updateDayjsLocale = (locale, firstDayOfWeek) => {
+    require('dayjs/locale/' + locale)
     dayjs.locale(locale)
     if (firstDayOfWeek) {
       const firstDayNumber = Number.isInteger(firstDayOfWeek) && firstDayOfWeek === 0
         ? 7
         : firstDayOfWeek || dayjs.localeData(locale).firstDayOfWeek()
+      console.log('aaa')
       dayjs.updateLocale(locale, {
         week: {
           dow: firstDayNumber
@@ -104,7 +106,7 @@
 
   const nearestMinutes = (startMinute, interval, date, format) => {
     const roundedMinutes = Math.ceil((date.minute() - startMinute) / interval) * interval + startMinute
-    return dayjs(date.clone().minute(roundedMinutes).second(0), format)
+    return dayjs(date.minute(roundedMinutes).second(0), format)
   }
 
   /**

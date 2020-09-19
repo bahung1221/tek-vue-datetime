@@ -1,12 +1,9 @@
-import Dayjs from 'dayjs'
-import { extendMoment } from 'moment-range'
-const dayjs = extendMoment(Dayjs)
+import dayjs from 'dayjs'
 
 export default class Month {
   constructor (month, year, locale) {
-    dayjs.locale(locale)
-    this.start = dayjs([year, month])
-    this.end = this.start.clone().endOf('month')
+    this.start = dayjs(`${year}-${month}-01`)
+    this.end = this.start.endOf('month')
     this.month = month
     this.year = year
   }
@@ -28,8 +25,8 @@ export default class Month {
   }
 
   getMonthDays () {
-    const r1 = dayjs.range(this.start, this.end).by('days')
-    return Array.from(r1)
+    return Array.from({ length: this.start.daysInMonth() })
+      .map((x, i) => this.start.startOf('month').add(i, 'day'))
   }
 }
 

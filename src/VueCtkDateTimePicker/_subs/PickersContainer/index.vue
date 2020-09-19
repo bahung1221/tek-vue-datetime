@@ -306,9 +306,9 @@
         if (this.range) {
           const rangeVal = payload || this.value
           const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
-          return new Month(date.month(), date.year())
+          return new Month(date.month() + 1, date.year())
         } else if (this.value) {
-          return new Month(dayjs(this.value, 'YYYY-MM-DD').month(), dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
+          return new Month(dayjs(this.value, 'YYYY-MM-DD').month() + 1, dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
         } else {
           return new Month(dayjs().month(), dayjs().year(), this.locale)
         }
