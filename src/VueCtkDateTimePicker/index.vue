@@ -94,7 +94,6 @@
       const firstDayNumber = Number.isInteger(firstDayOfWeek) && firstDayOfWeek === 0
         ? 7
         : firstDayOfWeek || dayjs.localeData(locale).firstDayOfWeek()
-      console.log('aaa')
       dayjs.updateLocale(locale, {
         week: {
           dow: firstDayNumber
