@@ -23,7 +23,7 @@
     "delete:reports": "npm run delete-docs-report && npm run delete-dist-report"
   },
   "dependencies": {
-    "dayjs": "^1.8.36",
+    "dayjs": "^1.9.1",
     "v-click-outside": "^2.0.2"
   },
   "devDependencies": {

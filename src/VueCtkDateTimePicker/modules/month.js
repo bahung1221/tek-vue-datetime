@@ -34,7 +34,7 @@ export const getWeekDays = (locale, firstDay) => {
   const firstDayNumber = firstDay === 0
     ? 7
     : firstDay || dayjs.localeData(locale).firstDayOfWeek()
-  let days = dayjs.weekdaysShort()
+  let days = [...dayjs.weekdaysShort()]
   const keep = days.splice(firstDayNumber)
   const stay = days
   days = keep.concat(stay)
