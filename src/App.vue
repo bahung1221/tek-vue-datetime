@@ -59,7 +59,7 @@
                 v-model="value2"
                 color="purple"
                 :dark="darkMode"
-                locale="fr"
+                locale="vi"
                 no-label
                 :format="'YYYY-MM-DD HH:mm'"
                 :min-date="'2018-04-05 12:15'"
@@ -236,6 +236,10 @@
 <script>
   import CtkDateTimePicker from './VueCtkDateTimePicker'
   import CheckboxInput from './CheckboxInput'
+  import dayjs from 'dayjs'
+  import 'dayjs/locale/vi'
+
+  dayjs.locale('vi')
 
   export default {
     name: 'App',

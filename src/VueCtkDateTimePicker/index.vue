@@ -89,7 +89,6 @@
   import props from './props'
 
   const updateDayjsLocale = (locale, firstDayOfWeek) => {
-    require('dayjs/locale/' + locale)
     dayjs.locale(locale)
     if (firstDayOfWeek) {
       const firstDayNumber = Number.isInteger(firstDayOfWeek) && firstDayOfWeek === 0

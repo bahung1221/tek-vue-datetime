@@ -155,7 +155,16 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 
 (4) button-color: Replace color for the buttons on bottom (validation & 'now')
 
-(5) locale : Default value is the locale of the browser - Ex : Set `locale="fr"` to force to French language
+(5) locale:
+- Default value is the locale of the browser - Ex : Set `locale="vi"` to force to Vietnamese language
+- You must manual import `dayjs locale` to use this feature, `TekVueDateTime` doesn't import any locale to avoid redundant locales
+
+```js
+import dayjs from 'dayjs'
+import 'dayjs/locale/vi'
+
+dayjs.locale('vi')
+```
 
 (6) no-value-to-custom-elem : No value will set to your elem (you can get the formatted value with @formatted-value event)
 
