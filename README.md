@@ -8,12 +8,11 @@ VueCtkDateTimePicker is an awesome datetime picker I haven't seen ever. I love i
 Unfortunately, VueCtkDateTimePicker isn't maintained anymore by these authors, and it still have some issues that I must resolve to make it work on my projects.
 
 So features that will be add in this fork repo are:
-- [ ] Replace **moment** by **dayjs**: Moment is too large. Dayjs is very lightweight.
-- [ ] Remove **moment-range** dependency.
+- [x] Replace **moment** by **dayjs**: Moment is too large. Dayjs is very lightweight.
+- [x] Remove **moment-range** dependency.
 - [x] Remove **vue** from dependencies list
 - [x] Add **ranges of minute** feature when using time picker: See [PR from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/pull/310).
 - [x] Add **years navigation** arrows: See [Issue from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/issues/264)
-- [ ] And fix some bugs...
 
 # TekVueDateTime
 
@@ -106,7 +105,7 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | --------------------------- | ----------------- | -------- | --------------------------- |
 | v-model                     | String            | yes      | -                           |
 | format                      | String            | no       | 'YYYY-MM-DD hh:mm a'        |
-| formatted                   | String            | no       | 'llll' (momentjs format)    |
+| formatted                   | String            | no       | 'llll' (dayjs format)    |
 | label                       | String            | no       | Select date & time          |
 | hint (1)                    | String            | no       | -                           |
 | error (2)                   | Boolean           | no       | false                       |
@@ -187,7 +186,7 @@ Additional values can be passed as a `callback` function that will be called whe
 You can use this feature for translate existings shortcuts.
 If the **value of shortcut is a number** (Integer), this number correspond to number of day (for 5 --> Last 5 days).
 
-If the **value of shortcut is a function**, we'll use it to generate the `start` and `end` values. This function should return an object with the start & end values. Both values **must be a moment object**. The function is called when the user clicks on the shortcut button.
+If the **value of shortcut is a function**, we'll use it to generate the `start` and `end` values. This function should return an object with the start & end values. Both values **must be a dayjs object**. The function is called when the user clicks on the shortcut button.
 
 ```js
 [
@@ -196,8 +195,8 @@ If the **value of shortcut is a function**, we'll use it to generate the `start`
     label: 'My custom thing',
     value: () => {
       return {
-        start: moment(),
-        end: moment().add(2, 'days')
+        start: dayjs(),
+        end: dayjs().add(2, 'days')
       }
     },
     callback: ({ start, end }) => {

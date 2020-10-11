@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 /*
   * Vue mixin to inject the required methods, events to handle the date navigation
   * with the keyboard.
@@ -16,8 +16,8 @@ export default {
   computed: {
     currentValue () {
       return this.range
-        ? this.newValue || this.value.end || this.value.start || moment()
-        : this.newValue || this.value || moment()
+        ? this.newValue || this.value.end || this.value.start || dayjs()
+        : this.newValue || this.value || dayjs()
     }
   },
   methods: {
@@ -63,42 +63,42 @@ export default {
       }
     },
     previousWeek () {
-      const newValue = moment(this.currentValue).subtract(1, 'week')
+      const newValue = dayjs(this.currentValue).subtract(1, 'week')
       if (!this.isDisabled(newValue)) {
         this.newValue = newValue
         this.checkMonth()
       }
     },
     previousDay () {
-      const newValue = moment(this.currentValue).subtract(1, 'days')
+      const newValue = dayjs(this.currentValue).subtract(1, 'days')
       if (!this.isDisabled(newValue)) {
         this.newValue = newValue
         this.checkMonth()
       }
     },
     nextDay () {
-      const newValue = moment(this.currentValue).add(1, 'days')
+      const newValue = dayjs(this.currentValue).add(1, 'days')
       if (!this.isDisabled(newValue)) {
         this.newValue = newValue
         this.checkMonth()
       }
     },
     nextWeek () {
-      const newValue = moment(this.currentValue).add(1, 'week')
+      const newValue = dayjs(this.currentValue).add(1, 'week')
       if (!this.isDisabled(newValue)) {
         this.newValue = newValue
         this.checkMonth()
       }
     },
     previousMonth () {
-      const newValue = moment(this.currentValue).subtract(1, 'month')
+      const newValue = dayjs(this.currentValue).subtract(1, 'month')
       if (!this.isDisabled(newValue)) {
         this.newValue = newValue
         this.checkMonth()
       }
     },
     nextMonth () {
-      const newValue = moment(this.currentValue).add(1, 'month')
+      const newValue = dayjs(this.currentValue).add(1, 'month')
       if (!this.isDisabled(newValue)) {
         this.newValue = newValue
         this.checkMonth()

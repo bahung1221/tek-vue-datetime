@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-  import moment from 'moment'
+  import dayjs from 'dayjs'
 
   const ArrayHourRange = (start, end, twoDigit, isAfternoon, disabledHours, isTwelveFormat) => {
     return Array(end - start + 1).fill().map((_, idx) => {
@@ -168,16 +168,16 @@
         if (this.minTime) {
           minEnabledHour = this.isTwelveFormat
             ? this.minTime.toUpperCase().includes('AM')
-              ? moment(this.minTime, 'h:mm a').format('h')
-              : parseInt(moment(this.minTime, 'h:mm a').format('h')) + 12
-            : moment(this.minTime, 'HH:mm').format('HH')
+              ? dayjs(this.minTime, 'h:mm a').format('h')
+              : parseInt(dayjs(this.minTime, 'h:mm a').format('h')) + 12
+            : dayjs(this.minTime, 'HH:mm').format('HH')
         }
         if (this.maxTime) {
           maxEnabledHour = this.isTwelveFormat
             ? this.maxTime.toUpperCase().includes('AM')
-              ? moment(this.maxTime, 'h:mm a').format('h')
-              : parseInt(moment(this.maxTime, 'h:mm a').format('h'), 10) + 12
-            : moment(this.maxTime, 'HH:mm').format('HH')
+              ? dayjs(this.maxTime, 'h:mm a').format('h')
+              : parseInt(dayjs(this.maxTime, 'h:mm a').format('h'), 10) + 12
+            : dayjs(this.maxTime, 'HH:mm').format('HH')
         }
 
         // In case if hour present as 08, 09, etc
@@ -210,22 +210,22 @@
         let maxEnabledMinute = 60
         if (this.isTwelveFormat) {
           if (this.minTime && this.apm) {
-            const minTime = moment(this.minTime, 'h:mm a')
+            const minTime = dayjs(this.minTime, 'h:mm a')
             const minTimeHour = parseInt(minTime.format('h'), 10) + (this.apm.toUpperCase() === 'PM' ? 12 : 0)
             minEnabledMinute = minTimeHour === this.hour ? parseInt(minTime.format('mm'), 10) : minEnabledMinute
           } else if (this.maxTime) {
-            const maxTime = moment(this.maxTime, 'h:mm a')
+            const maxTime = dayjs(this.maxTime, 'h:mm a')
             const maxTimeHour = parseInt(maxTime.format('h'), 10) + (this.apm.toUpperCase() === 'PM' ? 12 : 0)
             maxEnabledMinute = maxTimeHour === this.hour ? parseInt(maxTime.format('mm'), 10) : maxEnabledMinute
           }
         } else {
           if (this.minTime) {
-            const minTime = moment(this.minTime, 'HH:mm')
-            const minTimeHour = parseInt(moment(this.minTime, 'HH:mm').format('HH'), 10)
+            const minTime = dayjs(this.minTime, 'HH:mm')
+            const minTimeHour = parseInt(dayjs(this.minTime, 'HH:mm').format('HH'), 10)
             minEnabledMinute = minTimeHour === this.hour ? parseInt(minTime.format('mm'), 10) : minEnabledMinute
           } else if (this.maxTime) {
-            const maxTime = moment(this.maxTime, 'HH:mm')
-            const maxTimeHour = parseInt(moment(this.maxTime, 'HH:mm').format('HH'), 10)
+            const maxTime = dayjs(this.maxTime, 'HH:mm')
+            const maxTimeHour = parseInt(dayjs(this.maxTime, 'HH:mm').format('HH'), 10)
             maxEnabledMinute = maxTimeHour === this.hour ? parseInt(maxTime.format('mm'), 10) : maxEnabledMinute
           }
         }
@@ -316,7 +316,7 @@
       },
       isHoursDisabled (h) {
         const hourToTest = this.apmType
-          ? moment(`${h} ${this.apm}`, [`${this.hourType} ${this.apmType}`]).format('HH')
+          ? dayjs(`${h} ${this.apm}`, [`${this.hourType} ${this.apmType}`]).format('HH')
           : h < 10 ? '0' + h : '' + h
         return this._disabledHours.includes(hourToTest)
       },
@@ -326,7 +326,7 @@
       },
       buildComponent () {
         if (this.isTwelveFormat && !this.apms) window.console.error(`VueCtkDateTimePicker - Format Error : To have the twelve hours format, the format must have "A" or "a" (Ex : ${this.format} a)`)
-        const tmpHour = parseInt(moment(this.value, this.format).format('HH'))
+        const tmpHour = parseInt(dayjs(this.value, this.format).format('HH'))
         const hourToSet = this.isTwelveFormat && (tmpHour === 12 || tmpHour === 0)
           ? tmpHour === 0 ? 12 : 24
           : tmpHour
@@ -340,7 +340,7 @@
           ? this.getAvailableHour()
           : hourToSet
 
-        this.minute = parseInt(moment(this.value, this.format).format('mm'))
+        this.minute = parseInt(dayjs(this.value, this.format).format('mm'))
         this.apm = this.apms && this.value
           ? this.hour > 12
             ? this.apms.length > 1 ? this.apms[1].value : this.apms[0].value

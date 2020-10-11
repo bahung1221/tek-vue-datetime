@@ -96,7 +96,7 @@
 </template>
 
 <script>
-  import moment from 'moment'
+  import dayjs from 'dayjs'
 
   import DatePicker from './_subs/DatePicker'
   import TimePicker from './_subs/TimePicker'
@@ -208,7 +208,7 @@
         },
         get () {
           return this.value
-            ? moment(this.value, 'YYYY-MM-DD HH:mm').format('HH:mm')
+            ? dayjs(this.value, 'YYYY-MM-DD HH:mm').format('HH:mm')
             : null
         }
       },
@@ -224,9 +224,9 @@
             ? this.onlyTime
               ? null
               : this.range
-                ? { start: this.value.start ? moment(this.value.start).format('YYYY-MM-DD') : null,
-                    end: this.value.end ? moment(this.value.end).format('YYYY-MM-DD') : null }
-                : moment(this.value, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD')
+                ? { start: this.value.start ? dayjs(this.value.start).format('YYYY-MM-DD') : null,
+                    end: this.value.end ? dayjs(this.value.end).format('YYYY-MM-DD') : null }
+                : dayjs(this.value, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD')
             : this.range
               ? { start: null, end: null }
               : null
@@ -234,21 +234,21 @@
         }
       },
       minTime () {
-        const time = moment(this.minDate).format(this.timeFormat)
+        const time = dayjs(this.minDate).format(this.timeFormat)
         if (
           this.minDate &&
           time !== '00:00' &&
-          moment(this.date).isSame(moment(this.minDate, 'YYYY-MM-DD'))
+          dayjs(this.date).isSame(dayjs(this.minDate, 'YYYY-MM-DD'))
         ) {
           return time
         }
         return ''
       },
       maxTime () {
-        const time = moment(this.maxDate).format(this.timeFormat)
+        const time = dayjs(this.maxDate).format(this.timeFormat)
         if (this.maxDate &&
           time !== '00:00' &&
-          moment(this.date).isSame(moment(this.maxDate, 'YYYY-MM-DD'))) {
+          dayjs(this.date).isSame(dayjs(this.maxDate, 'YYYY-MM-DD'))) {
           return time
         }
         return ''
@@ -277,13 +277,15 @@
       },
       getDateTime ({ value, type }) {
         return this.onlyTime
-          ? `${moment().format('YYYY-MM-DD')} ${value}`
+          ? `${dayjs().format('YYYY-MM-DD')} ${value}`
           : type === 'date'
-            ? this.time ? `${value} ${this.time}` : `${value} ${moment().format('HH:mm')}`
-            : this.date ? `${this.date} ${value}` : `${moment().format('YYYY-MM-DD')} ${value}`
+            ? this.time ? `${value} ${this.time}` : `${value} ${dayjs().format('HH:mm')}`
+            : this.date ? `${this.date} ${value}` : `${dayjs().format('YYYY-MM-DD')} ${value}`
       },
       getTransitionName (date) {
-        const isBigger = moment(date) > moment(`${this.date || moment().format('YYYY-MM-DD')} ${this.time || moment().format('HH:mm')}`)
+        const isBigger = dayjs(date).isAfter(
+          dayjs(`${this.date || dayjs().format('YYYY-MM-DD')} ${this.time || dayjs().format('HH:mm')}`)
+        )
         this.transitionName = isBigger ? 'slidevnext' : 'slidevprev'
       },
       getDateFormat () {
@@ -303,12 +305,12 @@
       getMonth (payload) {
         if (this.range) {
           const rangeVal = payload || this.value
-          const date = rangeVal && (rangeVal.end || rangeVal.start) ? moment(rangeVal.end ? rangeVal.end : rangeVal.start) : moment()
-          return new Month(date.month(), date.year())
+          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
+          return new Month(date.month() + 1, date.year())
         } else if (this.value) {
-          return new Month(moment(this.value, 'YYYY-MM-DD').month(), moment(this.value, 'YYYY-MM-DD').year(), this.locale)
+          return new Month(dayjs(this.value, 'YYYY-MM-DD').month() + 1, dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
         } else {
-          return new Month(moment().month(), moment().year(), this.locale)
+          return new Month(dayjs().month(), dayjs().year(), this.locale)
         }
       },
       changeMonth (val) {
