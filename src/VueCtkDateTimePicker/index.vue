@@ -2,7 +2,7 @@
   <div
     :id="`${$attrs.id}-wrapper`"
     ref="parent"
-    v-click-outside="closePicker"
+    v-click-outside="clickOutsidePicker"
     class="date-time-picker"
   >
     <!-- Input -->
@@ -179,6 +179,11 @@
       }
     },
     computed: {
+      isMobile () {
+        if (typeof window === 'undefined') return null
+
+        return window.innerWidth < 412
+      },
       hasPickerOpen () {
         return this.persistent || this.pickerOpen
       },
@@ -350,6 +355,11 @@
           ? dayjs(this.value, this.formatOutput)
           : null
         return date ? nearestMinutes(this.startMinute, this.minuteInterval, date, this.formatOutput).format('YYYY-MM-DD HH:mm') : null
+      },
+      clickOutsidePicker () {
+        if (!this.isMobile && this.hasPickerOpen) {
+          this.closePicker()
+        }
       },
       /**
        * Closes the datepicker

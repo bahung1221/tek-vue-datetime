@@ -7,13 +7,14 @@ VueCtkDateTimePicker is an awesome datetime picker I haven't seen ever. I love i
 
 Unfortunately, VueCtkDateTimePicker isn't maintained anymore by these authors, and it still have some issues that I must resolve to make it work on my projects.
 
-So features that will be add in this fork repo are:
+So features that were added in this fork repo are:
 - [x] Replace **moment** by **dayjs**: Moment is too large. Dayjs is very lightweight.
 - [x] Remove **moment-range** dependency.
 - [x] Remove **vue** from dependencies list
 - [x] Add **ranges of minute** feature when using time picker: See [PR from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/pull/310).
 - [x] Add **years navigation** arrows: See [Issue from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/issues/264)
 - [x] Move **dayjs** to peerDependencies to avoid duplicate
+- [x] Use [portal](https://github.com/LinusBorg/vue-simple-portal) to fix model was obscured by other fixed elements (e.g. fixed header)
 
 You can see the bundle size different of this package and the original one by below links:
 - This folk: https://bundlephobia.com/result?p=tek-vue-datetime

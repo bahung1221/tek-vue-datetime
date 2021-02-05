@@ -519,11 +519,11 @@
     min-height: 100%;
     min-width: 100%;
     font-size: 14px;
-  }
-  #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  #app {
     &.dark {
       background-color: darken(#424242, 20%);
       header {
