@@ -13,10 +13,11 @@ So features that will be add in this fork repo are:
 - [x] Remove **vue** from dependencies list
 - [x] Add **ranges of minute** feature when using time picker: See [PR from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/pull/310).
 - [x] Add **years navigation** arrows: See [Issue from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/issues/264)
+- [x] Move **dayjs** to peerDependencies to avoid duplicate
 
 You can see the bundle size different of this package and the original one by below links:
-- This folk: https://bundlephobia.com/result?p=tek-vue-datetime@3.1.1
-- Original: https://bundlephobia.com/result?p=vue-ctk-date-time-picker@2.5.0
+- This folk: https://bundlephobia.com/result?p=tek-vue-datetime
+- Original: https://bundlephobia.com/result?p=vue-ctk-date-time-picker
 
 # TekVueDateTime
 

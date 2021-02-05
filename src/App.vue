@@ -444,6 +444,21 @@
               inline: true,
               format: 'YYYY-MM-DD HH:mm'
             }
+          },
+          {
+            id: '10',
+            title: 'Change locale',
+            description: 'Date & Time selector with "vi" locale',
+            initial: '2020-04-07 20:26',
+            value: '2020-04-07 20:26',
+            editOption: false,
+            options: {
+              format: 'YYYY-MM-DD HH:mm',
+              id: 'DateTimePicker',
+              minDate: '2020-04-05',
+              maxDate: '2020-04-24',
+              locale: 'vi'
+            }
           }
         ],
         value: '06-01-2014 05:00',

@@ -88,6 +88,49 @@
 
   import props from './props'
 
+  // Import dayjs plugins if not exists
+  if (!dayjs.p || !dayjs.p.customParseFormat) {
+    const customParseFormat = require('dayjs/plugin/customParseFormat')
+
+    dayjs.extend(customParseFormat)
+  }
+
+  if (!dayjs.updateLocale) {
+    const updateLocale = require('dayjs/plugin/updateLocale')
+
+    dayjs.extend(updateLocale)
+  }
+
+  if (!dayjs.localeData) {
+    const localeData = require('dayjs/plugin/localeData')
+
+    dayjs.extend(localeData)
+  }
+
+  if (!dayjs.weekday) {
+    const weekday = require('dayjs/plugin/weekday')
+
+    dayjs.extend(weekday)
+  }
+
+  if (!dayjs.isBetween) {
+    const isBetween = require('dayjs/plugin/isBetween')
+
+    dayjs.extend(isBetween)
+  }
+
+  if (!dayjs.isBetween) {
+    const isBetween = require('dayjs/plugin/isBetween')
+
+    dayjs.extend(isBetween)
+  }
+
+  if (!dayjs.en.formats) {
+    const localizedFormat = require('dayjs/plugin/localizedFormat')
+
+    dayjs.extend(localizedFormat)
+  }
+
   const updateDayjsLocale = (locale, firstDayOfWeek) => {
     dayjs.locale(locale)
     if (firstDayOfWeek) {

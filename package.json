@@ -1,6 +1,6 @@
 {
   "name": "tek-vue-datetime",
-  "version": "3.2.0",
+  "version": "3.4.0",
   "description": "A vue component for select date & time",
   "author": "Hung Nguyen <bahung1221@gmail.com>",
   "scripts": {
@@ -9,10 +9,11 @@
     "build": "npm run build:lib && npm run build:docs && npm run delete:reports",
     "test": "vue-cli-service test:unit /test/specs",
     "lint": "vue-cli-service lint",
-    "before-publish": "npm i && npm run lint && npm run test:unit && npm run build",
+    "before-publish": "yarn install && npm run lint && npm run test:unit && npm run build",
     "build:docs": "vue-cli-service build --dest docs --mode production",
     "build:lib": "vue-cli-service build --target lib ./src/VueCtkDateTimePicker/index.vue",
     "lint:fix": "eslint --ext .js,.vue src",
+    "publish-npm": "npm publish",
     "publish-npm:beta": "npm publish --tag beta",
     "serve:build": "vue-cli-service serve --mode production",
     "test:unit": "vue-cli-service test:unit",
