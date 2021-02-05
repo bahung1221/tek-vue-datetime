@@ -5,5 +5,10 @@ module.exports = {
     }
   },
   publicPath: './',
-  lintOnSave: undefined
+  lintOnSave: undefined,
+  configureWebpack: {
+    externals: {
+      dayjs: 'dayjs'
+    }
+  }
 }
