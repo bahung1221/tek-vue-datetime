@@ -30,16 +30,14 @@ You can see the bundle size different of this package and the original one by be
 
 # Installation
 
-Yarn
+Yarn install:
 
 ```bash
+# Add dayjs if your project doesn't have it yet
+yarn add dayjs
+
+# Add tek-vue-datetime
 yarn add tek-vue-datetime
-```
-
-NPM
-
-```bash
-npm i --save tek-vue-datetime
 ```
 
 # Usage
