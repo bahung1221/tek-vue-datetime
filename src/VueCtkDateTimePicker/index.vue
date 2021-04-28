@@ -64,12 +64,9 @@
       :disabled-dates="disabledDates"
       :disabled-hours="disabledHours"
       :enabled-dates="enabledDates"
-      :no-shortcuts="noShortcuts"
       :button-now-translation="buttonNowTranslation"
       :no-button-now="noButtonNow"
       :first-day-of-week="firstDayOfWeek"
-      :shortcut="shortcut"
-      :custom-shortcuts="customShortcuts"
       :no-keyboard="noKeyboard"
       :right="right"
       :behaviour="_behaviour"
@@ -335,12 +332,18 @@
       getRangeDateToSend (payload) {
         const { start, end } = typeof payload !== 'undefined' ? payload : this.value
         return start || end
-          ? { start: start ? dayjs(start, 'YYYY-MM-DD').set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput) : null,
-              end: end ? dayjs(end, 'YYYY-MM-DD').set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput) : null,
-              shortcut: payload.value }
-          : { start: dayjs().format(this.formatOutput),
-              end: dayjs().format(this.formatOutput),
-              shortcut: payload.value }
+          ? {
+            start: start
+              ? dayjs(start, 'YYYY-MM-DD').set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput)
+              : null,
+            end: end
+              ? dayjs(end, 'YYYY-MM-DD').set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput)
+              : null
+          }
+          : {
+            start: dayjs().format(this.formatOutput),
+            end: dayjs().format(this.formatOutput)
+          }
       },
       getDateTimeToSend (value) {
         const dateTime = typeof value !== 'undefined' ? value : this.value

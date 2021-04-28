@@ -200,13 +200,11 @@
                 :min-date="demo.options.minDate"
                 :max-date="demo.options.maxDate"
                 :no-weekends-days="demo.options.noWeekendDays"
-                :no-shortcuts="demo.options.noShortcuts"
                 :no-button="demo.options.noButton"
                 :button-now-translation="demo.options.buttonNowTranslation"
                 :no-button-now="demo.options.noButtonNow"
                 :locale="demo.options.locale"
                 :input-size="demo.options.inputSize"
-                :custom-shortcuts="demo.options.customShortcuts"
                 :persistent="demo.options.persistent"
                 :no-keyboard="demo.options.noKeyboard"
                 :no-value-to-custom-elem="demo.options.noValueToCustomElem"
@@ -250,7 +248,7 @@
       return {
         devMode: false,
         booleanOptions: [
-          'noHeader', 'autoClose', 'error', 'dark', 'overlay', 'noWeekendDays', 'noShortcuts',
+          'noHeader', 'autoClose', 'error', 'dark', 'overlay', 'noWeekendDays',
           'noButton', 'onlyDate', 'range', 'onlyTime', 'inline', 'persistent', 'disabled', 'noButtonNow', 'noValueToCustomElem',
           'noKeyboard', 'right', 'noClearButton', 'noLabel'
         ],
@@ -259,26 +257,26 @@
           'minDate', 'maxDate', 'inputSize', 'buttonNowTranslation', 'disabledWeekly'
         ],
         optionsNotEditable: [
-          'customShortcuts', 'disabledDates', 'disabledHours', 'locale'
+          'disabledDates', 'disabledHours', 'locale'
         ],
         intOptions: [
           'minuteInterval', 'firstDayOfWeek'
         ],
         demoComponents: [
-          {
-            id: '1',
-            title: 'Date Time Picker',
-            description: 'Date & Time selector',
-            initial: '2020-04-07 20:26',
-            value: '2020-04-07 20:26',
-            editOption: false,
-            options: {
-              format: 'YYYY-MM-DD HH:mm',
-              id: 'DateTimePicker',
-              minDate: '2020-04-05',
-              maxDate: '2020-04-24'
-            }
-          },
+          // {
+          //   id: '1',
+          //   title: 'Date Time Picker',
+          //   description: 'Date & Time selector',
+          //   initial: '2020-04-07 20:26',
+          //   value: '2020-04-07 20:26',
+          //   editOption: false,
+          //   options: {
+          //     format: 'YYYY-MM-DD HH:mm',
+          //     id: 'DateTimePicker',
+          //     minDate: '2020-04-05',
+          //     maxDate: '2020-04-24'
+          //   }
+          // },
           {
             id: '2',
             title: 'Range Date Picker',
@@ -299,9 +297,12 @@
               range: true,
               formatted: 'll',
               format: 'YYYY-MM-DD',
-              color: 'purple',
+              color: '#503ef5',
               label: 'Select date range',
-              id: 'RangeDatePicker'
+              id: 'RangeDatePicker',
+
+              locale: 'vi',
+              noHeader: true,
             }
           },
           {
@@ -481,12 +482,6 @@
         minDate: '2018-04-03',
         maxDate: '2018-04-12',
         darkMode: false,
-        shortcutsTranslation: {
-          'this_week': 'Cette semaine',
-          'last_30_days': '30 derniers jours',
-          'last_month': 'Mois précédent',
-          'last_year': 'L\'année dernière'
-        },
         disabledDates: ['2018-04-03', '2018-04-07', '2018-04-09', '2018-04-11', '2018-04-13', '2018-04-15', '2018-04-17', '2018-04-19'],
         disabledHours: Array.from(new Array(8), (x, i) => `0${i}`).concat(
           Array.from(new Array(23), (x, i) => {
@@ -497,20 +492,22 @@
             }
           })
         ),
-        customShortcuts: [
-          { key: 'thisWeek', label: 'This week', value: 'isoWeek' },
-          { key: 'lastWeek', label: 'Last week', value: '-isoWeek' },
-          { key: 'last7Days', label: 'Last 7 days', value: 7 },
-          { key: 'last30Days', label: 'Last 30 days', value: 30 },
-          { key: 'thisMonth', label: 'This month', value: 'month' },
-          { key: 'lastMonth', label: 'Last month', value: '-month' },
-          { key: 'thisYear', label: 'This year', value: 'year' },
-          { key: 'lastYear', label: 'Last year', value: '-year' }
-        ]
       }
     }
   }
 </script>
+
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap&subset=vietnamese');
+$font-family: 'Open Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Helvetica Neue', 'Arial', 'sans-serif';
+
+body, html {
+  font-family: $font-family;
+}
+button, input, textarea, label {
+  font-family: $font-family;
+}
+</style>
 
 <style lang="scss">
   @import "./assets/scss/main.scss";
@@ -519,7 +516,6 @@
     min-height: 100%;
     min-width: 100%;
     font-size: 14px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

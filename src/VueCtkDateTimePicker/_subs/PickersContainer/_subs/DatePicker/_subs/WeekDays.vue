@@ -6,7 +6,7 @@
     <div
       v-for="(weekDay, index) in weekDays"
       :key="index"
-      class="flex-1 text-muted lm-fs-12 flex justify-content-center align-center week-days-container"
+      class="flex-1 text-muted lm-fs-15 flex justify-content-center align-center week-days-container"
     >
       {{ weekDay }}
     </div>
@@ -27,6 +27,7 @@
   .week-days {
     height: 41px;
     text-transform: capitalize;
+    font-weight: 700;
     &.is-dark .week-days-container {
       color: #a8a8a8 !important;
     }

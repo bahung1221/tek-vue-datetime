@@ -134,7 +134,6 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | overlay                     | Boolean           | no       | false                       |
 | range                       | Boolean           | no       | false                       |
 | dark                        | Boolean           | no       | false                       |
-| no-shortcuts                | Boolean           | no       | false                       |
 | no-button                   | Boolean           | no       | false                       |
 | input-size                  | String (sm or lg) | no       | null                        |
 | button-now-translation      | String            | no       | 'Now'                       |
@@ -142,8 +141,6 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | first-day-of-week           | Int (0 to 7)      | no       | -                           |
 | disabled-dates (8)          | Array`<string>`   | no       | []                          |
 | disabled-hours (9)          | Array`<string>`   | no       | -                           |
-| shortcut                    | String            | no       | -                           |
-| custom-shortcuts (10)       | Array`<object>`   | no       | -                           |
 | disabled-weekly (11)        | Array`<integer>`  | no       | []                          |
 | no-keyboard (12)            | Boolean           | no       | false                       |
 | right (13)                  | Boolean           | no       | false                       |
@@ -178,60 +175,13 @@ dayjs.locale('vi')
 
 (9) disabled-hours : Must be an Array of hours in 24h format ('00' to '23') : `['00','01','02','03','04','05','06','07','19','20','21','22','23']`
 
-(10) custom-shortcuts - It's an array of objects. Each object represents a single shortcut.
+(10) disabled-weekly : Days of the week which are disabled every week, in Array format with day index, Sunday as 0 and Saturday as 6: `[0,4,6]`
 
-```js
-[
-  { key: 'thisWeek', label: 'This week', value: 'isoWeek' },
-  { key: 'lastWeek', label: 'Last week', value: '-isoWeek' },
-  { key: 'last7Days', label: 'Last 7 days', value: 7 },
-  { key: 'last30Days', label: 'Last 30 days', value: 30 },
-  { key: 'thisMonth', label: 'This month', value: 'month' },
-  { key: 'lastMonth', label: 'Last month', value: '-month' },
-  { key: 'thisYear', label: 'This year', value: 'year' },
-  { key: 'lastYear', label: 'Last year', value: '-year' }
-];
-```
+(11) no-keyboard : Disable keyboard accessibility & navigation
 
-Shortcut types allowed are : `['day', '-day', 'isoWeek', '-isoWeek', 'quarter', 'month', '-month', 'year', '-year', 'week', '-week']`
-For each shortcut, a `key`, `label` and `value` must be specified. The `key` is a unique key for that specific shortcut.
-Additional values can be passed as a `callback` function that will be called whenever the user clicks on the shortcut. The callback receives an object as first argument with the `start` and `end` values, with the `shortcut` object itself.
-You can use this feature for translate existings shortcuts.
-If the **value of shortcut is a number** (Integer), this number correspond to number of day (for 5 --> Last 5 days).
+(12) right : add this attribute to align the picker on right
 
-If the **value of shortcut is a function**, we'll use it to generate the `start` and `end` values. This function should return an object with the start & end values. Both values **must be a dayjs object**. The function is called when the user clicks on the shortcut button.
-
-```js
-[
-  {
-    key: 'customValue',
-    label: 'My custom thing',
-    value: () => {
-      return {
-        start: dayjs(),
-        end: dayjs().add(2, 'days')
-      }
-    },
-    callback: ({ start, end }) => {
-      console.log('My shortcut was clicked with values: ', start, end)
-    }
-  },
-];
-```
-
-With the `shortcut` property, you can specify a shortcut that's selected by default by passing it's `key` value.
-
-```js
-  :shortcut="'thisMonth'"
-```
-
-(11) disabled-weekly : Days of the week which are disabled every week, in Array format with day index, Sunday as 0 and Saturday as 6: `[0,4,6]`
-
-(12) no-keyboard : Disable keyboard accessibility & navigation
-
-(13) right : add this attribute to align the picker on right
-
-(14) id : it assign id such as 'passedstring-input' to input help diffrentiate between two date-time-picker on same component.
+(13) id : it assign id such as 'passedstring-input' to input help diffrentiate between two date-time-picker on same component.
 
 > Any additionnal attribute passed to the component will be automatically be binded to the input component. (eg. if you passes a `type` attribute, the `<input>` will receive it).
 

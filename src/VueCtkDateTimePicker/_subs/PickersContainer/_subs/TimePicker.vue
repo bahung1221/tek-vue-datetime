@@ -438,7 +438,7 @@
       top: 50%;
       position: absolute;
       margin: 0 auto;
-      margin-top: -14px;
+      margin-top: -15px;
       height: 30px;
       z-index: -1;
       width: 85%;

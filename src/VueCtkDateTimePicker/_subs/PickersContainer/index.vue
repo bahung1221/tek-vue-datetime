@@ -32,33 +32,38 @@
             />
             <div class="pickers-container flex">
               <!-- NEED 'YYYY-MM-DD' format -->
-              <DatePicker
-                v-if="!onlyTime"
-                :id="$attrs.id"
-                v-model="date"
-                :dark="dark"
-                :month="month"
-                :inline="inline"
-                :no-weekends-days="noWeekendsDays"
-                :disabled-weekly="disabledWeekly"
-                :color="color"
-                :min-date="minDate"
-                :max-date="maxDate"
-                :disabled-dates="disabledDates"
-                :enabled-dates="enabledDates"
-                :range="range"
-                :no-shortcuts="noShortcuts"
-                :height="height"
-                :first-day-of-week="firstDayOfWeek"
-                :visible="visible"
-                :shortcut="shortcut"
-                :custom-shortcuts="customShortcuts"
-                :no-keyboard="noKeyboard"
-                :locale="locale"
-                @change-month="changeMonth"
-                @change-year-month="changeYearMonth"
-                @close="$emit('close')"
-              />
+              <div v-if="!onlyTime" class="pickers-container-month">
+                <DatePicker
+                  v-for="(num, index) in months"
+                  :key="`date-${num}`"
+                  v-model="date"
+                  :dark="dark"
+                  :month="
+                    months === 1
+                      ? month
+                      : index === 0
+                        ? month
+                        : monthEnd
+                  "
+                  :inline="inline"
+                  :no-weekends-days="noWeekendsDays"
+                  :disabled-weekly="disabledWeekly"
+                  :color="color"
+                  :min-date="minDate"
+                  :max-date="maxDate"
+                  :disabled-dates="disabledDates"
+                  :enabled-dates="enabledDates"
+                  :range="range"
+                  :height="height"
+                  :first-day-of-week="firstDayOfWeek"
+                  :visible="visible"
+                  :no-keyboard="noKeyboard"
+                  :locale="locale"
+                  @change-month="changeMonth"
+                  @change-year-month="changeYearMonth"
+                  @close="$emit('close')"
+                />
+              </div>
               <!-- NEED 'HH:mm' format -->
               <TimePicker
                 v-if="!onlyDate"
@@ -142,35 +147,43 @@
       disabledHours: { type: Array, default: null },
       enabledDates: { type: Array, default: null },
       range: { type: Boolean, default: null },
-      noShortcuts: { type: Boolean, default: null },
       buttonColor: { type: String, default: null },
       buttonNowTranslation: { type: String, default: null },
       noButtonNow: { type: Boolean, default: false },
       firstDayOfWeek: { type: Number, default: null },
-      shortcut: { type: String, default: null },
-      customShortcuts: { type: Array, default: null },
       noKeyboard: { type: Boolean, default: false },
       right: { type: Boolean, default: false },
       behaviour: { type: Object, default: () => ({}) }
     },
     data () {
+      const months = this.range ? 2 : 1
+
       return {
+        months,
         month: this.getMonth(),
+        monthEnd: months > 1 ? this.getMonthEnd() : null,
         transitionName: 'slidevnext',
         componentKey: 0
       }
     },
     computed: {
       width () {
-        const size = this.inline
-          ? '100%'
-          : this.onlyTime
-            ? '160px'
-            : !this.range
-              ? this.onlyDate
-                ? '260px'
-                : '420px'
-              : '400px'
+        let size = 320
+
+        if (this.inline) {
+          size = '100%'
+        } else if (this.onlyTime) {
+          size = 160
+        } else if (!this.range && this.onlyDate) {
+          size = 320
+        } else if (!this.range && !this.onlyDate) {
+          size = 440
+        }
+
+        if (typeof size === 'number') {
+          size = (size * this.months) + 'px'
+        }
+
         return {
           width: size,
           maxWidth: size,
@@ -324,6 +337,17 @@
           return new Month(dayjs().month(), dayjs().year(), this.locale)
         }
       },
+      getMonthEnd (payload) {
+        if (this.range) {
+          const rangeVal = payload || this.value
+          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
+          return new Month(date.month() + 2, date.year())
+        } else if (this.value) {
+          return new Month(dayjs(this.value, 'YYYY-MM-DD').month() + 2, dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
+        } else {
+          return new Month(dayjs().month() + 1, dayjs().year(), this.locale)
+        }
+      },
       changeMonth (val) {
         let month = this.month.month + (val === 'prev' ? -1 : +1)
         let year = this.month.year
@@ -332,6 +356,9 @@
           month = (val === 'prev' ? 11 : 0)
         }
         this.month = new Month(month, year, this.locale)
+        if (this.months > 1) {
+          this.monthEnd = new Month(month + 1, year, this.locale)
+        }
         if (this.$refs.TimePicker) {
           this.$refs.TimePicker.initPositionView()
         }
@@ -364,6 +391,9 @@
         background: #FFF;
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
+        .pickers-container-month {
+          display: flex;
+        }
       }
       &.right {
         right: 0;
@@ -404,10 +434,6 @@
 
     .datepicker-container {
       width: 100%;
-
-      &.has-shortcuts {
-        flex-direction: column;
-      }
     }
 
     .datetimepicker:not(.inline) {

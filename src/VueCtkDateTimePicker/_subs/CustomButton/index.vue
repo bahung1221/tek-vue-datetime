@@ -59,7 +59,7 @@
 
 <style lang="scss" scoped>
   .custom-button {
-    padding: 0px 20px;
+    padding: 0 20px;
     position: relative;
     background-color: white;
     border: 1px solid transparent;
@@ -83,7 +83,7 @@
     .custom-button-effect {
       position: absolute;
       background: dodgerblue;
-      top: 0;
+      top: -1px;
       left: 0;
       bottom: 0;
       right: 0;

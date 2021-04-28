@@ -1,3 +1,5 @@
+const isDev = process.env.NODE_ENV === 'development'
+
 module.exports = {
   pluginOptions: {
     webpackBundleAnalyzer: {
@@ -7,8 +9,8 @@ module.exports = {
   publicPath: './',
   lintOnSave: undefined,
   configureWebpack: {
-    externals: {
+    externals: !isDev ? {
       dayjs: 'dayjs'
-    }
+    } : {}
   }
 }
