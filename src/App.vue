@@ -178,6 +178,7 @@
                 :output-format="demo.options.outputFormat"
                 :inline="demo.options.inline"
                 :color="demo.options.color"
+                :month-year-color="demo.options.monthYearColor"
                 :button-color="demo.options.buttonColor"
                 :no-header="demo.options.noHeader"
                 :label="demo.options.label"
@@ -298,11 +299,12 @@
               formatted: 'll',
               format: 'YYYY-MM-DD',
               color: '#503ef5',
+              monthYearColor: '#454350',
               label: 'Select date range',
               id: 'RangeDatePicker',
 
               locale: 'vi',
-              noHeader: true,
+              noHeader: true
             }
           },
           {

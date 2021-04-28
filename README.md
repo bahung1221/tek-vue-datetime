@@ -114,9 +114,10 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | hint (1)                    | String            | no       | -                           |
 | error (2)                   | Boolean           | no       | false                       |
 | color (3)                   | String (hex)      | no       | dodgerblue                  |
-| button-color (4)            | String (hex)      | no       | #00C853                     |
+| month-year-color (4)        | String (hex)      | no       | #454350                  |
+| button-color (5)            | String (hex)      | no       | #00C853                     |
 | position                    | String            | no       | null                        |
-| locale (5)                  | String            | no       | Browser Locale              |
+| locale (6)                  | String            | no       | Browser Locale              |
 | persistent                  | Boolean           | no       | false                       |
 | minute-interval             | Integer           | no       | 1                           |
 | output-format               | String            | no       | null                        |
@@ -125,9 +126,9 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | only-date                   | Boolean           | no       | false                       |
 | no-label                    | Boolean           | no       | false                       |
 | no-header                   | Boolean           | no       | false                       |
-| no-value-to-custom-elem (6) | Boolean           | no       | false                       |
-| min-date (7)                | String            | no       | -                           |
-| max-date (7)                | String            | no       | -                           |
+| no-value-to-custom-elem (7) | Boolean           | no       | false                       |
+| min-date (8)                | String            | no       | -                           |
+| max-date (8)                | String            | no       | -                           |
 | no-weekends-days            | Boolean           | no       | false                       |
 | auto-close                  | Boolean           | no       | false                       |
 | inline                      | Boolean           | no       | false                       |
@@ -139,8 +140,8 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | button-now-translation      | String            | no       | 'Now'                       |
 | no-button-now               | Boolean           | no       | false                       |
 | first-day-of-week           | Int (0 to 7)      | no       | -                           |
-| disabled-dates (8)          | Array`<string>`   | no       | []                          |
-| disabled-hours (9)          | Array`<string>`   | no       | -                           |
+| disabled-dates (9)          | Array`<string>`   | no       | []                          |
+| disabled-hours (10)          | Array`<string>`   | no       | -                           |
 | disabled-weekly (11)        | Array`<integer>`  | no       | []                          |
 | no-keyboard (12)            | Boolean           | no       | false                       |
 | right (13)                  | Boolean           | no       | false                       |
@@ -154,9 +155,11 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 
 (3) color: Replace color for the hint, the borders & picker color
 
-(4) button-color: Replace color for the buttons on bottom (validation & 'now')
+(4) month-year-color: Replace text color for the month & year number
 
-(5) locale:
+(5) button-color: Replace color for the buttons on bottom (validation & 'now')
+
+(6) locale:
 - Default value is the locale of the browser - Ex : Set `locale="vi"` to force to Vietnamese language
 - You must manual import `dayjs locale` to use this feature, `TekVueDateTime` doesn't import any locale to avoid redundant locales
 
@@ -167,21 +170,21 @@ import 'dayjs/locale/vi'
 dayjs.locale('vi')
 ```
 
-(6) no-value-to-custom-elem : No value will set to your elem (you can get the formatted value with @formatted-value event)
+(7) no-value-to-custom-elem : No value will set to your elem (you can get the formatted value with @formatted-value event)
 
-(7) min-date && max-date should be in the same format as property format specified. If format not set - it is set to 'YYYY-MM-DD hh:mm a' by default
+(8) min-date && max-date should be in the same format as property format specified. If format not set - it is set to 'YYYY-MM-DD hh:mm a' by default
 
-(8) Disabled-Dates is an Array of dates in 'YYYY-MM-DD' format (ex: `['2018-04-03', '2018-04-07', '2018-04-09']`)
+(9) Disabled-Dates is an Array of dates in 'YYYY-MM-DD' format (ex: `['2018-04-03', '2018-04-07', '2018-04-09']`)
 
-(9) disabled-hours : Must be an Array of hours in 24h format ('00' to '23') : `['00','01','02','03','04','05','06','07','19','20','21','22','23']`
+(10) disabled-hours : Must be an Array of hours in 24h format ('00' to '23') : `['00','01','02','03','04','05','06','07','19','20','21','22','23']`
 
-(10) disabled-weekly : Days of the week which are disabled every week, in Array format with day index, Sunday as 0 and Saturday as 6: `[0,4,6]`
+(11) disabled-weekly : Days of the week which are disabled every week, in Array format with day index, Sunday as 0 and Saturday as 6: `[0,4,6]`
 
-(11) no-keyboard : Disable keyboard accessibility & navigation
+(12) no-keyboard : Disable keyboard accessibility & navigation
 
-(12) right : add this attribute to align the picker on right
+(13) right : add this attribute to align the picker on right
 
-(13) id : it assign id such as 'passedstring-input' to input help diffrentiate between two date-time-picker on same component.
+(14) id : it assign id such as 'passedstring-input' to input help diffrentiate between two date-time-picker on same component.
 
 > Any additionnal attribute passed to the component will be automatically be binded to the input component. (eg. if you passes a `type` attribute, the `<input>` will receive it).
 

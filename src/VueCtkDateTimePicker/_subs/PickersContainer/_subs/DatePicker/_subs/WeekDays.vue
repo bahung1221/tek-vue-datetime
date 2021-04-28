@@ -24,11 +24,15 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/scss/helpers/variables/index.scss";
   .week-days {
     height: 41px;
-    text-transform: capitalize;
-    font-weight: 700;
-    &.is-dark .week-days-container {
+    > div {
+      text-transform: capitalize;
+      font-weight: 700;
+      color: $color-text;
+    }
+    &.is-dark .week-days-container > div {
       color: #a8a8a8 !important;
     }
   }

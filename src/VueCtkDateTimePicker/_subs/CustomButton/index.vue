@@ -34,6 +34,7 @@
     name: 'CustomButton',
     props: {
       color: { type: String, default: 'dodgerblue' },
+      textColor: { type: String, default: '#454350' },
       dark: { type: Boolean, default: false },
       withBorder: { type: Boolean, default: false },
       hover: { type: Boolean, default: false },
@@ -42,7 +43,7 @@
     },
     computed: {
       colorStyle () {
-        const color = this.dark ? 'white' : this.color
+        const color = this.dark ? 'white' : (this.textColor || this.color)
         return {
           color: color,
           fill: color

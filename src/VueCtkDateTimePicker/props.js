@@ -7,6 +7,7 @@ export default {
   hint: { type: String, default: null },
   error: { type: Boolean, default: null },
   color: { type: String, default: 'dodgerblue' },
+  monthYearColor: { type: String, default: '#454350' },
   buttonColor: { type: String, default: null },
   dark: { type: Boolean, default: false },
   overlay: { type: Boolean, default: false },

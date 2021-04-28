@@ -45,10 +45,13 @@
                         ? month
                         : monthEnd
                   "
+                  :is-start="index === 0"
+                  :is-end="index === 1"
                   :inline="inline"
                   :no-weekends-days="noWeekendsDays"
                   :disabled-weekly="disabledWeekly"
                   :color="color"
+                  :month-year-color="monthYearColor"
                   :min-date="minDate"
                   :max-date="maxDate"
                   :disabled-dates="disabledDates"
@@ -130,6 +133,7 @@
       dark: { type: Boolean, default: false },
       noHeader: { type: Boolean, default: null },
       color: { type: String, default: null },
+      monthYearColor: { type: String, default: null },
       onlyDate: { type: Boolean, default: false },
       onlyTime: { type: Boolean, default: null },
       minuteInterval: { type: [String, Number], default: 1 },
@@ -329,8 +333,9 @@
       getMonth (payload) {
         if (this.range) {
           const rangeVal = payload || this.value
-          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
-          return new Month(date.month() + 1, date.year())
+          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end || rangeVal.start) : dayjs()
+          const step = !rangeVal.end ? 1 : 0
+          return new Month(date.month() + step, date.year())
         } else if (this.value) {
           return new Month(dayjs(this.value, 'YYYY-MM-DD').month() + 1, dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
         } else {
@@ -338,15 +343,9 @@
         }
       },
       getMonthEnd (payload) {
-        if (this.range) {
-          const rangeVal = payload || this.value
-          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
-          return new Month(date.month() + 2, date.year())
-        } else if (this.value) {
-          return new Month(dayjs(this.value, 'YYYY-MM-DD').month() + 2, dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
-        } else {
-          return new Month(dayjs().month() + 1, dayjs().year(), this.locale)
-        }
+        const rangeVal = payload || this.value
+        const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
+        return new Month(date.month() + 1, date.year())
       },
       changeMonth (val) {
         let month = this.month.month + (val === 'prev' ? -1 : +1)

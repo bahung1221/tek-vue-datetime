@@ -6,16 +6,23 @@
   >
     <div class="calendar lm-w-100">
       <div class="datepicker-controls flex align-center justify-content-center">
-        <div class="arrow-month h-100">
+        <div
+          class="arrow-month h-100"
+          :class="{ 'in-visible': isEnd }"
+        >
           <button
             type="button"
             tabindex="-1"
             class="datepicker-button datepicker-prev text-center h-100 flex align-center"
             @click="changeMonth('prev')"
           >
-            <svg viewBox="0 0 1000 1000">
-              <path d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z" />
-            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 256 512"
+            ><path
+              fill="currentColor"
+              d="M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"
+            /></svg>
           </button>
         </div>
         <div
@@ -30,6 +37,7 @@
               :key="m.month"
               class="date-buttons lm-fs-14 padding-button"
               :color="color"
+              :text-color="monthYearColor"
               :dark="dark"
               @click="selectingYearMonth = 'month'"
             >
@@ -45,6 +53,7 @@
               :key="y"
               class="date-buttons lm-fs-14 padding-button"
               :color="color"
+              :text-color="monthYearColor"
               :dark="dark"
               @click="selectingYearMonth = 'year'"
             >
@@ -52,91 +61,98 @@
             </CustomButton>
           </TransitionGroup>
         </div>
-        <div class="arrow-month h-100 text-right">
+        <div
+          class="arrow-month h-100 text-right"
+          :class="{ 'in-visible': range && isStart }"
+        >
           <button
             type="button"
             tabindex="-1"
             class="datepicker-button datepicker-next text-center h-100 flex align-center justify-content-right"
             @click="changeMonth('next')"
           >
-            <svg viewBox="0 0 1000 1000">
-              <path d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z" />
-            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 256 512"
+            ><path
+              fill="currentColor"
+              d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"
+            /></svg>
           </button>
         </div>
       </div>
-      <div class="datepicker-month">
-        <WeekDays
-          :week-days="weekDays"
-          :dark="dark"
-        />
-        <div
-          :style="{height: (monthDays.length + weekStart) > 35 ? '210px' : '210px'}"
-          class="month-container"
-        >
-          <TransitionGroup :name="transitionDaysName">
+      <WeekDays
+        :week-days="weekDays"
+        :dark="dark"
+      />
+      <div
+        :style="{height: (monthDays.length + weekStart) > 35 ? '210px' : '210px'}"
+        class="month-container"
+      >
+        <TransitionGroup :name="transitionDaysName">
+          <div
+            v-for="m in [month]"
+            :key="m.month"
+            class="datepicker-days flex"
+          >
             <div
-              v-for="m in [month]"
-              :key="m.month"
-              class="datepicker-days flex"
+              v-for="start in weekStart"
+              :key="start + 'startEmptyDay'"
+              class="datepicker-day align-center justify-content-center"
+            />
+            <button
+              v-for="day in monthDays"
+              :key="day.format('D')"
+              :class="{
+                selected: isSelected(day) && !isDisabled(day),
+                disabled: (isDisabled(day) || isWeekEndDay(day)),
+                enable: !(isDisabled(day) || isWeekEndDay(day)),
+                between: isBetween(day) && range,
+                first: firstInRange(day) && range,
+                last: lastInRange(day) && !!value.end && range
+              }"
+              :disabled="isDisabled(day) || isWeekEndDay(day)"
+              type="button"
+              tabindex="-1"
+              class="datepicker-day flex align-center justify-content-center"
+              @click="selectDate(day)"
             >
-              <div
-                v-for="start in weekStart"
-                :key="start + 'startEmptyDay'"
-                class="datepicker-day align-center justify-content-center"
+              <span
+                v-if="isToday(day)"
+                class="datepicker-today"
               />
-              <button
-                v-for="day in monthDays"
-                :key="day.format('D')"
-                :class="{
-                  selected: isSelected(day) && !isDisabled(day),
-                  disabled: (isDisabled(day) || isWeekEndDay(day)),
-                  enable: !(isDisabled(day) || isWeekEndDay(day)),
-                  between: isBetween(day) && range,
-                  first: firstInRange(day) && range,
-                  last: lastInRange(day) && !!value.end && range
-                }"
-                :disabled="isDisabled(day) || isWeekEndDay(day)"
-                type="button"
-                tabindex="-1"
-                class="datepicker-day flex align-center justify-content-center"
-                @click="selectDate(day)"
-              >
-                <span
-                  v-if="isToday(day)"
-                  class="datepicker-today"
-                />
-                <span
-                  v-show="!isDisabled(day) || isSelected(day)"
-                  :style="bgStyle"
-                  class="datepicker-day-effect"
-                />
-                <span
-                  v-if="isKeyboardSelected(day)"
-                  class="datepicker-day-keyboard-selected"
-                />
-                <span class="datepicker-day-text flex-1">
-                  {{ getDayText(day) }}
-                </span>
-              </button>
-              <div
-                v-for="end in endEmptyDays"
-                :key="end + 'endEmptyDay'"
-                class="datepicker-day flex align-center justify-content-center"
+              <span
+                v-show="!isDisabled(day) || isSelected(day)"
+                :style="bgStyle"
+                class="datepicker-day-effect"
               />
-            </div>
-          </TransitionGroup>
-        </div>
+              <span
+                v-if="isKeyboardSelected(day)"
+                class="datepicker-day-keyboard-selected"
+              />
+              <span class="datepicker-day-text flex-1">
+                {{ getDayText(day) }}
+              </span>
+            </button>
+            <div
+              v-for="end in endEmptyDays"
+              :key="end + 'endEmptyDay'"
+              class="datepicker-day flex align-center justify-content-center"
+            />
+          </div>
+        </TransitionGroup>
       </div>
       <YearMonthSelector
         v-if="selectingYearMonth"
         :locale="locale"
         :color="color"
+        :month-year-color="monthYearColor"
         :dark="dark"
         :mode="selectingYearMonth"
         :month="month"
         @input="selectYearMonth"
         @back="selectingYearMonth = null"
+        @change-mode="mode => selectingYearMonth = mode"
       />
     </div>
   </div>
@@ -160,6 +176,7 @@
       id: { type: String, default: null },
       value: { type: [String, Object], default: null },
       color: { type: String, default: null },
+      monthYearColor: { type: String, default: null },
       minDate: { type: String, default: null },
       maxDate: { type: String, default: null },
       locale: { type: String, default: null },
@@ -173,7 +190,9 @@
       month: { type: Object, default: null },
       height: { type: Number, default: null },
       firstDayOfWeek: { type: Number, default: null },
-      visible: { type: Boolean, default: null }
+      visible: { type: Boolean, default: false },
+      isStart: { type: Boolean, default: false },
+      isEnd: { type: Boolean, default: false }
     },
     data () {
       return {
@@ -209,6 +228,18 @@
       },
       weekDays () {
         return getWeekDays(this.locale, this.firstDayOfWeek)
+      }
+    },
+    watch: {
+      month (val, oldVal) {
+        let mode = 'next'
+
+        if (val && oldVal && (val.month < oldVal.month)) {
+          mode = 'prev'
+        }
+
+        this.transitionDaysName = `slide${mode}`
+        this.transitionLabelName = `slidev${mode}`
       }
     },
     methods: {
@@ -292,6 +323,7 @@
       },
       selectYearMonth (event) {
         const { month, year } = event
+
         const isBefore = year === this.month.year
           ? month < this.month.month
           : year < this.month.year
@@ -307,6 +339,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/scss/helpers/variables/index.scss";
   .datepicker-container {
     width: 320px;
     padding: 0 5px;
@@ -318,12 +351,16 @@
       padding: 5px !important;
     }
     .calendar {
+      padding: 10px 10px 0;
       position: relative;
     }
     .datepicker-controls {
-      height: 56px;
+      height: 45px;
       .arrow-month {
         flex: 0 0 40px;
+        &.in-visible {
+          visibility: hidden;
+        }
       }
       .datepicker-button {
         background: transparent;
@@ -331,16 +368,16 @@
         border: none;
         outline: none;
         svg {
-          height: 17px;
-          width: 17px;
-          fill: #2c3e50;
+          height: 15px;
+          width: 15px;
+          fill: $color-text;
         }
         &.datepicker-prev {
-          padding: 0 10px 0 20px;
+          padding: 0 10px;
           text-align: left !important;
         }
         &.datepicker-next {
-          padding: 0 20px 0 10px;
+          padding: 0 10px 0;
           text-align: right !important;
         }
       }
@@ -348,17 +385,15 @@
         text-transform: capitalize;
         font-size: 16px;
         position: relative;
-        height: 56px;
+        height: 45px;
         overflow: hidden;
         width: 100%;
       }
       .date-buttons {
         text-transform: capitalize;
         font-weight: 600;
+        color: $color-text;
       }
-    }
-    .datepicker-month {
-      padding: 0 10px;
     }
     .month-container {
       position: relative;
@@ -409,7 +444,7 @@
         }
         .datepicker-day-text {
           position: relative;
-          color: #000;
+          color: $color-text;
         }
         .datepicker-day-keyboard-selected {
           position: absolute;
@@ -506,17 +541,6 @@
       }
       .datepicker-today {
         background-color: darken(#424242, 10%) !important;
-      }
-    }
-    &.range {
-      .datepicker-controls .datepicker-button {
-        &.datepicker-prev {
-          padding: 0 10px 0 24px;
-        }
-
-        &.datepicker-next {
-          padding: 0 24px 0 10px;
-        }
       }
     }
   }

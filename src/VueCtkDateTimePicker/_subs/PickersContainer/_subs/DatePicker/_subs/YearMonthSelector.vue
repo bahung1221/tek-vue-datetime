@@ -3,80 +3,88 @@
     class="year-month-selector flex flex-direction-column"
     :class="{'dark': dark}"
   >
-    <div
-      class="flex justify-content-right"
-      :class="[mode==='year' ? 'justify-content-between align-center' : 'justify-content-right']"
-    >
-      <CustomButton
-        v-if="mode==='year'"
-        :color="dark ? '#757575' : '#424242'"
-        :dark="dark"
-        with-border
-        class="navigate-button"
-        @click="changeYears('previous')"
+    <div class="year-month-selector-header flex justify-content-between align-center h-100">
+      <button
+        type="button"
+        tabindex="-1"
+        class="navigate-button prev text-center h-100 flex align-center"
+        @click="navigate('prev')"
       >
-        <span class="fs-16">
-          <svg viewBox="0 0 1000 1000">
-            <path d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z" />
-          </svg>
-        </span>
-      </CustomButton>
-
-      <CustomButton
-        v-if="mode==='year'"
-        :color="dark ? '#757575' : '#424242'"
-        :dark="dark"
-        with-border
-        class="navigate-button"
-        @click="changeYears('next')"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 512"
+        ><path
+          fill="currentColor"
+          d="M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"
+        /></svg>
+      </button>
+      <div
+        class="navigate-button-label flex-1 flex justify-content-center"
       >
-        <span class="fs-16">
-          <svg viewBox="0 0 1000 1000">
-            <path d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z" />
-          </svg>
-        </span>
-      </CustomButton>
-
-      <CustomButton
-        :color="dark ? '#757575' : '#424242'"
-        :dark="dark"
-        with-border
-        @click="$emit('back')"
+        <button
+          class="h-100 lm-fs-14"
+          :style="{
+            color: color,
+            cursor: isMonthMode ? 'pointer' : '',
+          }"
+          @click="changeMode"
+        >
+          {{ label }}
+        </button>
+      </div>
+      <button
+        type="button"
+        tabindex="-1"
+        class="navigate-button next text-center h-100 flex align-center"
+        @click="navigate('next')"
       >
-        <span class="fs-16">
-          ✕
-        </span>
-      </CustomButton>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 512"
+        ><path
+          fill="currentColor"
+          d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"
+        /></svg>
+      </button>
     </div>
-    <div class="flex-1 flex flex-wrap justify-content-between align-center">
-      <CustomButton
-        v-for="(m, index) in months"
-        :key="index"
-        :color="color"
-        :selected="currentMonth === index"
-        :dark="dark"
-        class="month-button"
-        with-border
-        @click="selectMonth(index)"
-      >
-        {{ m }}
-      </CustomButton>
-      <CustomButton
-        v-for="year in years"
-        :key="year"
-        :color="color"
-        :dark="dark"
-        :selected="currentYear === year"
-        with-border
-        @click="selectYear(year)"
-      >
-        {{ year }}
-      </CustomButton>
+
+    <div class="button-containers flex flex-1">
+      <TransitionGroup :name="transitionName">
+        <div
+          v-for="k in [label]"
+          :key="`button-group-${k}`"
+          class="flex-1 flex flex-wrap h-100"
+        >
+          <CustomButton
+            v-for="(m, index) in months"
+            :key="`${year}-${index}`"
+            :color="color"
+            :selected="currentYear === year && currentMonth === index + 1"
+            :dark="dark"
+            class="month-button"
+            @click="selectMonth(index + 1)"
+          >
+            {{ m }}
+          </CustomButton>
+          <CustomButton
+            v-for="y in years"
+            :key="y"
+            :color="color"
+            :dark="dark"
+            class="year-button"
+            :selected="currentYear === y"
+            @click="selectYear(y)"
+          >
+            {{ y }}
+          </CustomButton>
+        </div>
+      </TransitionGroup>
     </div>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
   import { getMonthsShort } from '@/VueCtkDateTimePicker/modules/month'
   import CustomButton from '@/VueCtkDateTimePicker/_subs/CustomButton'
 
@@ -96,13 +104,16 @@
       locale: { type: String, default: null },
       dark: { type: Boolean, default: null },
       color: { type: String, default: null },
+      monthYearColor: { type: String, default: null },
       mode: { type: String, default: null },
       month: { type: Object, default: null }
     },
     data () {
       return {
         months: null,
-        years: null
+        year: null,
+        years: null,
+        transitionName: ''
       }
     },
     computed: {
@@ -114,6 +125,22 @@
       },
       isMonthMode () {
         return this.mode === 'month'
+      },
+      label () {
+        if (this.isMonthMode || !this.years) {
+          return this.year
+        }
+
+        return this.years[0] + ' - ' + this.years[this.years.length - 1]
+      }
+    },
+    watch: {
+      isMonthMode (val) {
+        if (val) {
+          this.getMonths()
+        } else {
+          this.getYears()
+        }
       }
     },
     mounted () {
@@ -125,37 +152,73 @@
     },
     methods: {
       changeYears (mode) {
-        for (let i = 0; i < this.years.length; i++) {
-          if (mode === 'previous') {
-            this.years[i] = this.years[i] - 15
+        const years = [...this.years]
+        const length = this.years.length
+
+        for (let i = 0; i < length; i++) {
+          if (mode === 'prev') {
+            years[i] = this.years[i] - 16
           } else {
-            this.years[i] = this.years[i] + 15
+            years[i] = this.years[i] + 16
           }
-          this.$forceUpdate()
         }
+
+        Vue.set(this, 'years', years)
+      },
+      changeYear (mode) {
+        if (mode === 'prev') {
+          this.year = this.year - 1
+          return
+        }
+
+        this.year = this.year + 1
       },
       getMonths () {
         this.years = null
+        this.year = this.month.year
         this.months = getMonthsShort(this.locale)
       },
       getYears () {
         this.months = null
-        this.years = ArrayRange(this.month.year - 7, this.month.year + 7)
+        this.year = null
+        this.years = ArrayRange(this.month.year - 7, this.month.year + 8)
       },
       selectMonth (monthNumber) {
-        this.$emit('input', { month: monthNumber, year: this.currentYear })
+        this.$emit('input', { month: monthNumber, year: this.year })
       },
       selectYear (year) {
         this.$emit('input', { month: this.currentMonth, year: year })
+
+        // TODO
+        // this.$emit('change-mode', 'month')
+      },
+      navigate (mode) {
+        this.transitionName = `slide${mode}`
+        if (this.isMonthMode) {
+          this.changeYear(mode)
+          return
+        }
+
+        this.changeYears(mode)
+      },
+      changeMode () {
+        // Only month mode can change to year mode
+        if (!this.isMonthMode) {
+          return
+        }
+
+        this.$emit('change-mode', 'year')
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/scss/helpers/variables/index.scss";
   .year-month-selector{
     position: absolute;
     background-color: white;
+    overflow: hidden;
     top: 0;
     bottom: 0;
     left: 0;
@@ -166,13 +229,72 @@
       color: white;
       background-color: #424242;
     }
-    .month-button {
-      text-transform: capitalize;
+    .h-100 {
+      height: 100%;
     }
-    .navigate-button svg {
-      height: 17px;
-      width: 17px;
-      fill: #2c3e50;
+    .year-month-selector-header {
+      height: 45px;
+    }
+    .navigate-button {
+      background: transparent;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      svg {
+        height: 15px;
+        width: 15px;
+        fill: $color-text;
+      }
+      &.prev {
+        padding: 0 10px;
+        text-align: left !important;
+      }
+      &.next {
+        padding: 0 10px 0;
+        text-align: right !important;
+      }
+    }
+    .navigate-button-label {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 30px;
+      button {
+        width: 100%;
+        border: none;
+        text-transform: capitalize;
+        text-align: center;
+        background-color: #dde0f4;
+        border-radius: 3px;
+        font-weight: 600;
+        outline: none;
+      }
+    }
+    .button-containers {
+      margin-top: 20px;
+      position: relative;
+      .month-button {
+        font-size: 15px;
+        text-transform: capitalize;
+        height: 42px;
+        width: calc(100% / 4);
+        /deep/ .custom-button-effect {
+          height: 42px;
+          width: calc(100% - 20px);
+          left: 10px;
+        }
+      }
+      .year-button {
+        font-size: 15px;
+        text-transform: capitalize;
+        height: 35px;
+        width: calc(100% / 4);
+        /deep/ .custom-button-effect {
+          height: 35px;
+          width: calc(100% - 20px);
+          left: 10px;
+        }
+      }
     }
   }
 </style>
