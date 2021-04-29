@@ -1,6 +1,5 @@
 <template>
   <div
-    :class="[{'is-dark': dark}]"
     class="datepicker-buttons-container flex justify-content-right"
   >
     <button
@@ -59,7 +58,6 @@
       /**
        * TODO: Remove wrong default values
        */
-      dark: { type: Boolean, default: null },
       buttonColor: { type: String, default: null },
       buttonNowTranslation: { type: String, default: null },
       onlyTime: { type: Boolean, default: null },
@@ -159,15 +157,6 @@
       }
       &.validate {
         border: 1px solid #eaeaea;
-      }
-    }
-    &.is-dark, &.is-dark .datepicker-button {
-      background-color: #424242;
-      &:not(.now) {
-        border-color: lighten(#424242, 20%);
-      }
-      svg {
-        fill: white !important;
       }
     }
   }

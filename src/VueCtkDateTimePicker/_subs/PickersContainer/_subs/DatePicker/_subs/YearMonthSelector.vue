@@ -1,7 +1,6 @@
 <template>
   <div
     class="year-month-selector flex flex-direction-column"
-    :class="{'dark': dark}"
   >
     <div class="year-month-selector-header flex justify-content-between align-center h-100">
       <button
@@ -60,7 +59,6 @@
             :key="`${year}-${index}`"
             :color="color"
             :selected="currentYear === year && currentMonth === index + 1"
-            :dark="dark"
             class="month-button"
             @click="selectMonth(index + 1)"
           >
@@ -70,7 +68,6 @@
             v-for="y in years"
             :key="y"
             :color="color"
-            :dark="dark"
             class="year-button"
             :selected="currentYear === y"
             @click="selectYear(y)"
@@ -102,7 +99,6 @@
     },
     props: {
       locale: { type: String, default: null },
-      dark: { type: Boolean, default: null },
       color: { type: String, default: null },
       mode: { type: String, default: null },
       month: { type: Object, default: null }
@@ -224,13 +220,6 @@
     right: 0;
     color: #424242;
     padding: 10px;
-    &.dark {
-      color: white;
-      background-color: #424242;
-      .navigate-button svg {
-        fill: #fff;
-      }
-    }
     .h-100 {
       height: 100%;
     }

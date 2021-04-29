@@ -40,26 +40,6 @@ describe('VueCtkDateTimePicker/PickersContainer', () => {
     wrapper.destroy()
   })
 
-  it('should have the "is-dark" class if the dark prop is defined', () => {
-    let wrapper = shallowMount(PickersContainer, {
-      propsData: {
-        visible: true,
-        dark: true
-      }
-    })
-    expect(wrapper.classes()).toContain('is-dark')
-    wrapper.destroy()
-
-    wrapper = shallowMount(PickersContainer, {
-      propsData: {
-        visible: true,
-        dark: false
-      }
-    })
-    expect(wrapper.classes()).not.toContain('is-dark')
-    wrapper.destroy()
-  })
-
   describe('datepicker', () => {
     /**
      * TODO: Add test suite for the .datepicker div thing.

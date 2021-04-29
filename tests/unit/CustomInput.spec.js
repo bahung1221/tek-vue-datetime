@@ -42,12 +42,6 @@ describe('CustomInput.vue', () => {
     wrapper.setProps({ errorHint: true })
     expect(wrapper.classes('has-error')).toBe(true)
   })
-  it('has is-dark class when have dark prop', () => {
-    const wrapper = shallowMount(CustomInput)
-    expect(wrapper.classes('is-dark')).toBe(false)
-    wrapper.setProps({ dark: true })
-    expect(wrapper.classes('is-dark')).toBe(true)
-  })
   it('is disabled when has disabled prop', () => {
     const wrapper = shallowMount(CustomInput)
     expect(wrapper.find('input').attributes('disabled')).toBe(undefined)

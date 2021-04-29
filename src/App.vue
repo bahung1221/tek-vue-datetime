@@ -1,7 +1,6 @@
 <template>
   <div
     id="app"
-    :class="{'dark': darkMode}"
   >
     <div
       id="tekVueDateTimePicker"
@@ -35,12 +34,6 @@
             Npm
           </a>
         </div>
-        <button
-          class="lm-btn lm-btn-success"
-          @click="darkMode = !darkMode"
-        >
-          {{ darkMode ? 'Disable' : 'Enable' }} Dark Mode
-        </button>
       </header>
       <div
         v-if="devMode"
@@ -48,7 +41,6 @@
       >
         <div class="flex flex-wrap align-center justify-content-center">
           <div
-            :class="{'dark': darkMode}"
             class="component-container"
           >
             <p>Inititale value : '2018-04-05T04:26'</p>
@@ -58,7 +50,6 @@
               <CtkDateTimePicker
                 v-model="value2"
                 color="purple"
-                :dark="darkMode"
                 locale="vi"
                 no-label
                 :format="'YYYY-MM-DD HH:mm'"
@@ -77,7 +68,6 @@
           <div
             v-for="demo in demoComponents"
             :key="demo.title"
-            :class="{'dark': darkMode}"
             class="component-container"
           >
             <h3>{{ demo.title }}</h3>
@@ -186,7 +176,6 @@
                 :error="demo.options.error"
                 :hint="demo.options.hint"
                 :open="demo.options.open"
-                :dark="darkMode || demo.options.dark"
                 :overlay="demo.options.overlay"
                 :position="demo.options.position"
                 :disabled="demo.options.disabled"
@@ -248,7 +237,7 @@
       return {
         devMode: false,
         booleanOptions: [
-          'noHeader', 'autoClose', 'error', 'dark', 'overlay', 'noWeekendDays',
+          'noHeader', 'autoClose', 'error', 'overlay', 'noWeekendDays',
           'noButton', 'onlyDate', 'range', 'onlyTime', 'inline', 'persistent', 'disabled', 'noButtonNow', 'noValueToCustomElem',
           'noKeyboard', 'right', 'noClearButton', 'noLabel'
         ],
@@ -313,7 +302,6 @@
             initial: '14-01-2019',
             value: '14-01-2019',
             options: {
-              dark: true,
               onlyDate: true,
               color: 'coral',
               inputSize: 'lg',
@@ -482,7 +470,6 @@
         timeFormat: 'hh:mm a',
         minDate: '2018-04-03',
         maxDate: '2018-04-12',
-        darkMode: false,
         disabledDates: ['2018-04-03', '2018-04-07', '2018-04-09', '2018-04-11', '2018-04-13', '2018-04-15', '2018-04-17', '2018-04-19'],
         disabledHours: Array.from(new Array(8), (x, i) => `0${i}`).concat(
           Array.from(new Array(23), (x, i) => {
@@ -519,14 +506,6 @@ button, input, textarea, label {
     font-size: 14px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  #app {
-    &.dark {
-      background-color: darken(#424242, 20%);
-      header {
-        color: rgba(255, 255, 255, 0.70);
-      }
-    }
   }
   header {
     text-align: center;

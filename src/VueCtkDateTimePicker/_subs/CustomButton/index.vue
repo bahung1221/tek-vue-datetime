@@ -2,7 +2,6 @@
   <button
     class="custom-button flex align-center justify-content-center"
     :class="{
-      'is-dark': dark,
       'with-border': withBorder,
       'is-hover': hover,
       'is-selected': selected,
@@ -35,7 +34,6 @@
     props: {
       color: { type: String, default: 'dodgerblue' },
       textColor: { type: String, default: '#454350' },
-      dark: { type: Boolean, default: false },
       withBorder: { type: Boolean, default: false },
       hover: { type: Boolean, default: false },
       selected: { type: Boolean, default: false },
@@ -43,7 +41,7 @@
     },
     computed: {
       colorStyle () {
-        const color = this.dark ? 'white' : (this.textColor || this.color)
+        const color = this.textColor || this.color
         return {
           color: color,
           fill: color
@@ -122,15 +120,6 @@
       }
       .custom-button-content {
         color: #fff !important;
-      }
-    }
-    &.is-dark {
-      background-color: #424242;
-      &.with-border {
-        border-color: lighten(#424242, 20%);
-      }
-      svg {
-        fill: white !important;
       }
     }
     &.round {

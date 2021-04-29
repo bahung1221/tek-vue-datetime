@@ -6,7 +6,6 @@
       'has-value': value,
       'has-error': errorHint,
       'is-disabled': isDisabled,
-      'is-dark': dark,
       'no-label': noLabel
     }, inputSize]"
     class="field flex align-center"
@@ -40,8 +39,7 @@
     </label>
     <CustomButton
       v-if="hasClearButton"
-      :color="dark ? '#757575' : 'rgba(0, 0, 0, 0.54)'"
-      :dark="dark"
+      color="rgba(0, 0, 0, 0.54)"
       class="field-clear-button"
       round
       @click="$emit('clear')"
@@ -70,7 +68,6 @@
       hint: { type: String, default: null },
       errorHint: { type: Boolean, default: null },
       color: { type: String, default: null },
-      dark: { type: Boolean, default: false },
       inputSize: { type: String, default: null },
       noClearButton: { type: Boolean, default: false }
     },
@@ -111,21 +108,6 @@
 <style lang="scss" scoped>
   .field{
     position: relative;
-    &.is-dark {
-      .field-label{
-        color: rgba(255, 255, 255, 0.70);
-      }
-      .field-input{
-        background-color: #424242;
-        border-color: rgba(255, 255, 255, 0.70);
-        color: rgba(255, 255, 255, 0.70);
-      }
-      &.is-disabled {
-        .field-label, .field-input {
-          color: #000;
-        }
-      }
-    }
     &-label{
       position: absolute;
       top: 5px;
@@ -214,50 +196,6 @@
     }
     .text-danger {
       color: orangered;
-    }
-    &.is-dark {
-      ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-        color: rgba(255, 255, 255, 0.70);
-      }
-      :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-        color: rgba(255, 255, 255, 0.70);
-        opacity:  1;
-      }
-      ::-moz-placeholder { /* Mozilla Firefox 19+ */
-        color: rgba(255, 255, 255, 0.70);
-        opacity:  1;
-      }
-      :-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: rgba(255, 255, 255, 0.70);
-      }
-      ::-ms-input-placeholder { /* Microsoft Edge */
-        color: rgba(255, 255, 255, 0.70);
-      }
-      ::placeholder { /* Most modern browsers support this now. */
-        color: rgba(255, 255, 255, 0.70);
-      }
-      &.is-disabled {
-        ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-          color: #424242;
-        }
-        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-          color: #424242;
-          opacity:  1;
-        }
-        ::-moz-placeholder { /* Mozilla Firefox 19+ */
-          color: #424242;
-          opacity:  1;
-        }
-        :-ms-input-placeholder { /* Internet Explorer 10-11 */
-          color: #424242;
-        }
-        ::-ms-input-placeholder { /* Microsoft Edge */
-          color: #424242;
-        }
-        ::placeholder { /* Most modern browsers support this now. */
-          color: #424242;
-        }
-      }
     }
     &.sm {
       .field-input {

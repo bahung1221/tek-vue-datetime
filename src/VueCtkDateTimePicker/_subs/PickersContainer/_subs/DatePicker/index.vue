@@ -1,7 +1,7 @@
 <template>
   <div
     :id="`${id}-DatePicker`"
-    :class="{'flex-1 inline': inline, 'p-0 range flex-1': range, 'is-dark': dark}"
+    :class="{'flex-1 inline': inline, 'p-0 range flex-1': range}"
     class="datepicker-container flex flex-fixed"
   >
     <div class="calendar lm-w-100">
@@ -38,7 +38,6 @@
               class="date-buttons lm-fs-14 padding-button"
               :color="color"
               text-color="#454350"
-              :dark="dark"
               @click="selectingYearMonth = 'month'"
             >
               {{ monthFormatted }}
@@ -54,7 +53,6 @@
               class="date-buttons lm-fs-14 padding-button"
               :color="color"
               text-color="#454350"
-              :dark="dark"
               @click="selectingYearMonth = 'year'"
             >
               {{ year }}
@@ -83,10 +81,9 @@
       </div>
       <WeekDays
         :week-days="weekDays"
-        :dark="dark"
       />
       <div
-        :style="{height: (monthDays.length + weekStart) > 35 ? '210px' : '210px'}"
+        :style="{height: (range || (monthDays.length + weekStart) > 35) ? '210px' : '180px'}"
         class="month-container"
       >
         <TransitionGroup :name="transitionDaysName">
@@ -146,7 +143,6 @@
         v-if="selectingYearMonth"
         :locale="locale"
         :color="color"
-        :dark="dark"
         :mode="selectingYearMonth"
         :month="month"
         @input="selectYearMonth"
@@ -184,7 +180,6 @@
       range: { type: Boolean, default: false },
       disabledDates: { type: Array, default: () => ([]) },
       enabledDates: { type: Array, default: () => ([]) },
-      dark: { type: Boolean, default: false },
       month: { type: Object, default: null },
       height: { type: Number, default: null },
       firstDayOfWeek: { type: Number, default: null },
@@ -340,7 +335,6 @@
   @import "~@/assets/scss/helpers/variables/index.scss";
   .datepicker-container {
     width: 320px;
-    padding: 0 5px;
     position: relative;
     &.p-0 {
       padding: 0;
@@ -397,6 +391,7 @@
     .month-container {
       position: relative;
       overflow: hidden;
+      transition: height .2s ease;
     }
     .datepicker-days {
       display: flex;
@@ -516,30 +511,6 @@
             opacity: 0;
           }
         }
-      }
-    }
-    &.is-dark {
-      .datepicker-days .datepicker-day:not(.between):not(.selected) {
-        .datepicker-day-text {
-          color: #FFF;
-        }
-        &.disabled .datepicker-day-text {
-          color: lighten(#424242, 20%);
-        }
-      }
-      .datepicker-label {
-        color: white;
-      }
-      .text-muted {
-        color: lighten(#424242, 40%) !important;
-      }
-      .datepicker-button {
-        svg {
-          fill: #FFF;
-        }
-      }
-      .datepicker-today {
-        background-color: darken(#424242, 10%) !important;
       }
     }
   }

@@ -19,20 +19,6 @@ describe('VueCtkDateTimePicker/PickersContainer/ButtonValidate', () => {
     classes.forEach(C => expect(wrapper.classes()).toContain(C))
   })
 
-  it('should have a dark class if the "dark" prop is define', () => {
-    wrapper.setProps({
-      dark: true
-    })
-    expect(wrapper.classes()).toContain('is-dark')
-  })
-
-  it('should not have a dark class if the "dark" prop is not defined', () => {
-    wrapper.setProps({
-      dark: false
-    })
-    expect(wrapper.classes()).not.toContain('is-dark')
-  })
-
   describe('now button', () => {
     it('should be defined if not time only, nor the "noButtonNow" prop is defined nor range mode', () => {
       wrapper.setProps({

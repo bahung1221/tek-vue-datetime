@@ -7,7 +7,7 @@
       >
         <div
           v-show="visible || inline"
-          :class="{'inline': inline, 'is-dark': dark, 'visible': visible}"
+          :class="{'inline': inline, 'visible': visible}"
           :style="responsivePosition"
           class="datetimepicker flex"
           @click.stop
@@ -27,7 +27,6 @@
               :time-format="timeFormat"
               :transition-name="transitionName"
               :no-time="onlyDate"
-              :dark="dark"
               :range="range"
             />
             <div class="pickers-container flex">
@@ -37,7 +36,6 @@
                   v-for="(num, index) in months"
                   :key="`date-${num}`"
                   v-model="date"
-                  :dark="dark"
                   :month="
                     months === 1
                       ? month
@@ -71,7 +69,6 @@
                 v-if="!onlyDate"
                 ref="TimePicker"
                 v-model="time"
-                :dark="dark"
                 :color="color"
                 :inline="inline"
                 :format="timeFormat"
@@ -90,7 +87,6 @@
             <ButtonValidate
               v-if="!hasNoButton && !(inline && range)"
               class="button-validate flex-fixed"
-              :dark="dark"
               :button-color="buttonColor"
               :button-now-translation="buttonNowTranslation"
               :only-time="onlyTime"
@@ -129,7 +125,6 @@
       visible: { type: Boolean, required: true, default: false },
       position: { type: String, default: 'bottom' },
       inline: { type: Boolean, default: false },
-      dark: { type: Boolean, default: false },
       noHeader: { type: Boolean, default: null },
       color: { type: String, default: null },
       onlyDate: { type: Boolean, default: false },
@@ -394,12 +389,6 @@
       }
       &.right {
         right: 0;
-      }
-    }
-    &.is-dark {
-      .datepicker, .pickers-container {
-        background: #424242;
-        border: 0;
       }
     }
   }

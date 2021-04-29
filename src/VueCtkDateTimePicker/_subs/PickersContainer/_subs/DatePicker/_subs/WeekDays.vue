@@ -1,6 +1,5 @@
 <template>
   <div
-    :class="{'is-dark': dark}"
     class="week-days flex"
   >
     <div
@@ -18,7 +17,6 @@
     name: 'WeekDays',
     props: {
       weekDays: { type: Array, default: () => ([]), required: true },
-      dark: { type: Boolean, default: null }
     }
   }
 </script>
@@ -31,9 +29,6 @@
       text-transform: capitalize;
       font-weight: 700;
       color: $color-text;
-    }
-    &.is-dark .week-days-container > div {
-      color: #a8a8a8 !important;
     }
   }
   @media screen and (max-width: 415px) {

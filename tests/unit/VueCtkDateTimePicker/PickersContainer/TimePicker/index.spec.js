@@ -21,22 +21,6 @@ describe('VueCtkDateTimePicker/PickersContainer/TimePicker', () => {
     classes.forEach(C => expect(wrapper.classes()).toContain(C))
   })
 
-  describe('dark class', () => {
-    it('should have the "is-dark" class if the dark prop is specified', () => {
-      wrapper.setProps({
-        dark: true
-      })
-      expect(wrapper.classes()).toContain('is-dark')
-    })
-
-    it('should not have the "is-dark" class if the dark prop is not specified', () => {
-      wrapper.setProps({
-        dark: false
-      })
-      expect(wrapper.classes()).not.toContain('is-dark')
-    })
-  })
-
   describe('inline class', () => {
     it('should have the "inline" class if the inline prop is specified', () => {
       wrapper.setProps({

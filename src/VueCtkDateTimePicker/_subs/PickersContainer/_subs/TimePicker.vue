@@ -1,7 +1,7 @@
 <template>
   <div
     ref="time-picker"
-    :class="{'inline': inline, 'is-dark': dark, 'with-border': !onlyTime }"
+    :class="{'inline': inline, 'with-border': !onlyTime }"
     :style="[{height: `${height}px`}]"
     class="time-picker flex flex-fixed flex-1"
   >
@@ -103,7 +103,6 @@
       inline: { type: Boolean, default: null },
       visible: { type: Boolean, default: null },
       onlyTime: { type: Boolean, default: null },
-      dark: { type: Boolean, default: null },
       disabledHours: { type: Array, default: () => ([]) },
       minTime: { type: String, default: null },
       behaviour: { type: Object, default: () => ({}) },
@@ -524,14 +523,6 @@
     }
     &.with-border {
       border-left: 1px solid #EAEAEA;
-      &.is-dark {
-        border-left: 1px solid #757575;
-      }
-    }
-    &.is-dark {
-      .time-picker-column-item-text {
-        color: #FFF;
-      }
     }
   }
   @media screen and (max-width: 415px) {
@@ -547,13 +538,6 @@
       max-width: 100%;
       height: unset !important;
       overflow: hidden;
-
-      &.dark {
-        border-top: 1px solid #757575;
-      }
-    }
-    .timepicker-container.is-dark {
-      border-color: lighten(#424242, 20%);
     }
   }
 </style>

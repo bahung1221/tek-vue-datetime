@@ -2,7 +2,6 @@
   <div
     :style="bgStyle"
     class="header-picker"
-    :class="{'is-dark': dark}"
   >
     <div
       v-if="!onlyTime"
@@ -119,7 +118,6 @@
       timeFormat: { type: String, default: null },
       noTime: { type: Boolean, default: null },
       range: { type: Boolean, default: null },
-      dark: { type: Boolean, default: null }
     },
     computed: {
       bgStyle () {
@@ -207,10 +205,6 @@
     }
     .time-number {
       width: 22px;
-    }
-    &.is-dark {
-      border: 0;
-      color: #FFF !important;
     }
   }
 </style>

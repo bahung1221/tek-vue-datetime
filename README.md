@@ -26,10 +26,6 @@ You can see the bundle size different of this package and the original one by be
 
 ![tek-vue-datetime](./assets/illu-animated.gif)
 
-## Dark mode
-
-![tek-vue-datetime](./assets/illu-animated-dark.gif)
-
 # Installation
 
 Yarn install:
@@ -134,7 +130,6 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | inline                      | Boolean           | no       | false                       |
 | overlay                     | Boolean           | no       | false                       |
 | range                       | Boolean           | no       | false                       |
-| dark                        | Boolean           | no       | false                       |
 | no-button                   | Boolean           | no       | false                       |
 | input-size                  | String (sm or lg) | no       | null                        |
 | button-now-translation      | String            | no       | 'Now'                       |
