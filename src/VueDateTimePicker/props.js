@@ -6,9 +6,13 @@ export default {
   noLabel: { type: Boolean, default: false },
   hint: { type: String, default: null },
   error: { type: Boolean, default: null },
-  color: { type: String, default: 'dodgerblue' },
-  buttonColor: { type: String, default: null },
-  dark: { type: Boolean, default: false },
+  primaryColor: { type: String, default: '#1e90ff' },
+  primaryVariantColor: { type: String, default: '#e4efff' },
+  secondaryColor: { type: String, default: '#eaeaea' },
+  textColor: { type: String, default: '#333333' },
+  backgroundColor: { type: String, default: '#fff' },
+  borderColor: { type: String, default: '#cecece' },
+  lightTextColor: { type: String, default: '#fff' },
   overlay: { type: Boolean, default: false },
   inline: { type: Boolean, default: false },
   position: { type: String, default: null },
@@ -28,7 +32,6 @@ export default {
   range: { type: Boolean, default: false },
   noWeekendsDays: { type: Boolean, default: false },
   disabledWeekly: { type: Array, default: () => ([]) },
-  noShortcuts: { type: Boolean, default: false },
   noButton: { type: Boolean, default: false },
   disabledDates: { type: Array, default: () => ([]) },
   disabledHours: { type: Array, default: () => ([]) },
@@ -40,23 +43,10 @@ export default {
   noButtonNow: { type: Boolean, default: false },
   noButtonValidate: { type: Boolean, default: false },
   firstDayOfWeek: { type: Number, default: null },
-  shortcut: { type: String, default: null },
-  customShortcuts: {
-    type: Array,
-    default: () => ([
-      { key: 'thisWeek', label: 'This week', value: 'isoWeek' },
-      { key: 'lastWeek', label: 'Last week', value: '-isoWeek' },
-      { key: 'last7Days', label: 'Last 7 days', value: 7 },
-      { key: 'last30Days', label: 'Last 30 days', value: 30 },
-      { key: 'thisMonth', label: 'This month', value: 'month' },
-      { key: 'lastMonth', label: 'Last month', value: '-month' },
-      { key: 'thisYear', label: 'This year', value: 'year' },
-      { key: 'lastYear', label: 'Last year', value: '-year' }
-    ])
-  },
   noValueToCustomElem: { type: Boolean, default: false },
   behaviour: { type: Object, default: () => ({}) },
   noKeyboard: { type: Boolean, default: false },
   right: { type: Boolean, default: false },
-  noClearButton: { type: Boolean, default: false }
+  noClearButton: { type: Boolean, default: false },
+  noMonthYearSelect: { type: Boolean, default: false }
 }

@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import CustomInput from '@/VueCtkDateTimePicker/_subs/CustomInput'
+import CustomInput from '@/VueDateTimePicker/_subs/CustomInput'
 
 describe('CustomInput.vue', () => {
   it('renders label when passed (input & label)', () => {
@@ -41,12 +41,6 @@ describe('CustomInput.vue', () => {
     expect(wrapper.classes('has-error')).toBe(false)
     wrapper.setProps({ errorHint: true })
     expect(wrapper.classes('has-error')).toBe(true)
-  })
-  it('has is-dark class when have dark prop', () => {
-    const wrapper = shallowMount(CustomInput)
-    expect(wrapper.classes('is-dark')).toBe(false)
-    wrapper.setProps({ dark: true })
-    expect(wrapper.classes('is-dark')).toBe(true)
   })
   it('is disabled when has disabled prop', () => {
     const wrapper = shallowMount(CustomInput)

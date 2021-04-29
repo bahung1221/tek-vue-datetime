@@ -7,7 +7,7 @@
       >
         <div
           v-show="visible || inline"
-          :class="{'inline': inline, 'is-dark': dark, 'visible': visible}"
+          :class="{'inline': inline, 'visible': visible}"
           :style="responsivePosition"
           class="datetimepicker flex"
           @click.stop
@@ -21,51 +21,53 @@
               v-if="!noHeader"
               :key="componentKey"
               v-model="value"
-              :color="color"
               :only-time="onlyTime"
               :format="format"
               :time-format="timeFormat"
               :transition-name="transitionName"
               :no-time="onlyDate"
-              :dark="dark"
               :range="range"
             />
             <div class="pickers-container flex">
               <!-- NEED 'YYYY-MM-DD' format -->
-              <DatePicker
-                v-if="!onlyTime"
-                :id="$attrs.id"
-                v-model="date"
-                :dark="dark"
-                :month="month"
-                :inline="inline"
-                :no-weekends-days="noWeekendsDays"
-                :disabled-weekly="disabledWeekly"
-                :color="color"
-                :min-date="minDate"
-                :max-date="maxDate"
-                :disabled-dates="disabledDates"
-                :enabled-dates="enabledDates"
-                :range="range"
-                :no-shortcuts="noShortcuts"
-                :height="height"
-                :first-day-of-week="firstDayOfWeek"
-                :visible="visible"
-                :shortcut="shortcut"
-                :custom-shortcuts="customShortcuts"
-                :no-keyboard="noKeyboard"
-                :locale="locale"
-                @change-month="changeMonth"
-                @change-year-month="changeYearMonth"
-                @close="$emit('close')"
-              />
+              <div v-if="!onlyTime" class="pickers-container-month">
+                <DatePicker
+                  v-for="(num, index) in months"
+                  :key="`date-${num}`"
+                  v-model="date"
+                  :month="
+                    months === 1
+                      ? month
+                      : index === 0
+                        ? month
+                        : monthEnd
+                  "
+                  :is-start="index === 0"
+                  :is-end="index === 1"
+                  :inline="inline"
+                  :no-weekends-days="noWeekendsDays"
+                  :disabled-weekly="disabledWeekly"
+                  :min-date="minDate"
+                  :max-date="maxDate"
+                  :disabled-dates="disabledDates"
+                  :enabled-dates="enabledDates"
+                  :range="range"
+                  :height="height"
+                  :first-day-of-week="firstDayOfWeek"
+                  :visible="visible"
+                  :no-keyboard="noKeyboard"
+                  :no-month-year-select="noMonthYearSelect"
+                  :locale="locale"
+                  @change-month="changeMonth"
+                  @change-year-month="changeYearMonth"
+                  @close="$emit('close')"
+                />
+              </div>
               <!-- NEED 'HH:mm' format -->
               <TimePicker
                 v-if="!onlyDate"
                 ref="TimePicker"
                 v-model="time"
-                :dark="dark"
-                :color="color"
                 :inline="inline"
                 :format="timeFormat"
                 :only-time="onlyTime"
@@ -83,8 +85,6 @@
             <ButtonValidate
               v-if="!hasNoButton && !(inline && range)"
               class="button-validate flex-fixed"
-              :dark="dark"
-              :button-color="buttonColor"
               :button-now-translation="buttonNowTranslation"
               :only-time="onlyTime"
               :no-button-now="noButtonNow"
@@ -109,7 +109,7 @@
   import HeaderPicker from './_subs/HeaderPicker'
   import ButtonValidate from './_subs/ButtonValidate'
 
-  import Month from '@/VueCtkDateTimePicker/modules/month'
+  import Month from '@/VueDateTimePicker/modules/month'
 
   export default {
     name: 'PickersContainer',
@@ -122,9 +122,7 @@
       visible: { type: Boolean, required: true, default: false },
       position: { type: String, default: 'bottom' },
       inline: { type: Boolean, default: false },
-      dark: { type: Boolean, default: false },
       noHeader: { type: Boolean, default: null },
-      color: { type: String, default: null },
       onlyDate: { type: Boolean, default: false },
       onlyTime: { type: Boolean, default: null },
       minuteInterval: { type: [String, Number], default: 1 },
@@ -142,35 +140,43 @@
       disabledHours: { type: Array, default: null },
       enabledDates: { type: Array, default: null },
       range: { type: Boolean, default: null },
-      noShortcuts: { type: Boolean, default: null },
-      buttonColor: { type: String, default: null },
       buttonNowTranslation: { type: String, default: null },
       noButtonNow: { type: Boolean, default: false },
       firstDayOfWeek: { type: Number, default: null },
-      shortcut: { type: String, default: null },
-      customShortcuts: { type: Array, default: null },
       noKeyboard: { type: Boolean, default: false },
       right: { type: Boolean, default: false },
-      behaviour: { type: Object, default: () => ({}) }
+      behaviour: { type: Object, default: () => ({}) },
+      noMonthYearSelect: { type: Boolean, default: false }
     },
     data () {
+      const months = this.range ? 2 : 1
+
       return {
+        months,
         month: this.getMonth(),
+        monthEnd: months > 1 ? this.getMonthEnd() : null,
         transitionName: 'slidevnext',
         componentKey: 0
       }
     },
     computed: {
       width () {
-        const size = this.inline
-          ? '100%'
-          : this.onlyTime
-            ? '160px'
-            : !this.range
-              ? this.onlyDate
-                ? '260px'
-                : '420px'
-              : '400px'
+        let size = 320
+
+        if (this.inline) {
+          size = '100%'
+        } else if (this.onlyTime) {
+          size = 160
+        } else if (!this.range && this.onlyDate) {
+          size = 320
+        } else if (!this.range && !this.onlyDate) {
+          size = 440
+        }
+
+        if (typeof size === 'number') {
+          size = (size * this.months) + 'px'
+        }
+
         return {
           width: size,
           maxWidth: size,
@@ -205,9 +211,7 @@
       },
       height () {
         return !this.onlyTime
-          ? this.month
-            ? (this.month.getMonthDays().length + this.month.getWeekStart()) > 35 ? 347 : 307
-            : 180
+          ? 310
           : 200
       },
       time: {
@@ -316,13 +320,19 @@
       getMonth (payload) {
         if (this.range) {
           const rangeVal = payload || this.value
-          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
-          return new Month(date.month() + 1, date.year())
+          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end || rangeVal.start) : dayjs()
+          const step = !rangeVal.end ? 1 : 0
+          return new Month(date.month() + step, date.year())
         } else if (this.value) {
           return new Month(dayjs(this.value, 'YYYY-MM-DD').month() + 1, dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
         } else {
           return new Month(dayjs().month(), dayjs().year(), this.locale)
         }
+      },
+      getMonthEnd (payload) {
+        const rangeVal = payload || this.value
+        const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
+        return new Month(date.month() + 1, date.year())
       },
       changeMonth (val) {
         let month = this.month.month + (val === 'prev' ? -1 : +1)
@@ -332,6 +342,9 @@
           month = (val === 'prev' ? 11 : 0)
         }
         this.month = new Month(month, year, this.locale)
+        if (this.months > 1) {
+          this.monthEnd = new Month(month + 1, year, this.locale)
+        }
         if (this.$refs.TimePicker) {
           this.$refs.TimePicker.initPositionView()
         }
@@ -361,18 +374,15 @@
       box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
       max-width: 400px;
       .pickers-container {
-        background: #FFF;
+        background: var(--tvd-background-color);
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
+        .pickers-container-month {
+          display: flex;
+        }
       }
       &.right {
         right: 0;
-      }
-    }
-    &.is-dark {
-      .datepicker, .pickers-container {
-        background: #424242;
-        border: 0;
       }
     }
   }
@@ -386,7 +396,7 @@
       -webkit-box-shadow: none;
       width: 100%;
       max-width: 100%;
-      background-color: white;
+      background-color: var(--tvd-background-color);
     }
   }
   @media screen and (max-width: 415px) {
@@ -400,14 +410,13 @@
       flex-flow: column;
       -moz-flex-direction: column;
       height: 100%;
+      .pickers-container-month {
+        flex-direction: column;
+      }
     }
 
     .datepicker-container {
       width: 100%;
-
-      &.has-shortcuts {
-        flex-direction: column;
-      }
     }
 
     .datetimepicker:not(.inline) {

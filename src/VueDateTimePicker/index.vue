@@ -12,11 +12,9 @@
       ref="custom-input"
       v-model="dateFormatted"
       v-bind="$attrs"
-      :dark="dark"
       :hint="hint"
       :error-hint="error"
       :is-focus="hasPickerOpen"
-      :color="color"
       :label="label"
       :no-label="noLabel"
       :input-size="inputSize"
@@ -43,9 +41,6 @@
       :visible="hasPickerOpen"
       :position="pickerPosition"
       :inline="inline"
-      :color="color"
-      :button-color="buttonColor"
-      :dark="dark"
       :no-header="noHeader"
       :only-time="onlyTime"
       :only-date="hasOnlyDate"
@@ -64,13 +59,11 @@
       :disabled-dates="disabledDates"
       :disabled-hours="disabledHours"
       :enabled-dates="enabledDates"
-      :no-shortcuts="noShortcuts"
       :button-now-translation="buttonNowTranslation"
       :no-button-now="noButtonNow"
       :first-day-of-week="firstDayOfWeek"
-      :shortcut="shortcut"
-      :custom-shortcuts="customShortcuts"
       :no-keyboard="noKeyboard"
+      :no-month-year-select="noMonthYearSelect"
       :right="right"
       :behaviour="_behaviour"
       @validate="validate"
@@ -272,6 +265,8 @@
       updateDayjsLocale(this.locale, this.firstDayOfWeek)
     },
     mounted () {
+      this.setCssVariables(this.$refs.parent)
+
       this.pickerPosition = this.getPosition()
       this.pickerOpen = this.open
       if (this.hasCustomElem) {
@@ -291,6 +286,15 @@
       }
     },
     methods: {
+      setCssVariables (el) {
+        el.style.setProperty('--tvd-primary-color', this.primaryColor)
+        el.style.setProperty('--tvd-primary-variant-color', this.primaryVariantColor)
+        el.style.setProperty('--tvd-secondary-color', this.secondaryColor)
+        el.style.setProperty('--tvd-text-color', this.textColor)
+        el.style.setProperty('--tvd-light-text-color', this.lightTextColor)
+        el.style.setProperty('--tvd-background-color', this.backgroundColor)
+        el.style.setProperty('--tvd-border-color', this.borderColor)
+      },
       setValueToCustomElem () {
         /**
          * TODO: Find a way (perhaps), to bind default attrs to custom element.
@@ -335,12 +339,18 @@
       getRangeDateToSend (payload) {
         const { start, end } = typeof payload !== 'undefined' ? payload : this.value
         return start || end
-          ? { start: start ? dayjs(start, 'YYYY-MM-DD').set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput) : null,
-              end: end ? dayjs(end, 'YYYY-MM-DD').set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput) : null,
-              shortcut: payload.value }
-          : { start: dayjs().format(this.formatOutput),
-              end: dayjs().format(this.formatOutput),
-              shortcut: payload.value }
+          ? {
+            start: start
+              ? dayjs(start, 'YYYY-MM-DD').set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput)
+              : null,
+            end: end
+              ? dayjs(end, 'YYYY-MM-DD').set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput)
+              : null
+          }
+          : {
+            start: dayjs().format(this.formatOutput),
+            end: dayjs().format(this.formatOutput)
+          }
       },
       getDateTimeToSend (value) {
         const dateTime = typeof value !== 'undefined' ? value : this.value
@@ -379,6 +389,10 @@
         this.pickerOpen = isOpen
 
         if (isOpen) {
+          // re-set css variables on mobile because all contents was moved to outside by "vue-portal"
+          if (this.isMobile) {
+            this.setCssVariables(document.querySelector('div[id^=\'vue-portal-target\']'))
+          }
           this.$emit('is-shown')
         }
 

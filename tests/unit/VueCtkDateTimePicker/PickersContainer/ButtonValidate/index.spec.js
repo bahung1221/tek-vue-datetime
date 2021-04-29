@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 
-import ButtonValidate from '@/VueCtkDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
+import ButtonValidate from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
 
 describe('VueCtkDateTimePicker/PickersContainer/ButtonValidate', () => {
   let wrapper
@@ -17,20 +17,6 @@ describe('VueCtkDateTimePicker/PickersContainer/ButtonValidate', () => {
     expect(wrapper.exists()).toBeTruthy()
     const classes = ['flex', 'justify-content-right']
     classes.forEach(C => expect(wrapper.classes()).toContain(C))
-  })
-
-  it('should have a dark class if the "dark" prop is define', () => {
-    wrapper.setProps({
-      dark: true
-    })
-    expect(wrapper.classes()).toContain('is-dark')
-  })
-
-  it('should not have a dark class if the "dark" prop is not defined', () => {
-    wrapper.setProps({
-      dark: false
-    })
-    expect(wrapper.classes()).not.toContain('is-dark')
   })
 
   describe('now button', () => {

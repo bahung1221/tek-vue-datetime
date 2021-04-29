@@ -1,31 +1,28 @@
 <template>
   <div
     :id="`${id}-DatePicker`"
-    :class="{'flex-1 inline': inline, 'p-0 range flex-1': range, 'is-dark': dark, 'has-shortcuts': range && !noShortcuts}"
+    :class="{'flex-1 inline': inline, 'p-0 range flex-1': range}"
     class="datepicker-container flex flex-fixed"
   >
-    <RangeShortcuts
-      v-if="range && !noShortcuts"
-      ref="range-shortcuts"
-      :value="shortcut"
-      :color="color"
-      :dark="dark"
-      :custom-shortcuts="customShortcuts"
-      :height="height"
-      @change-range="$emit('input', $event)"
-    />
     <div class="calendar lm-w-100">
       <div class="datepicker-controls flex align-center justify-content-center">
-        <div class="arrow-month h-100">
+        <div
+          class="arrow-month h-100"
+          :class="{ 'in-visible': isEnd }"
+        >
           <button
             type="button"
             tabindex="-1"
             class="datepicker-button datepicker-prev text-center h-100 flex align-center"
             @click="changeMonth('prev')"
           >
-            <svg viewBox="0 0 1000 1000">
-              <path d="M336.2 274.5l-210.1 210h805.4c13 0 23 10 23 23s-10 23-23 23H126.1l210.1 210.1c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7l-249.1-249c-11-11-11-21 0-32l249.1-249.1c21-21.1 53 10.9 32 32z" />
-            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 256 512"
+              fill="currentColor"
+            ><path
+              d="M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"
+            /></svg>
           </button>
         </div>
         <div
@@ -33,54 +30,58 @@
         >
           <TransitionGroup
             :name="transitionLabelName"
-            class="h-100 flex align-center flex-1 flex justify-content-right"
+            class="h-100 flex align-center flex justify-content-right"
           >
             <CustomButton
               v-for="m in [month]"
               :key="m.month"
-              class="date-buttons lm-fs-16 padding-button flex-1"
-              :color="color"
-              :dark="dark"
-              @click="selectingYearMonth = 'month'"
+              :no-effect="noMonthYearSelect"
+              class="date-buttons lm-fs-14 padding-button"
+              @click="openSelectYearMonth('month')"
             >
               {{ monthFormatted }}
             </CustomButton>
           </TransitionGroup>
           <TransitionGroup
             :name="transitionLabelName"
-            class="h-100 flex align-center flex-1 flex"
+            class="h-100 flex align-center flex"
           >
             <CustomButton
               v-for="y in [year]"
               :key="y"
-              class="date-buttons lm-fs-16 padding-button flex-1"
-              :color="color"
-              :dark="dark"
-              @click="selectingYearMonth = 'year'"
+              :no-effect="noMonthYearSelect"
+              class="date-buttons lm-fs-14 padding-button"
+              @click="openSelectYearMonth('year')"
             >
               {{ year }}
             </CustomButton>
           </TransitionGroup>
         </div>
-        <div class="arrow-month h-100 text-right">
+        <div
+          class="arrow-month h-100 text-right"
+          :class="{ 'in-visible': range && isStart }"
+        >
           <button
             type="button"
             tabindex="-1"
             class="datepicker-button datepicker-next text-center h-100 flex align-center justify-content-right"
             @click="changeMonth('next')"
           >
-            <svg viewBox="0 0 1000 1000">
-              <path d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z" />
-            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 256 512"
+              fill="currentColor"
+            ><path
+              d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"
+            /></svg>
           </button>
         </div>
       </div>
       <WeekDays
         :week-days="weekDays"
-        :dark="dark"
       />
       <div
-        :style="{height: (monthDays.length + weekStart) > 35 ? '250px' : '210px'}"
+        :style="{height: (range || (monthDays.length + weekStart) > 35) ? '210px' : '180px'}"
         class="month-container"
       >
         <TransitionGroup :name="transitionDaysName">
@@ -103,7 +104,8 @@
                 enable: !(isDisabled(day) || isWeekEndDay(day)),
                 between: isBetween(day) && range,
                 first: firstInRange(day) && range,
-                last: lastInRange(day) && !!value.end && range
+                last: lastInRange(day) && !!value.end && range,
+                today: isToday(day)
               }"
               :disabled="isDisabled(day) || isWeekEndDay(day)"
               type="button"
@@ -114,10 +116,11 @@
               <span
                 v-if="isToday(day)"
                 class="datepicker-today"
-              />
+              >
+                <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M13.29.516v12.968H.71L13.29.516z" fill-rule="evenodd"/></svg>
+              </span>
               <span
                 v-show="!isDisabled(day) || isSelected(day)"
-                :style="bgStyle"
                 class="datepicker-day-effect"
               />
               <span
@@ -139,12 +142,11 @@
       <YearMonthSelector
         v-if="selectingYearMonth"
         :locale="locale"
-        :color="color"
-        :dark="dark"
         :mode="selectingYearMonth"
         :month="month"
         @input="selectYearMonth"
         @back="selectingYearMonth = null"
+        @change-mode="mode => selectingYearMonth = mode"
       />
     </div>
   </div>
@@ -152,24 +154,21 @@
 
 <script>
   import dayjs from 'dayjs'
-  import { getWeekDays } from '@/VueCtkDateTimePicker/modules/month'
-  import RangeShortcuts from './_subs/RangeShortcuts'
+  import { getWeekDays } from '@/VueDateTimePicker/modules/month'
   import YearMonthSelector from './_subs/YearMonthSelector'
   import WeekDays from './_subs/WeekDays'
-  import CustomButton from '@/VueCtkDateTimePicker/_subs/CustomButton'
-  import KeyboardAccessibility from '@/VueCtkDateTimePicker/mixins/keyboard-accessibility'
+  import CustomButton from '@/VueDateTimePicker/_subs/CustomButton'
+  import KeyboardAccessibility from '@/VueDateTimePicker/mixins/keyboard-accessibility'
 
   export default {
     name: 'DatePicker',
     components: {
-      RangeShortcuts, YearMonthSelector, WeekDays, CustomButton
+      YearMonthSelector, WeekDays, CustomButton
     },
     mixins: [KeyboardAccessibility],
     props: {
       id: { type: String, default: null },
       value: { type: [String, Object], default: null },
-      shortcut: { type: String, default: null },
-      color: { type: String, default: null },
       minDate: { type: String, default: null },
       maxDate: { type: String, default: null },
       locale: { type: String, default: null },
@@ -179,13 +178,13 @@
       range: { type: Boolean, default: false },
       disabledDates: { type: Array, default: () => ([]) },
       enabledDates: { type: Array, default: () => ([]) },
-      dark: { type: Boolean, default: false },
       month: { type: Object, default: null },
       height: { type: Number, default: null },
-      noShortcuts: { type: Boolean, default: null },
       firstDayOfWeek: { type: Number, default: null },
-      customShortcuts: { type: Array, default: () => ([]) },
-      visible: { type: Boolean, default: null }
+      visible: { type: Boolean, default: false },
+      isStart: { type: Boolean, default: false },
+      isEnd: { type: Boolean, default: false },
+      noMonthYearSelect: { type: Boolean, default: false }
     },
     data () {
       return {
@@ -196,19 +195,13 @@
       }
     },
     computed: {
-      bgStyle () {
-        return {
-          backgroundColor: this.color
-        }
-      },
       endEmptyDays () {
         const getDays = (this.monthDays.length + this.weekStart) > 35
         const number = getDays ? 42 : 35
         return number - this.monthDays.length - this.weekStart
       },
       monthDays () {
-        const monthDays = this.month.getMonthDays()
-        return monthDays
+        return this.month.getMonthDays()
       },
       weekStart () {
         return this.month.getWeekStart()
@@ -221,6 +214,18 @@
       },
       weekDays () {
         return getWeekDays(this.locale, this.firstDayOfWeek)
+      }
+    },
+    watch: {
+      month (val, oldVal) {
+        let mode = 'next'
+
+        if (val && oldVal && (val.month < oldVal.month)) {
+          mode = 'prev'
+        }
+
+        this.transitionDaysName = `slide${mode}`
+        this.transitionLabelName = `slidev${mode}`
       }
     },
     methods: {
@@ -285,9 +290,6 @@
         return this.noWeekendsDays ? weekendsDaysNumbers.indexOf(dayConst) > -1 : false
       },
       selectDate (day) {
-        if (this.range && !this.noShortcuts) {
-          this.$refs['range-shortcuts'].selectedShortcut = null
-        }
         if (this.range) {
           if (!this.value.start || this.value.end || day.isBefore(dayjs(this.value.start))) {
             this.value.start = day.format('YYYY-MM-DD')
@@ -305,8 +307,16 @@
         this.transitionLabelName = `slidev${val}`
         this.$emit('change-month', val)
       },
+      openSelectYearMonth (mode) {
+        if (this.noMonthYearSelect) {
+          return
+        }
+
+        this.selectingYearMonth = mode
+      },
       selectYearMonth (event) {
         const { month, year } = event
+
         const isBefore = year === this.month.year
           ? month < this.month.month
           : year < this.month.year
@@ -323,42 +333,43 @@
 
 <style lang="scss" scoped>
   .datepicker-container {
-    width: 260px;
-    padding: 0 5px;
+    width: 320px;
     position: relative;
-    &.range.has-shortcuts {
-      width: 400px;
-    }
-
     &.p-0 {
       padding: 0;
     }
     .padding-button {
-      padding: 5px 3px !important;
+      padding: 5px !important;
     }
     .calendar {
+      padding: 10px 10px 0;
       position: relative;
     }
     .datepicker-controls {
-      height: 56px;
+      height: 45px;
       .arrow-month {
         flex: 0 0 40px;
+        &.in-visible {
+          visibility: hidden;
+        }
       }
       .datepicker-button {
         background: transparent;
         cursor: pointer;
-        padding: 0 10px;
         border: none;
         outline: none;
+        width: 100%;
         svg {
-          height: 17px;
-          width: 17px;
-          fill: #2c3e50;
+          height: 15px;
+          width: 15px;
+          fill: var(--tvd-text-color);
         }
         &.datepicker-prev {
+          padding: 0 10px;
           text-align: left !important;
         }
         &.datepicker-next {
+          padding: 0 10px 0;
           text-align: right !important;
         }
       }
@@ -366,17 +377,21 @@
         text-transform: capitalize;
         font-size: 16px;
         position: relative;
-        height: 56px;
+        height: 45px;
         overflow: hidden;
+        width: 100%;
       }
       .date-buttons {
+        background-color: transparent;
         text-transform: capitalize;
-        font-weight: 400;
+        font-weight: 600;
+        color: var(--tvd-text-color);
       }
     }
     .month-container {
       position: relative;
       overflow: hidden;
+      transition: height .2s ease;
     }
     .datepicker-days {
       display: flex;
@@ -385,13 +400,13 @@
       flex-wrap: wrap;
       -ms-flex-wrap: wrap;
       .datepicker-day {
-        height: 41px;
+        height: 33px;
         flex-grow: 1;
         width: calc(100% / 7);
         position: relative;
         border: none;
         background: transparent;
-        font-size: 13px;
+        font-size: 14px;
         outline: none;
         &.enable {
           cursor: pointer;
@@ -405,7 +420,7 @@
           right: 0;
           margin: auto;
           height: 30px;
-          width: 30px;
+          width: 35px;
 
           border-radius: 4px;
           -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
@@ -414,16 +429,23 @@
 
         .datepicker-day-effect {
           margin: auto;
-          opacity: 0.6;
-          background: dodgerblue;
+          background: var(--tvd-secondary-color);
           transform: scale(0);
         }
         .datepicker-today {
-          background-color: #eaeaea;
+          background-color: var(--tvd-primary-variant-color);
+          svg {
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            fill: var(--tvd-primary-color);
+            width: 6px;
+            height: 6px;
+          }
         }
         .datepicker-day-text {
           position: relative;
-          color: #000;
+          color: var(--tvd-text-color);
         }
         .datepicker-day-keyboard-selected {
           position: absolute;
@@ -441,30 +463,31 @@
           background-color: #afafaf;
         }
         &:hover {
-          .datepicker-day-text {
-            color: #FFF;
-          }
           .datepicker-day-effect {
             transform: scale(1);
-            opacity: 0.6;
+          }
+        }
+        &.today {
+          .datepicker-day-text {
+            color: var(--tvd-primary-color);
+            font-weight: 600;
           }
         }
 
         &.between {
-          .datepicker-day-text {
-            color: #FFF;
-          }
           .datepicker-day-effect {
+            background: var(--tvd-primary-variant-color);
             transform: scale(1);
-            opacity: 0.5;
             border-radius: 0;
             width: 100%;
           }
           &.first .datepicker-day-effect {
+            background-color: var(--tvd-primary-color);
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;
           }
           &.last .datepicker-day-effect {
+            background-color: var(--tvd-primary-color);
             border-top-right-radius: 4px;
             border-bottom-right-radius: 4px;
           }
@@ -474,10 +497,10 @@
         }
         &.selected {
           .datepicker-day-text {
-            color: #FFF;
-            font-weight: bold;
+            color: var(--tvd-light-text-color);
           }
           .datepicker-day-effect {
+            background-color: var(--tvd-primary-color);
             transform: scale(1);
             opacity: 1;
           }
@@ -487,40 +510,17 @@
         }
         &.disabled {
           .datepicker-day-text {
-            color: #CCC;
+            color: var(--tvd-text-color);
+            opacity: 0.7;
           }
           &.selected {
-            color: #fff;
+            color: var(--tvd-light-text-color);
           }
           .datepicker-day-effect {
             transform: scale(0);
             opacity: 0;
           }
         }
-      }
-    }
-    &.is-dark {
-      .datepicker-days .datepicker-day:not(.between):not(.selected) {
-        .datepicker-day-text {
-          color: #FFF;
-        }
-        &.disabled .datepicker-day-text {
-          color: lighten(#424242, 20%);
-        }
-      }
-      .datepicker-label {
-        color: white;
-      }
-      .text-muted {
-        color: lighten(#424242, 40%) !important;
-      }
-      .datepicker-button {
-        svg {
-          fill: #FFF;
-        }
-      }
-      .datepicker-today {
-        background-color: darken(#424242, 10%) !important;
       }
     }
   }
@@ -532,14 +532,8 @@
           height: 36px !important;
         }
       }
-      &.range.has-shortcuts {
-        width: 100%;
-      }
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
       flex-direction: column;
       flex-flow: column;
-      -moz-flex-direction: column;
     }
   }
 </style>

@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils'
 
-import PickersContainer from '@/VueCtkDateTimePicker/_subs/PickersContainer'
-import HeaderPicker from '@/VueCtkDateTimePicker/_subs/PickersContainer/_subs/HeaderPicker'
-import ButtonValidate from '@/VueCtkDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
+import PickersContainer from '@/VueDateTimePicker/_subs/PickersContainer'
+import HeaderPicker from '@/VueDateTimePicker/_subs/PickersContainer/_subs/HeaderPicker'
+import ButtonValidate from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
 
 describe('VueCtkDateTimePicker/PickersContainer', () => {
   let wrapper
@@ -37,26 +37,6 @@ describe('VueCtkDateTimePicker/PickersContainer', () => {
       }
     })
     expect(wrapper.classes()).not.toContain('inline')
-    wrapper.destroy()
-  })
-
-  it('should have the "is-dark" class if the dark prop is defined', () => {
-    let wrapper = shallowMount(PickersContainer, {
-      propsData: {
-        visible: true,
-        dark: true
-      }
-    })
-    expect(wrapper.classes()).toContain('is-dark')
-    wrapper.destroy()
-
-    wrapper = shallowMount(PickersContainer, {
-      propsData: {
-        visible: true,
-        dark: false
-      }
-    })
-    expect(wrapper.classes()).not.toContain('is-dark')
     wrapper.destroy()
   })
 

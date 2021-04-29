@@ -23,9 +23,12 @@
   transform: translateY(40px);
 }
 /** Slide next/prev animation  **/
-.slidenext-leave-active,
-.slidenext-enter-active, .slideprev-leave-active,
+.slidenext-enter-active,
 .slideprev-enter-active {
+  transition: all .3s;
+}
+.slidenext-leave-active,
+.slideprev-leave-active {
   position: absolute;
   transition: all .3s;
 }
@@ -36,11 +39,19 @@
   transform: translateX(-100%);
 }
 /** Slide vertical animation  **/
-.slidevnext-leave-active,
-.slidevnext-enter-active, .slidevprev-leave-active,
-.slidevprev-enter-active {
+.slidevprev-leave-active {
   position: absolute;
-  transition: all .3s;
+  transition: all 0.3s;
+}
+.slidevprev-enter-active {
+  transition: all 0.3s;
+}
+.slidevnext-leave-active {
+  position: absolute;
+  transition: all 0.3s;
+}
+.slidevnext-enter-active {
+  transition: all 0.3s;
 }
 .slidevnext-enter, .slidevprev-leave-to {
   transform: translateY(100%);

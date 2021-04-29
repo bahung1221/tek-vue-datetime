@@ -2,11 +2,11 @@
   <button
     class="custom-button flex align-center justify-content-center"
     :class="{
-      'is-dark': dark,
       'with-border': withBorder,
       'is-hover': hover,
       'is-selected': selected,
-      'round': round
+      'round': round,
+      'no-effect': noEffect
     }"
     tabindex="-1"
     type="button"
@@ -16,13 +16,9 @@
     @mouseover="$emit('mouseover')"
     @mouseleave="$emit('mouseleave')"
   >
-    <span
-      :style="[bgStyle]"
-      class="custom-button-effect"
-    />
+    <span class="custom-button-effect" />
     <span
       class="custom-button-content flex align-center justify-content-center"
-      :style="[colorStyle]"
     >
       <slot :style="[colorStyle]" />
     </span>
@@ -33,24 +29,19 @@
   export default {
     name: 'CustomButton',
     props: {
-      color: { type: String, default: 'dodgerblue' },
-      dark: { type: Boolean, default: false },
+      textColor: { type: String, default: '#454350' },
       withBorder: { type: Boolean, default: false },
       hover: { type: Boolean, default: false },
       selected: { type: Boolean, default: false },
-      round: { type: Boolean, default: false }
+      round: { type: Boolean, default: false },
+      noEffect: { type: Boolean, default: null }
     },
     computed: {
       colorStyle () {
-        const color = this.dark ? 'white' : this.color
+        const color = 'var(--tvd-text-color)'
         return {
           color: color,
           fill: color
-        }
-      },
-      bgStyle () {
-        return {
-          backgroundColor: this.color
         }
       }
     }
@@ -59,7 +50,7 @@
 
 <style lang="scss" scoped>
   .custom-button {
-    padding: 0px 20px;
+    padding: 0 20px;
     position: relative;
     background-color: white;
     border: 1px solid transparent;
@@ -69,7 +60,6 @@
     outline: none;
     cursor: pointer;
     -webkit-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-    color: #FFF;
     font-weight: 500;
     &-content {
       position: relative;
@@ -78,12 +68,12 @@
       position: relative;
       -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-      fill: dodgerblue;
+      fill: var(--tvd-text-color);
     }
     .custom-button-effect {
       position: absolute;
-      background: dodgerblue;
-      top: 0;
+      background: var(--tvd-secondary-color);
+      top: -1px;
       left: 0;
       bottom: 0;
       right: 0;
@@ -94,42 +84,33 @@
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
       transform: scale(0);
     }
-    &.with-border {
-      border: 1px solid #eaeaea;
+    .custom-button-content {
+      color: var(--tvd-text-color);
     }
-    &:hover, &.is-hover {
+    &.with-border {
+      border: 1px solid var(--tvd-border-color);;
+    }
+    &.no-effect {
+      cursor: default;
+    }
+    &:not(.no-effect):hover, &:not(.no-effect).is-hover {
       border: 1px solid transparent !important;
       .custom-button-effect {
         transform: scale(1);
-        opacity: (.6);
-      }
-      svg {
-        fill: white !important;
-      }
-      .custom-button-content {
-        color: #fff !important;
       }
     }
     &.is-selected {
       border: 1px solid transparent !important;
       .custom-button-effect {
+        background: var(--tvd-primary-color);
         transform: scale(1);
         opacity: (1);
       }
       svg {
-        fill: white !important;
+        fill: var(--tvd-light-text-color) !important;
       }
       .custom-button-content {
-        color: #fff !important;
-      }
-    }
-    &.is-dark {
-      background-color: #424242;
-      &.with-border {
-        border-color: lighten(#424242, 20%);
-      }
-      svg {
-        fill: white !important;
+        color: var(--tvd-light-text-color) !important;
       }
     }
     &.round {

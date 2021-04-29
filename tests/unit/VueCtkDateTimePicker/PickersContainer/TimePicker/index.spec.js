@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 
-import TimePicker from '@/VueCtkDateTimePicker/_subs/PickersContainer/_subs/TimePicker'
+import TimePicker from '@/VueDateTimePicker/_subs/PickersContainer/_subs/TimePicker'
 
 describe('VueCtkDateTimePicker/PickersContainer/TimePicker', () => {
   let wrapper
@@ -19,22 +19,6 @@ describe('VueCtkDateTimePicker/PickersContainer/TimePicker', () => {
     expect(wrapper.exists()).toBeTruthy()
     const classes = ['flex', 'flex-fixed', 'flex-1']
     classes.forEach(C => expect(wrapper.classes()).toContain(C))
-  })
-
-  describe('dark class', () => {
-    it('should have the "is-dark" class if the dark prop is specified', () => {
-      wrapper.setProps({
-        dark: true
-      })
-      expect(wrapper.classes()).toContain('is-dark')
-    })
-
-    it('should not have the "is-dark" class if the dark prop is not specified', () => {
-      wrapper.setProps({
-        dark: false
-      })
-      expect(wrapper.classes()).not.toContain('is-dark')
-    })
   })
 
   describe('inline class', () => {
