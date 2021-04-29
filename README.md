@@ -1,8 +1,17 @@
-<!-- ![tek-vue-datetime](./assets/logo_sticky.png) -->
-
 # TekVueDateTime
 
 > A vue component for select date, date time and date range with elegant transition
+
+TekVueDateTime is developed based on [VueCtkDateTimePicker](https://github.com/chronotruck/vue-ctk-date-time-picker).
+
+VueCtkDateTimePicker is an awesome datetime picker. I love its styles, its UX behaviour especially its transitions.
+Unfortunately, VueCtkDateTimePicker isn't maintained anymore by these authors, and it still have some issues (both logic & design issues) that I must resolve to make it work on my projects.
+
+So I forked it with a huge re-write to improve the UX/UI and also replace `moment` by `dayjs`.
+
+You can see the bundle size different of this package and the original one by below links:
+- This folk: https://bundlephobia.com/result?p=tek-vue-datetime
+- Original: https://bundlephobia.com/result?p=vue-ctk-date-time-picker
 
 ![tek-vue-datetime](./assets/illu-animated.gif)
 
@@ -224,6 +233,18 @@ To override those values, pass a new object with the values you want to override
 | Enter or Space | Select day                 |
 | Escape         | Close component            |
 
+# Custom theme
+
+TekVueDateTime colors is easy to custom, just pass below props to get whatever you want:
+
+- `primaryColor`: The main color of the picker, using for selected background, header background
+- `primaryVariantColor`: The variant color of the picker, using for current day background and selected range background
+- `secondaryColor`: The neutral color, using for hover background
+- `textColor`: Text color of all the picker
+- `lightTextColor`: Text color in active state (selected)
+- `backgroundColor`: background color of the picker
+- `borderColor`: border-top color of bottom bar (contains submit button)
+
 # Contribute
 
 ## Setting up development server
@@ -289,27 +310,3 @@ Work in progress
 # License
 
 This project is licensed under [MIT License](http://en.wikipedia.org/wiki/MIT_License)
-
-# Credit
-TekVueDateTime is develop based on [VueDateTimePicker](https://github.com/chronotruck/vue-ctk-date-time-picker).
-
-# Why I forked VueDateTimePicker instead create PR for it?
-VueDateTimePicker is an awesome datetime picker. I love its styles, its UX behaviour especially its animations.
-
-Unfortunately, VueDateTimePicker isn't maintained anymore by these authors, and it still have some issues (both logic & design issues) that I must resolve to make it work on my projects.
-
-So features that were added in this fork repo are:
-- [x] Replace **moment** by **dayjs**: Moment is too large. Dayjs is very lightweight.
-- [x] Huge re-write of styles & `month year selecting` behaviour.
-- [x] Support two months for date range picker.
-- [x] Remove **moment-range** dependency.
-- [x] Remove **vue** from dependencies list
-- [x] Add **ranges of minute** feature when using time picker: See [PR from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/pull/310).
-- [x] Add **years navigation** arrows: See [Issue from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/issues/264)
-- [x] Move **dayjs** to peerDependencies to avoid duplicate
-- [x] Use [portal](https://github.com/LinusBorg/vue-simple-portal) to fix model was obscured by other fixed elements (e.g. fixed header)
-
-You can see the bundle size different of this package and the original one by below links:
-- This folk: https://bundlephobia.com/result?p=tek-vue-datetime
-- Original: https://bundlephobia.com/result?p=vue-ctk-date-time-picker
-
