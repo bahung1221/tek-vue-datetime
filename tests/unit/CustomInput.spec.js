@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import CustomInput from '@/VueCtkDateTimePicker/_subs/CustomInput'
+import CustomInput from '@/VueDateTimePicker/_subs/CustomInput'
 
 describe('CustomInput.vue', () => {
   it('renders label when passed (input & label)', () => {

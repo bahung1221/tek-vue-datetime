@@ -56,6 +56,7 @@
                   :first-day-of-week="firstDayOfWeek"
                   :visible="visible"
                   :no-keyboard="noKeyboard"
+                  :no-month-year-select="noMonthYearSelect"
                   :locale="locale"
                   @change-month="changeMonth"
                   @change-year-month="changeYearMonth"
@@ -108,7 +109,7 @@
   import HeaderPicker from './_subs/HeaderPicker'
   import ButtonValidate from './_subs/ButtonValidate'
 
-  import Month from '@/VueCtkDateTimePicker/modules/month'
+  import Month from '@/VueDateTimePicker/modules/month'
 
   export default {
     name: 'PickersContainer',
@@ -144,7 +145,8 @@
       firstDayOfWeek: { type: Number, default: null },
       noKeyboard: { type: Boolean, default: false },
       right: { type: Boolean, default: false },
-      behaviour: { type: Object, default: () => ({}) }
+      behaviour: { type: Object, default: () => ({}) },
+      noMonthYearSelect: { type: Boolean, default: false }
     },
     data () {
       const months = this.range ? 2 : 1

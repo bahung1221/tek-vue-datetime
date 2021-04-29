@@ -79,8 +79,8 @@
 
 <script>
   import Vue from 'vue'
-  import { getMonthsShort } from '@/VueCtkDateTimePicker/modules/month'
-  import CustomButton from '@/VueCtkDateTimePicker/_subs/CustomButton'
+  import { getMonthsShort } from '@/VueDateTimePicker/modules/month'
+  import CustomButton from '@/VueDateTimePicker/_subs/CustomButton'
 
   const ArrayRange = (start, end) => {
     return Array(end - start + 1).fill().map((_, idx) => {

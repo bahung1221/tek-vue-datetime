@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import CustomButton from '@/VueCtkDateTimePicker/_subs/CustomButton'
+import CustomButton from '@/VueDateTimePicker/_subs/CustomButton'
 
 describe('CustomButton.vue', () => {
   it('has round class when have round prop', () => {

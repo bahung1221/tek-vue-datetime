@@ -5,7 +5,8 @@
       'with-border': withBorder,
       'is-hover': hover,
       'is-selected': selected,
-      'round': round
+      'round': round,
+      'no-effect': noEffect
     }"
     tabindex="-1"
     type="button"
@@ -32,7 +33,8 @@
       withBorder: { type: Boolean, default: false },
       hover: { type: Boolean, default: false },
       selected: { type: Boolean, default: false },
-      round: { type: Boolean, default: false }
+      round: { type: Boolean, default: false },
+      noEffect: { type: Boolean, default: null }
     },
     computed: {
       colorStyle () {
@@ -88,7 +90,10 @@
     &.with-border {
       border: 1px solid var(--tvd-border-color);;
     }
-    &:hover, &.is-hover {
+    &.no-effect {
+      cursor: default;
+    }
+    &:not(.no-effect):hover, &:not(.no-effect).is-hover {
       border: 1px solid transparent !important;
       .custom-button-effect {
         transform: scale(1);

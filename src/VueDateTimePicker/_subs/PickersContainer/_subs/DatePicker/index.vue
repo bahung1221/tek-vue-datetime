@@ -35,8 +35,9 @@
             <CustomButton
               v-for="m in [month]"
               :key="m.month"
+              :no-effect="noMonthYearSelect"
               class="date-buttons lm-fs-14 padding-button"
-              @click="selectingYearMonth = 'month'"
+              @click="openSelectYearMonth('month')"
             >
               {{ monthFormatted }}
             </CustomButton>
@@ -48,8 +49,9 @@
             <CustomButton
               v-for="y in [year]"
               :key="y"
+              :no-effect="noMonthYearSelect"
               class="date-buttons lm-fs-14 padding-button"
-              @click="selectingYearMonth = 'year'"
+              @click="openSelectYearMonth('year')"
             >
               {{ year }}
             </CustomButton>
@@ -114,7 +116,9 @@
               <span
                 v-if="isToday(day)"
                 class="datepicker-today"
-              />
+              >
+                <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M13.29.516v12.968H.71L13.29.516z" fill-rule="evenodd"/></svg>
+              </span>
               <span
                 v-show="!isDisabled(day) || isSelected(day)"
                 class="datepicker-day-effect"
@@ -150,11 +154,11 @@
 
 <script>
   import dayjs from 'dayjs'
-  import { getWeekDays } from '@/VueCtkDateTimePicker/modules/month'
+  import { getWeekDays } from '@/VueDateTimePicker/modules/month'
   import YearMonthSelector from './_subs/YearMonthSelector'
   import WeekDays from './_subs/WeekDays'
-  import CustomButton from '@/VueCtkDateTimePicker/_subs/CustomButton'
-  import KeyboardAccessibility from '@/VueCtkDateTimePicker/mixins/keyboard-accessibility'
+  import CustomButton from '@/VueDateTimePicker/_subs/CustomButton'
+  import KeyboardAccessibility from '@/VueDateTimePicker/mixins/keyboard-accessibility'
 
   export default {
     name: 'DatePicker',
@@ -179,7 +183,8 @@
       firstDayOfWeek: { type: Number, default: null },
       visible: { type: Boolean, default: false },
       isStart: { type: Boolean, default: false },
-      isEnd: { type: Boolean, default: false }
+      isEnd: { type: Boolean, default: false },
+      noMonthYearSelect: { type: Boolean, default: false }
     },
     data () {
       return {
@@ -302,6 +307,13 @@
         this.transitionLabelName = `slidev${val}`
         this.$emit('change-month', val)
       },
+      openSelectYearMonth (mode) {
+        if (this.noMonthYearSelect) {
+          return
+        }
+
+        this.selectingYearMonth = mode
+      },
       selectYearMonth (event) {
         const { month, year } = event
 
@@ -422,6 +434,14 @@
         }
         .datepicker-today {
           background-color: var(--tvd-primary-variant-color);
+          svg {
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            fill: var(--tvd-primary-color);
+            width: 6px;
+            height: 6px;
+          }
         }
         .datepicker-day-text {
           position: relative;
@@ -450,6 +470,7 @@
         &.today {
           .datepicker-day-text {
             color: var(--tvd-primary-color);
+            font-weight: 600;
           }
         }
 

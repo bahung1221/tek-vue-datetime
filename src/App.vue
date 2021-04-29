@@ -157,7 +157,7 @@
               </div>
             </div>
             <div class="component">
-              <CtkDateTimePicker
+              <VueDateTimePicker
                 :id="demo.options.id"
                 v-model="demo.value"
                 :only-date="demo.options.onlyDate"
@@ -205,6 +205,7 @@
                 :disabled-weekly="demo.options.disabledWeekly"
                 :right="demo.options.right"
                 :no-clear-button="demo.options.noClearButton"
+                :no-month-year-select="demo.options.noMonthYearSelect"
               >
                 <input
                   v-if="demo.options && demo.options.slot && demo.options.slot.type === 'input'"
@@ -216,7 +217,7 @@
                   class="lm-btn"
                   style="margin: 0;"
                 />
-              </CtkDateTimePicker>
+              </VueDateTimePicker>
             </div>
           </div>
         </div>
@@ -226,7 +227,7 @@
 </template>
 
 <script>
-  import CtkDateTimePicker from './VueCtkDateTimePicker'
+  import VueDateTimePicker from './VueDateTimePicker'
   import CheckboxInput from './CheckboxInput'
   // import dayjs from 'dayjs'
   // import 'dayjs/locale/vi'
@@ -236,7 +237,8 @@
   export default {
     name: 'App',
     components: {
-      CtkDateTimePicker, CheckboxInput
+      VueDateTimePicker,
+      CheckboxInput,
     },
     data () {
       return {
@@ -244,7 +246,7 @@
         booleanOptions: [
           'noHeader', 'autoClose', 'error', 'overlay', 'noWeekendDays',
           'noButton', 'onlyDate', 'range', 'onlyTime', 'inline', 'persistent', 'disabled', 'noButtonNow', 'noValueToCustomElem',
-          'noKeyboard', 'right', 'noClearButton', 'noLabel'
+          'noKeyboard', 'right', 'noClearButton', 'noLabel', 'noMonthYearSelect'
         ],
         stringOptions: [
           'id', 'label', 'hint', 'buttonColor', 'position', 'format', 'formatted', 'outputFormat',
@@ -320,8 +322,8 @@
               format: 'YYYY-MM-DD',
               label: 'Select date range',
               id: 'RangeDatePicker',
-
               noHeader: true,
+              noMonthYearSelect: true
             }
           },
           {
