@@ -105,13 +105,17 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | --------------------------- | ----------------- | -------- | --------------------------- |
 | v-model                     | String            | yes      | -                           |
 | format                      | String            | no       | 'YYYY-MM-DD hh:mm a'        |
-| formatted                   | String            | no       | 'llll' (dayjs format)    |
+| formatted                   | String            | no       | 'llll' (dayjs format)       |
 | label                       | String            | no       | Select date & time          |
 | hint (1)                    | String            | no       | -                           |
 | error (2)                   | Boolean           | no       | false                       |
-| color (3)                   | String (hex)      | no       | dodgerblue                  |
-| month-year-color (4)        | String (hex)      | no       | #454350                  |
-| button-color (5)            | String (hex)      | no       | #00C853                     |
+| primary-color (3)           | String (hex)      | no       | #1e90ff                     |
+| primary-variant-color (3)   | String (hex)      | no       | #e4efff                     |
+| secondary-color (3)         | String (hex)      | no       | #eaeaea                     |
+| text-color (3)              | String (hex)      | no       | #333333                     |
+| background-color (3)        | String (hex)      | no       | #ffffff                     |
+| border-color (3)            | String (hex)      | no       | #cecece                     |
+| light-text-color (3)        | String (hex)      | no       | #ffffff                     |
 | position                    | String            | no       | null                        |
 | locale (6)                  | String            | no       | Browser Locale              |
 | persistent                  | Boolean           | no       | false                       |
@@ -148,11 +152,14 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 
 (2) error : When is `true` --> Input border & label are red
 
-(3) color: Replace color for the hint, the borders & picker color
-
-(4) month-year-color: Replace text color for the month & year number
-
-(5) button-color: Replace color for the buttons on bottom (validation & 'now')
+(3) theme: Custom colors for the picker
+  - primaryColor: The main color of the picker, using for selected background, header background
+  - primaryVariantColor: The variant color of the picker, using for current day background and selected range background
+  - secondaryColor: The neutral color, using for hover background
+  - textColor: Text color of all the picker
+  - lightTextColor: Text color in active state (selected)
+  - backgroundColor: background color of the picker
+  - borderColor: border-top color of bottom bar (contains submit button)
 
 (6) locale:
 - Default value is the locale of the browser - Ex : Set `locale="vi"` to force to Vietnamese language
@@ -236,12 +243,6 @@ To override those values, pass a new object with the values you want to override
 | Page Up        | Same day on next month     |
 | Enter or Space | Select day                 |
 | Escape         | Close component            |
-
-# Upcoming features (Todo)
-
-- Double Calendar on RangeDatePicker (issue : #33)
-- Inputs Text to choose values (issue #30)
-- TimePicker seconds support (issue : #79)
 
 # Contribute
 

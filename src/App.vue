@@ -43,7 +43,7 @@
           <div
             class="component-container"
           >
-            <p>Inititale value : '2018-04-05T04:26'</p>
+            <p>Inititale value : '2021-04-05T04:26'</p>
             <p>v-model = {{ value2 || 'null' }}</p>
             <br>
             <div class="flex">
@@ -53,8 +53,8 @@
                 locale="vi"
                 no-label
                 :format="'YYYY-MM-DD HH:mm'"
-                :min-date="'2018-04-05 12:15'"
-                :max-date="'2018-04-24 18:45'"
+                :min-date="'2021-04-05 12:15'"
+                :max-date="'2021-04-24 18:45'"
               />
             </div>
           </div>
@@ -167,8 +167,13 @@
                 :formatted="demo.options.formatted"
                 :output-format="demo.options.outputFormat"
                 :inline="demo.options.inline"
-                :color="demo.options.color"
-                :button-color="demo.options.buttonColor"
+                :primary-color="demo.options.primaryColor"
+                :primary-variant-color="demo.options.primaryVariantColor"
+                :secondary-color="demo.options.secondaryColor"
+                :text-color="demo.options.textColor"
+                :background-color="demo.options.backgroundColor"
+                :border-color="demo.options.borderColor"
+                :light-text-color="demo.options.lightTextColor"
                 :no-header="demo.options.noHeader"
                 :label="demo.options.label"
                 :no-label="demo.options.noLabel"
@@ -242,8 +247,9 @@
           'noKeyboard', 'right', 'noClearButton', 'noLabel'
         ],
         stringOptions: [
-          'id', 'label', 'hint', 'color', 'buttonColor', 'position', 'format', 'formatted', 'outputFormat',
-          'minDate', 'maxDate', 'inputSize', 'buttonNowTranslation', 'disabledWeekly'
+          'id', 'label', 'hint', 'buttonColor', 'position', 'format', 'formatted', 'outputFormat',
+          'minDate', 'maxDate', 'inputSize', 'buttonNowTranslation', 'disabledWeekly',
+          'primaryColor', 'primaryVariantColor', 'secondaryColor', 'textColor', 'backgroundColor', 'borderColor', 'lightTextColor'
         ],
         optionsNotEditable: [
           'disabledDates', 'disabledHours'
@@ -253,17 +259,57 @@
         ],
         demoComponents: [
           {
+            id: '3',
+            title: 'Date Picker',
+            description: 'noLabel true - format: "MM-DD-YYYY" - formatted: "ll"',
+            editOption: false,
+            initial: '14-01-2019',
+            value: '14-01-2019',
+            options: {
+              onlyDate: true,
+              color: 'coral',
+              buttonColor: 'coral',
+              buttonNowTranslation: 'Now',
+              id: 'DatePicker',
+              format: 'DD-MM-YYYY',
+              formatted: 'll',
+              noLabel: true
+            }
+          },
+          {
+            id: '1',
+            title: 'Date Time Picker',
+            description: 'Date & Time selector with custom theme colors',
+            initial: '2020-04-07 20:26',
+            value: '2020-04-07 20:26',
+            editOption: false,
+            options: {
+              format: 'YYYY-MM-DD HH:mm',
+              id: 'DateTimePicker',
+              minDate: '2020-04-05',
+              maxDate: '2020-04-24',
+
+              primaryColor: '#503ef5',
+              primaryVariantColor: '#d8defc',
+              secondaryColor: '#dde0f4',
+              textColor: '#454350',
+              backgroundColor: '#e9e7f8',
+              borderColor: '#bcbcbc',
+              lightTextColor: '#fff'
+            }
+          },
+          {
             id: '2',
-            title: 'Range Date Picker',
+            title: 'Date Range Picker',
             description: 'Date Range selector - With custom element to trigger the component (only input or button)',
             editOption: false,
             initial: {
-              start: '2018-04-05',
-              end: '2018-04-20'
+              start: '2021-04-05',
+              end: '2021-04-20'
             },
             value: {
-              start: '2018-04-05',
-              end: '2018-04-20'
+              start: '2021-04-05',
+              end: '2021-04-20'
             },
             options: {
               slot: {
@@ -272,50 +318,15 @@
               range: true,
               formatted: 'll',
               format: 'YYYY-MM-DD',
-              color: '#503ef5',
               label: 'Select date range',
               id: 'RangeDatePicker',
 
-              noHeader: true
-            }
-          },
-          {
-            id: '1',
-            title: 'Date Time Picker',
-            description: 'Date & Time selector',
-            initial: '2020-04-07 20:26',
-            value: '2020-04-07 20:26',
-            editOption: false,
-            options: {
-              format: 'YYYY-MM-DD HH:mm',
-              id: 'DateTimePicker',
-              minDate: '2020-04-05',
-              maxDate: '2020-04-24'
-            }
-          },
-          {
-            id: '3',
-            title: 'Date Picker',
-            description: 'Date selector - right position - noLabel true - With large input (input-size="lg") - format: "MM-DD-YYYY" - formatted: "ll"',
-            editOption: false,
-            initial: '14-01-2019',
-            value: '14-01-2019',
-            options: {
-              onlyDate: true,
-              color: 'coral',
-              inputSize: 'lg',
-              buttonColor: 'coral',
-              buttonNowTranslation: 'Now',
-              id: 'DatePicker',
-              format: 'DD-MM-YYYY',
-              formatted: 'll',
-              right: true,
-              noLabel: true
+              noHeader: true,
             }
           },
           {
             id: '4',
-            title: 'Time Picker - With small input (input-size="sm") & minute-interval="15" & start-minute="0" & end-minute="59"',
+            title: 'Time Picker - With minute-interval="15" & start-minute="0" & end-minute="59"',
             description: 'Time selector',
             editOption: false,
             initial: '11:00 am',
@@ -336,7 +347,7 @@
           },
           {
             id: '4',
-            title: 'Time Picker - With small input (input-size="sm") & minute-interval="15" & start-minute="0" & end-minute="59" & 24 hours mode',
+            title: 'Time Picker - 24 Hours Mode',
             description: 'Time selector',
             editOption: false,
             initial: '11:00',
@@ -413,27 +424,14 @@
               inline: true,
               format: 'YYYY-MM-DD HH:mm'
             }
-          },
-          {
-            id: '6',
-            title: 'Disabled Picker',
-            description: '(disabled="true")',
-            editOption: false,
-            initial: 'null',
-            value: null,
-            options: {
-              disabled: true,
-              label: 'Is Disabled',
-              id: 'DisabledPicker'
-            }
-          },
+          }
         ],
         value: '06-01-2014 05:00',
         value2: null,
-        value3: '2018-04-05T14:26',
+        value3: '2021-04-05T14:26',
         rangeValues: {
-          start: '2018-04-04',
-          end: '2018-04-20'
+          start: '2021-04-04',
+          end: '2021-04-20'
         },
         rangeValues2: {
           start: null,
@@ -445,9 +443,9 @@
         hint: 'Error message',
         errorHint: true,
         timeFormat: 'hh:mm a',
-        minDate: '2018-04-03',
-        maxDate: '2018-04-12',
-        disabledDates: ['2018-04-03', '2018-04-07', '2018-04-09', '2018-04-11', '2018-04-13', '2018-04-15', '2018-04-17', '2018-04-19'],
+        minDate: '2021-04-03',
+        maxDate: '2021-04-12',
+        disabledDates: ['2021-04-03', '2021-04-07', '2021-04-09', '2021-04-11', '2021-04-13', '2021-04-15', '2021-04-17', '2021-04-19'],
         disabledHours: Array.from(new Array(8), (x, i) => `0${i}`).concat(
           Array.from(new Array(23), (x, i) => {
             if (i + 1 > 18) {

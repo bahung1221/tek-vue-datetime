@@ -70,7 +70,7 @@
     }
     .custom-button-effect {
       position: absolute;
-      background: var(--tvd-primary-variant-color);
+      background: var(--tvd-secondary-color);
       top: -1px;
       left: 0;
       bottom: 0;

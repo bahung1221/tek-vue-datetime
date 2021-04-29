@@ -102,7 +102,8 @@
                 enable: !(isDisabled(day) || isWeekEndDay(day)),
                 between: isBetween(day) && range,
                 first: firstInRange(day) && range,
-                last: lastInRange(day) && !!value.end && range
+                last: lastInRange(day) && !!value.end && range,
+                today: isToday(day)
               }"
               :disabled="isDisabled(day) || isWeekEndDay(day)"
               type="button"
@@ -416,11 +417,11 @@
 
         .datepicker-day-effect {
           margin: auto;
-          background: var(--tvd-primary-variant-color);
+          background: var(--tvd-secondary-color);
           transform: scale(0);
         }
         .datepicker-today {
-          background-color: var(--tvd-secondary-color);
+          background-color: var(--tvd-primary-variant-color);
         }
         .datepicker-day-text {
           position: relative;
@@ -446,9 +447,15 @@
             transform: scale(1);
           }
         }
+        &.today {
+          .datepicker-day-text {
+            color: var(--tvd-primary-color);
+          }
+        }
 
         &.between {
           .datepicker-day-effect {
+            background: var(--tvd-primary-variant-color);
             transform: scale(1);
             border-radius: 0;
             width: 100%;

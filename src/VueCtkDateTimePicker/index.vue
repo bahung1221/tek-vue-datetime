@@ -262,16 +262,10 @@
     },
     created () {
       updateDayjsLocale(this.locale, this.firstDayOfWeek)
-
-      document.documentElement.style.setProperty('--tvd-primary-color', this.primaryColor)
-      document.documentElement.style.setProperty('--tvd-primary-variant-color', this.primaryVariantColor)
-      document.documentElement.style.setProperty('--tvd-secondary-color', this.secondaryColor)
-      document.documentElement.style.setProperty('--tvd-text-color', this.textColor)
-      document.documentElement.style.setProperty('--tvd-light-text-color', this.lightTextColor)
-      document.documentElement.style.setProperty('--tvd-background-color', this.backgroundColor)
-      document.documentElement.style.setProperty('--tvd-border-color', this.borderColor)
     },
     mounted () {
+      this.setCssVariables(this.$refs.parent)
+
       this.pickerPosition = this.getPosition()
       this.pickerOpen = this.open
       if (this.hasCustomElem) {
@@ -291,6 +285,15 @@
       }
     },
     methods: {
+      setCssVariables (el) {
+        el.style.setProperty('--tvd-primary-color', this.primaryColor)
+        el.style.setProperty('--tvd-primary-variant-color', this.primaryVariantColor)
+        el.style.setProperty('--tvd-secondary-color', this.secondaryColor)
+        el.style.setProperty('--tvd-text-color', this.textColor)
+        el.style.setProperty('--tvd-light-text-color', this.lightTextColor)
+        el.style.setProperty('--tvd-background-color', this.backgroundColor)
+        el.style.setProperty('--tvd-border-color', this.borderColor)
+      },
       setValueToCustomElem () {
         /**
          * TODO: Find a way (perhaps), to bind default attrs to custom element.
@@ -385,6 +388,10 @@
         this.pickerOpen = isOpen
 
         if (isOpen) {
+          // re-set css variables on mobile because all contents was moved to outside by "vue-portal"
+          if (this.isMobile) {
+            this.setCssVariables(document.querySelector('div[id^=\'vue-portal-target\']'))
+          }
           this.$emit('is-shown')
         }
 

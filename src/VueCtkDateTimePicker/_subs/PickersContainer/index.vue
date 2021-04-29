@@ -408,6 +408,9 @@
       flex-flow: column;
       -moz-flex-direction: column;
       height: 100%;
+      .pickers-container-month {
+        flex-direction: column;
+      }
     }
 
     .datepicker-container {
