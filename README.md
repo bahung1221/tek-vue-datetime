@@ -235,7 +235,7 @@ To override those values, pass a new object with the values you want to override
 
 # Custom theme
 
-TekVueDateTime colors is easy to custom, just pass below props to get whatever you want:
+TekVueDateTime colors are easy to custom, just pass the below props to get whatever you want:
 
 - `primaryColor`: The main color of the picker, using for selected background, header background
 - `primaryVariantColor`: The variant color of the picker, using for current day background and selected range background
