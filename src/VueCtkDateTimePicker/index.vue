@@ -44,7 +44,6 @@
       :position="pickerPosition"
       :inline="inline"
       :color="color"
-      :month-year-color="monthYearColor"
       :button-color="buttonColor"
       :dark="dark"
       :no-header="noHeader"

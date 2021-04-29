@@ -178,7 +178,6 @@
                 :output-format="demo.options.outputFormat"
                 :inline="demo.options.inline"
                 :color="demo.options.color"
-                :month-year-color="demo.options.monthYearColor"
                 :button-color="demo.options.buttonColor"
                 :no-header="demo.options.noHeader"
                 :label="demo.options.label"
@@ -299,7 +298,6 @@
               formatted: 'll',
               format: 'YYYY-MM-DD',
               color: '#503ef5',
-              monthYearColor: '#454350',
               label: 'Select date range',
               id: 'RangeDatePicker',
 
@@ -315,11 +313,12 @@
             initial: '14-01-2019',
             value: '14-01-2019',
             options: {
+              dark: true,
               onlyDate: true,
               color: 'coral',
               inputSize: 'lg',
-              buttonColor: 'green',
-              buttonNowTranslation: 'Maintenant',
+              buttonColor: 'coral',
+              buttonNowTranslation: 'Now',
               id: 'DatePicker',
               format: 'DD-MM-YYYY',
               formatted: 'll',

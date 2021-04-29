@@ -19,8 +19,8 @@
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 256 512"
-            ><path
               fill="currentColor"
+            ><path
               d="M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"
             /></svg>
           </button>
@@ -37,7 +37,7 @@
               :key="m.month"
               class="date-buttons lm-fs-14 padding-button"
               :color="color"
-              :text-color="monthYearColor"
+              text-color="#454350"
               :dark="dark"
               @click="selectingYearMonth = 'month'"
             >
@@ -53,7 +53,7 @@
               :key="y"
               class="date-buttons lm-fs-14 padding-button"
               :color="color"
-              :text-color="monthYearColor"
+              text-color="#454350"
               :dark="dark"
               @click="selectingYearMonth = 'year'"
             >
@@ -74,8 +74,8 @@
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 256 512"
-            ><path
               fill="currentColor"
+            ><path
               d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"
             /></svg>
           </button>
@@ -146,7 +146,6 @@
         v-if="selectingYearMonth"
         :locale="locale"
         :color="color"
-        :month-year-color="monthYearColor"
         :dark="dark"
         :mode="selectingYearMonth"
         :month="month"
@@ -176,7 +175,6 @@
       id: { type: String, default: null },
       value: { type: [String, Object], default: null },
       color: { type: String, default: null },
-      monthYearColor: { type: String, default: null },
       minDate: { type: String, default: null },
       maxDate: { type: String, default: null },
       locale: { type: String, default: null },
@@ -367,6 +365,7 @@
         cursor: pointer;
         border: none;
         outline: none;
+        width: 100%;
         svg {
           height: 15px;
           width: 15px;

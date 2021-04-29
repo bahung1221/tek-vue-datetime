@@ -51,7 +51,6 @@
                   :no-weekends-days="noWeekendsDays"
                   :disabled-weekly="disabledWeekly"
                   :color="color"
-                  :month-year-color="monthYearColor"
                   :min-date="minDate"
                   :max-date="maxDate"
                   :disabled-dates="disabledDates"
@@ -133,7 +132,6 @@
       dark: { type: Boolean, default: false },
       noHeader: { type: Boolean, default: null },
       color: { type: String, default: null },
-      monthYearColor: { type: String, default: null },
       onlyDate: { type: Boolean, default: false },
       onlyTime: { type: Boolean, default: null },
       minuteInterval: { type: [String, Number], default: 1 },
