@@ -23,7 +23,6 @@
         <button
           class="h-100 lm-fs-14"
           :style="{
-            color: color,
             cursor: isMonthMode ? 'pointer' : '',
           }"
           @click="changeMode"
@@ -57,7 +56,6 @@
           <CustomButton
             v-for="(m, index) in months"
             :key="`${year}-${index}`"
-            :color="color"
             :selected="currentYear === year && currentMonth === index + 1"
             class="month-button"
             @click="selectMonth(index + 1)"
@@ -67,7 +65,6 @@
           <CustomButton
             v-for="y in years"
             :key="y"
-            :color="color"
             class="year-button"
             :selected="currentYear === y"
             @click="selectYear(y)"
@@ -99,7 +96,6 @@
     },
     props: {
       locale: { type: String, default: null },
-      color: { type: String, default: null },
       mode: { type: String, default: null },
       month: { type: Object, default: null }
     },
@@ -212,13 +208,13 @@
   @import "~@/assets/scss/helpers/variables/index.scss";
   .year-month-selector{
     position: absolute;
-    background-color: white;
+    background-color: var(--tvd-background-color);
     overflow: hidden;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    color: #424242;
+    color: var(--tvd-text-color);
     padding: 10px;
     .h-100 {
       height: 100%;
@@ -234,7 +230,7 @@
       svg {
         height: 15px;
         width: 15px;
-        fill: $color-text;
+        fill: var(--tvd-text-color);
       }
       &.prev {
         padding: 0 10px;
@@ -255,10 +251,11 @@
         border: none;
         text-transform: capitalize;
         text-align: center;
-        background-color: #dde0f4;
+        background-color: var(--tvd-secondary-color);
         border-radius: 3px;
         font-weight: 600;
         outline: none;
+        color: var(--tvd-primary-color);
       }
     }
     .button-containers {
@@ -269,6 +266,7 @@
         text-transform: capitalize;
         height: 42px;
         width: calc(100% / 4);
+        background-color: transparent;
         /deep/ .custom-button-effect {
           height: 42px;
           width: calc(100% - 20px);
@@ -280,6 +278,7 @@
         text-transform: capitalize;
         height: 35px;
         width: calc(100% / 4);
+        background-color: transparent;
         /deep/ .custom-button-effect {
           height: 35px;
           width: calc(100% - 20px);

@@ -28,7 +28,7 @@
     > div {
       text-transform: capitalize;
       font-weight: 700;
-      color: $color-text;
+      color: var(--tvd-text-color);
     }
   }
   @media screen and (max-width: 415px) {

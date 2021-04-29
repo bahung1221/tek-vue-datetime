@@ -67,7 +67,6 @@
       noLabel: { type: Boolean, default: false },
       hint: { type: String, default: null },
       errorHint: { type: Boolean, default: null },
-      color: { type: String, default: null },
       inputSize: { type: String, default: null },
       noClearButton: { type: Boolean, default: false }
     },
@@ -75,13 +74,13 @@
       borderStyle () {
         const cond = (this.isFocus && !this.errorHint)
         return cond
-          ? { border: `1px solid ${this.color}` }
+          ? { border: '1px solid var(--tvd-primary-color)' }
           : null
       },
       colorStyle () {
         const cond = this.isFocus
         return cond
-          ? { color: `${this.color}` }
+          ? { color: 'var(--tvd-primary-color)' }
           : null
       },
       hasClearButton () {
@@ -123,7 +122,7 @@
     }
     &-input{
       cursor: pointer;
-      background-color: #FFF;
+      background-color: #fff;
       -webkit-transition-duration: 0.3s;
       transition-duration: 0.3s;
       position: relative;
@@ -179,10 +178,10 @@
     }
     &.is-focused {
       .field-input {
-        border-color: dodgerblue;
+        border-color: var(--tvd-primary-color);
       }
       .field-label {
-        color: dodgerblue;
+        color: var(--tvd-primary-color);
       }
     }
     &.is-disabled {

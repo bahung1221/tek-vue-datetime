@@ -58,7 +58,6 @@
       /**
        * TODO: Remove wrong default values
        */
-      buttonColor: { type: String, default: null },
       buttonNowTranslation: { type: String, default: null },
       onlyTime: { type: Boolean, default: null },
       noButtonNow: { type: Boolean, default: null },
@@ -68,13 +67,13 @@
     computed: {
       colorStyle () {
         return {
-          color: this.buttonColor,
-          fill: this.buttonColor
+          color: 'var(--tvd-primary-color)',
+          fill: 'var(--tvd-primary-color)'
         }
       },
       bgStyle () {
         return {
-          backgroundColor: this.buttonColor
+          backgroundColor: 'var(--tvd-primary-color)'
         }
       },
       hasButtonNow () {
@@ -92,14 +91,14 @@
 <style lang="scss" scoped>
   .datepicker-buttons-container {
     padding: 5px;
-    border-top: 1px solid #EAEAEA;
-    background-color: #FFF;
+    border-top: 1px solid var(--tvd-border-color);
+    background-color: var(--tvd-background-color);
     z-index: 1;
     display: flex !important;
     .datepicker-button {
-      padding: 0px 20px;
+      padding: 0 20px;
       position: relative;
-      background-color: white;
+      background-color: transparent;
       border: 1px solid transparent;
       border-radius: 4px;
       height: 30px;
@@ -107,7 +106,6 @@
       outline: none;
       cursor: pointer;
       -webkit-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-      color: #FFF;
       font-weight: 500;
       &-content {
         position: relative;
@@ -116,11 +114,10 @@
         position: relative;
         -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
         transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-        fill: #00C853;
+        fill: var(--tvd-primary-color);
       }
       .datepicker-button-effect {
         position: absolute;
-        background: #00C853;
         top: 0;
         left: 0;
         bottom: 0;
@@ -138,25 +135,19 @@
           transform: scale(1);
         }
         svg {
-          fill: white !important;
+          fill: var(--tvd-light-text-color) !important;
         }
         .datepicker-button-content {
-          color: #fff !important;
+          color: var(--tvd-light-text-color) !important;
         }
       }
       &.now {
         &.right-margin {
           margin-right: 10px;
         }
-        .datepicker-button-content {
-          color: dodgerblue;
-        }
-        .datepicker-button-effect {
-          background: dodgerblue;
-        }
       }
       &.validate {
-        border: 1px solid #eaeaea;
+        border: 1px solid var(--tvd-border-color);
       }
     }
   }

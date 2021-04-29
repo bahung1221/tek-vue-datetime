@@ -21,7 +21,6 @@
               v-if="!noHeader"
               :key="componentKey"
               v-model="value"
-              :color="color"
               :only-time="onlyTime"
               :format="format"
               :time-format="timeFormat"
@@ -48,7 +47,6 @@
                   :inline="inline"
                   :no-weekends-days="noWeekendsDays"
                   :disabled-weekly="disabledWeekly"
-                  :color="color"
                   :min-date="minDate"
                   :max-date="maxDate"
                   :disabled-dates="disabledDates"
@@ -69,7 +67,6 @@
                 v-if="!onlyDate"
                 ref="TimePicker"
                 v-model="time"
-                :color="color"
                 :inline="inline"
                 :format="timeFormat"
                 :only-time="onlyTime"
@@ -87,7 +84,6 @@
             <ButtonValidate
               v-if="!hasNoButton && !(inline && range)"
               class="button-validate flex-fixed"
-              :button-color="buttonColor"
               :button-now-translation="buttonNowTranslation"
               :only-time="onlyTime"
               :no-button-now="noButtonNow"
@@ -126,7 +122,6 @@
       position: { type: String, default: 'bottom' },
       inline: { type: Boolean, default: false },
       noHeader: { type: Boolean, default: null },
-      color: { type: String, default: null },
       onlyDate: { type: Boolean, default: false },
       onlyTime: { type: Boolean, default: null },
       minuteInterval: { type: [String, Number], default: 1 },
@@ -144,7 +139,6 @@
       disabledHours: { type: Array, default: null },
       enabledDates: { type: Array, default: null },
       range: { type: Boolean, default: null },
-      buttonColor: { type: String, default: null },
       buttonNowTranslation: { type: String, default: null },
       noButtonNow: { type: Boolean, default: false },
       firstDayOfWeek: { type: Number, default: null },
@@ -215,9 +209,7 @@
       },
       height () {
         return !this.onlyTime
-          ? this.month
-            ? (this.month.getMonthDays().length + this.month.getWeekStart()) > 35 ? 347 : 307
-            : 180
+          ? 310
           : 200
       },
       time: {
@@ -380,7 +372,7 @@
       box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
       max-width: 400px;
       .pickers-container {
-        background: #FFF;
+        background: var(--tvd-background-color);
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
         .pickers-container-month {
@@ -402,7 +394,7 @@
       -webkit-box-shadow: none;
       width: 100%;
       max-width: 100%;
-      background-color: white;
+      background-color: var(--tvd-background-color);
     }
   }
   @media screen and (max-width: 415px) {

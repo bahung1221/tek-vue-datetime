@@ -223,10 +223,10 @@
 <script>
   import CtkDateTimePicker from './VueCtkDateTimePicker'
   import CheckboxInput from './CheckboxInput'
-  import dayjs from 'dayjs'
-  import 'dayjs/locale/vi'
-
-  dayjs.locale('vi')
+  // import dayjs from 'dayjs'
+  // import 'dayjs/locale/vi'
+  //
+  // dayjs.locale('vi')
 
   export default {
     name: 'App',
@@ -246,26 +246,12 @@
           'minDate', 'maxDate', 'inputSize', 'buttonNowTranslation', 'disabledWeekly'
         ],
         optionsNotEditable: [
-          'disabledDates', 'disabledHours', 'locale'
+          'disabledDates', 'disabledHours'
         ],
         intOptions: [
           'minuteInterval', 'firstDayOfWeek'
         ],
         demoComponents: [
-          // {
-          //   id: '1',
-          //   title: 'Date Time Picker',
-          //   description: 'Date & Time selector',
-          //   initial: '2020-04-07 20:26',
-          //   value: '2020-04-07 20:26',
-          //   editOption: false,
-          //   options: {
-          //     format: 'YYYY-MM-DD HH:mm',
-          //     id: 'DateTimePicker',
-          //     minDate: '2020-04-05',
-          //     maxDate: '2020-04-24'
-          //   }
-          // },
           {
             id: '2',
             title: 'Range Date Picker',
@@ -290,8 +276,21 @@
               label: 'Select date range',
               id: 'RangeDatePicker',
 
-              locale: 'vi',
               noHeader: true
+            }
+          },
+          {
+            id: '1',
+            title: 'Date Time Picker',
+            description: 'Date & Time selector',
+            initial: '2020-04-07 20:26',
+            value: '2020-04-07 20:26',
+            editOption: false,
+            options: {
+              format: 'YYYY-MM-DD HH:mm',
+              id: 'DateTimePicker',
+              minDate: '2020-04-05',
+              maxDate: '2020-04-24'
             }
           },
           {
@@ -361,35 +360,15 @@
             title: 'Inline Picker',
             description: 'Inline selector with keyboard accessibility disabled & disabled weekly dates (available for all pickers)',
             editOption: false,
-            initial: {
-              start: '2018-04-05',
-              end: '2018-04-20'
-            },
-            value: {
-              start: '2018-04-05',
-              end: '2018-04-20'
-            },
+            initial: '2019-01-14 00:00',
+            value: '2019-01-14 00:00',
             options: {
               inline: true,
-              format: 'YYYY-MM-DD',
+              format: 'YYYY-MM-DD HH:mm',
               formatted: 'll',
-              range: true,
               id: 'InlinePicker',
               disabledWeekly: [0, 4, 6],
               noKeyboard: true
-            }
-          },
-          {
-            id: '6',
-            title: 'Disabled Picker',
-            description: '(disabled="true")',
-            editOption: false,
-            initial: 'null',
-            value: null,
-            options: {
-              disabled: true,
-              label: 'Is Disabled',
-              id: 'DisabledPicker'
             }
           },
           {
@@ -426,7 +405,7 @@
             description: '',
             editOption: false,
             initial: { 'disabledDates': ['2021-02-22'], 'enabledDates': ['2021-02-21', '2021-02-22', '2021-02-23'] },
-            value: '2021-02-22',
+            value: '2021-02-22 00:00',
             options: {
               id: 'EnabledDisabledDatesPicker',
               disabledDates: ['2021-02-22'],
@@ -436,20 +415,18 @@
             }
           },
           {
-            id: '10',
-            title: 'Change locale',
-            description: 'Date & Time selector with "vi" locale',
-            initial: '2020-04-07 20:26',
-            value: '2020-04-07 20:26',
+            id: '6',
+            title: 'Disabled Picker',
+            description: '(disabled="true")',
             editOption: false,
+            initial: 'null',
+            value: null,
             options: {
-              format: 'YYYY-MM-DD HH:mm',
-              id: 'DateTimePicker',
-              minDate: '2020-04-05',
-              maxDate: '2020-04-24',
-              locale: 'vi'
+              disabled: true,
+              label: 'Is Disabled',
+              id: 'DisabledPicker'
             }
-          }
+          },
         ],
         value: '06-01-2014 05:00',
         value2: null,
@@ -479,7 +456,7 @@
               return null
             }
           })
-        ),
+        )
       }
     }
   }

@@ -36,8 +36,6 @@
               v-for="m in [month]"
               :key="m.month"
               class="date-buttons lm-fs-14 padding-button"
-              :color="color"
-              text-color="#454350"
               @click="selectingYearMonth = 'month'"
             >
               {{ monthFormatted }}
@@ -51,8 +49,6 @@
               v-for="y in [year]"
               :key="y"
               class="date-buttons lm-fs-14 padding-button"
-              :color="color"
-              text-color="#454350"
               @click="selectingYearMonth = 'year'"
             >
               {{ year }}
@@ -120,7 +116,6 @@
               />
               <span
                 v-show="!isDisabled(day) || isSelected(day)"
-                :style="bgStyle"
                 class="datepicker-day-effect"
               />
               <span
@@ -142,7 +137,6 @@
       <YearMonthSelector
         v-if="selectingYearMonth"
         :locale="locale"
-        :color="color"
         :mode="selectingYearMonth"
         :month="month"
         @input="selectYearMonth"
@@ -170,7 +164,6 @@
     props: {
       id: { type: String, default: null },
       value: { type: [String, Object], default: null },
-      color: { type: String, default: null },
       minDate: { type: String, default: null },
       maxDate: { type: String, default: null },
       locale: { type: String, default: null },
@@ -196,19 +189,13 @@
       }
     },
     computed: {
-      bgStyle () {
-        return {
-          backgroundColor: this.color
-        }
-      },
       endEmptyDays () {
         const getDays = (this.monthDays.length + this.weekStart) > 35
         const number = getDays ? 42 : 35
         return number - this.monthDays.length - this.weekStart
       },
       monthDays () {
-        const monthDays = this.month.getMonthDays()
-        return monthDays
+        return this.month.getMonthDays()
       },
       weekStart () {
         return this.month.getWeekStart()
@@ -332,7 +319,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/assets/scss/helpers/variables/index.scss";
   .datepicker-container {
     width: 320px;
     position: relative;
@@ -363,7 +349,7 @@
         svg {
           height: 15px;
           width: 15px;
-          fill: $color-text;
+          fill: var(--tvd-text-color);
         }
         &.datepicker-prev {
           padding: 0 10px;
@@ -383,9 +369,10 @@
         width: 100%;
       }
       .date-buttons {
+        background-color: transparent;
         text-transform: capitalize;
         font-weight: 600;
-        color: $color-text;
+        color: var(--tvd-text-color);
       }
     }
     .month-container {
@@ -429,16 +416,15 @@
 
         .datepicker-day-effect {
           margin: auto;
-          opacity: 0.6;
-          background: dodgerblue;
+          background: var(--tvd-primary-variant-color);
           transform: scale(0);
         }
         .datepicker-today {
-          background-color: #eaeaea;
+          background-color: var(--tvd-secondary-color);
         }
         .datepicker-day-text {
           position: relative;
-          color: $color-text;
+          color: var(--tvd-text-color);
         }
         .datepicker-day-keyboard-selected {
           position: absolute;
@@ -456,30 +442,24 @@
           background-color: #afafaf;
         }
         &:hover {
-          .datepicker-day-text {
-            color: #FFF;
-          }
           .datepicker-day-effect {
             transform: scale(1);
-            opacity: 0.6;
           }
         }
 
         &.between {
-          .datepicker-day-text {
-            color: #FFF;
-          }
           .datepicker-day-effect {
             transform: scale(1);
-            opacity: 0.5;
             border-radius: 0;
             width: 100%;
           }
           &.first .datepicker-day-effect {
+            background-color: var(--tvd-primary-color);
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;
           }
           &.last .datepicker-day-effect {
+            background-color: var(--tvd-primary-color);
             border-top-right-radius: 4px;
             border-bottom-right-radius: 4px;
           }
@@ -489,9 +469,10 @@
         }
         &.selected {
           .datepicker-day-text {
-            color: #FFF;
+            color: var(--tvd-light-text-color);
           }
           .datepicker-day-effect {
+            background-color: var(--tvd-primary-color);
             transform: scale(1);
             opacity: 1;
           }
@@ -501,10 +482,11 @@
         }
         &.disabled {
           .datepicker-day-text {
-            color: #CCC;
+            color: var(--tvd-text-color);
+            opacity: 0.7;
           }
           &.selected {
-            color: #fff;
+            color: var(--tvd-light-text-color);
           }
           .datepicker-day-effect {
             transform: scale(0);
@@ -522,11 +504,8 @@
           height: 36px !important;
         }
       }
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
       flex-direction: column;
       flex-flow: column;
-      -moz-flex-direction: column;
     }
   }
 </style>

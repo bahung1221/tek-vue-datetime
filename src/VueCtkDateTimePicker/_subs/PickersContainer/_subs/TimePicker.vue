@@ -34,7 +34,6 @@
           @click="item.disabled ? null : setTime(item.value, column.type)"
         >
           <span
-            :style="styleColor"
             class="time-picker-column-item-effect"
           />
           <span class="time-picker-column-item-text flex-1">
@@ -99,7 +98,6 @@
       startMinute: { type: Number, default: 0 },
       endMinute: { type: Number, default: 60 },
       height: { type: Number, required: true },
-      color: { type: String, default: null },
       inline: { type: Boolean, default: null },
       visible: { type: Boolean, default: null },
       onlyTime: { type: Boolean, default: null },
@@ -120,11 +118,6 @@
       }
     },
     computed: {
-      styleColor () {
-        return {
-          backgroundColor: this.color
-        }
-      },
       isTwelveFormat () {
         return this.format.includes('A') || this.format.includes('a')
       },
@@ -455,7 +448,7 @@
         height: 28px;
         min-height: 28px;
         padding: 0;
-        color: #252525;
+        color: var(--tvd-text-color);
         cursor: pointer;
         position: relative;
         border: none;
@@ -465,8 +458,7 @@
         outline: none;
         &-effect {
           position: absolute;
-          opacity: 0.6;
-          background: dodgerblue;
+          background: var(--tvd-primary-variant-color);
           height: 24px;
           width: 70%;
           top: 2px;
@@ -484,7 +476,6 @@
         }
         &:hover {
           .time-picker-column-item-text {
-            color: #FFF;
             transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
           }
           .time-picker-column-item-effect {
@@ -492,18 +483,21 @@
           }
         }
         &.active {
-          color: #FFF;
+          color: var(--tvd-light-text-color);
           font-weight: bold;
           .time-picker-column-item-effect {
+            background-color: var(--tvd-primary-color);
             transform: scale(1);
             opacity: 1;
           }
         }
         &.disabled {
           .time-picker-column-item-text {
-            color: #CCC;
+            color: var(--tvd-text-color);
+            opacity: 0.7;
             &:hover {
-              color: #CCC !important;
+              color: var(--tvd-text-color) !important;
+              opacity: 0.7 !important;
             }
           }
           .time-picker-column-item-effect {
@@ -513,7 +507,7 @@
 
           &.active {
             .time-picker-column-item-effect {
-              background-color: #eaeaea !important;
+              background-color: var(--tvd-border-color) !important;
               transform: scale(1) !important;
               opacity: 1 !important;
             }
@@ -522,7 +516,7 @@
       }
     }
     &.with-border {
-      border-left: 1px solid #EAEAEA;
+      border-left: 1px solid var(--tvd-border-color);
     }
   }
   @media screen and (max-width: 415px) {
@@ -533,7 +527,7 @@
 
     .time-picker:not(.inline) {
       border: 0;
-      border-top: 1px solid #EAEAEA;
+      border-top: 1px solid var(--tvd-border-color);
       width: 100%;
       max-width: 100%;
       height: unset !important;

@@ -111,19 +111,18 @@
     name: 'HeaderPicker',
     props: {
       value: { type: [String, Object], default: null },
-      color: { type: String, default: null },
       onlyTime: { type: Boolean, default: null },
       transitionName: { type: String, default: null },
       format: { type: String, default: null },
       timeFormat: { type: String, default: null },
       noTime: { type: Boolean, default: null },
-      range: { type: Boolean, default: null },
+      range: { type: Boolean, default: null }
     },
     computed: {
       bgStyle () {
         return {
           padding: this.onlyTime ? '10px 0' : '10px 0 10px 10px',
-          backgroundColor: this.color
+          backgroundColor: 'var(--tvd-primary-color)'
         }
       },
       dateTime () {
@@ -160,7 +159,7 @@
     },
     methods: {
       getTimePickerWidth () {
-        const width = this.onlyTime ? '100%' : '160px'
+        const width = this.onlyTime ? '100%' : '120px'
         const result = {
           flex: `0 0 ${width}`,
           width: `${width}`,
@@ -176,9 +175,9 @@
 <style lang="scss" scoped>
   $headerTextSize: 18px;
   .header-picker {
-    background: #FFF;
-    border-bottom: 1px solid #EAEAEA;
-    color: #FFF;
+    background: var(--tvd-primary-color);
+    border-bottom: 1px solid var(--tvd-primary-color);
+    color: var(--tvd-light-text-color);
     position: relative;
     &-year {
       opacity: 0.7;

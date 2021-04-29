@@ -15,7 +15,6 @@
       :hint="hint"
       :error-hint="error"
       :is-focus="hasPickerOpen"
-      :color="color"
       :label="label"
       :no-label="noLabel"
       :input-size="inputSize"
@@ -42,8 +41,6 @@
       :visible="hasPickerOpen"
       :position="pickerPosition"
       :inline="inline"
-      :color="color"
-      :button-color="buttonColor"
       :no-header="noHeader"
       :only-time="onlyTime"
       :only-date="hasOnlyDate"
@@ -265,6 +262,14 @@
     },
     created () {
       updateDayjsLocale(this.locale, this.firstDayOfWeek)
+
+      document.documentElement.style.setProperty('--tvd-primary-color', this.primaryColor)
+      document.documentElement.style.setProperty('--tvd-primary-variant-color', this.primaryVariantColor)
+      document.documentElement.style.setProperty('--tvd-secondary-color', this.secondaryColor)
+      document.documentElement.style.setProperty('--tvd-text-color', this.textColor)
+      document.documentElement.style.setProperty('--tvd-light-text-color', this.lightTextColor)
+      document.documentElement.style.setProperty('--tvd-background-color', this.backgroundColor)
+      document.documentElement.style.setProperty('--tvd-border-color', this.borderColor)
     },
     mounted () {
       this.pickerPosition = this.getPosition()
