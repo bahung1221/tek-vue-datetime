@@ -227,7 +227,7 @@
     &.dark {
       color: white;
       background-color: #424242;
-      .navigate-button {
+      .navigate-button svg {
         fill: #fff;
       }
     }
@@ -242,7 +242,6 @@
       cursor: pointer;
       border: none;
       outline: none;
-      width: 100%;
       svg {
         height: 15px;
         width: 15px;
