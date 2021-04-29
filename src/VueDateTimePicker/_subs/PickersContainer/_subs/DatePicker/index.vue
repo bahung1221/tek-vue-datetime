@@ -117,7 +117,14 @@
                 v-if="isToday(day)"
                 class="datepicker-today"
               >
-                <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M13.29.516v12.968H.71L13.29.516z" fill-rule="evenodd"/></svg>
+                <svg
+                  viewBox="0 0 14 14"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                ><path
+                  d="M13.29.516v12.968H.71L13.29.516z"
+                  fill-rule="evenodd"
+                /></svg>
               </span>
               <span
                 v-show="!isDisabled(day) || isSelected(day)"

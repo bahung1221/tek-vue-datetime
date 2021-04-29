@@ -30,7 +30,10 @@
             />
             <div class="pickers-container flex">
               <!-- NEED 'YYYY-MM-DD' format -->
-              <div v-if="!onlyTime" class="pickers-container-month">
+              <div
+                v-if="!onlyTime"
+                class="pickers-container-month"
+              >
                 <DatePicker
                   v-for="(num, index) in months"
                   :key="`date-${num}`"

@@ -237,7 +237,7 @@
     name: 'App',
     components: {
       VueDateTimePicker,
-      CheckboxInput,
+      CheckboxInput
     },
     data () {
       return {
