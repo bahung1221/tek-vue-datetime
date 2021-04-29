@@ -222,8 +222,8 @@
           })
         },
         get () {
-          return this.value
-            ? dayjs(this.value, 'YYYY-MM-DD HH:mm').format('HH:mm')
+          return this.value && this.timeFormat
+            ? dayjs(this.value, `YYYY-MM-DD ${this.timeFormat}`).format(this.timeFormat)
             : null
         }
       },
@@ -271,7 +271,9 @@
     },
     watch: {
       value (value) {
-        this.month = this.getMonth(value)
+        if (!this.range) {
+          this.month = this.getMonth(value)
+        }
       },
       locale () {
         this.month = this.getMonth()
@@ -285,6 +287,7 @@
       },
       emitValue (payload) {
         const dateTime = this.range ? payload.value : this.getDateTime(payload)
+
         this.$emit('input', dateTime)
         if (!this.range) {
           this.getTransitionName(dateTime)
@@ -320,8 +323,21 @@
       getMonth (payload) {
         if (this.range) {
           const rangeVal = payload || this.value
-          const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end || rangeVal.start) : dayjs()
-          const step = !rangeVal.end ? 1 : 0
+          const start = rangeVal && rangeVal.start ? dayjs(rangeVal.start) : null
+          const end = rangeVal && rangeVal.end ? dayjs(rangeVal.end) : null
+
+          let date = null
+          let step = 0
+
+          if (!start && !end) {
+            date = dayjs()
+          } else if (!end || start.month() === end.month()) {
+            date = start
+            step = 1
+          } else {
+            date = end
+          }
+
           return new Month(date.month() + step, date.year())
         } else if (this.value) {
           return new Month(dayjs(this.value, 'YYYY-MM-DD').month() + 1, dayjs(this.value, 'YYYY-MM-DD').year(), this.locale)
@@ -331,8 +347,22 @@
       },
       getMonthEnd (payload) {
         const rangeVal = payload || this.value
-        const date = rangeVal && (rangeVal.end || rangeVal.start) ? dayjs(rangeVal.end ? rangeVal.end : rangeVal.start) : dayjs()
-        return new Month(date.month() + 1, date.year())
+        const start = rangeVal && rangeVal.start ? dayjs(rangeVal.start) : null
+        const end = rangeVal && rangeVal.end ? dayjs(rangeVal.end) : null
+
+        let date = null
+        let step = 1
+
+        if (!start && !end) {
+          date = dayjs()
+        } else if (!end || start.month() === end.month()) {
+          date = start
+          step = 2
+        } else {
+          date = end
+        }
+
+        return new Month(date.month() + step, date.year())
       },
       changeMonth (val) {
         let month = this.month.month + (val === 'prev' ? -1 : +1)

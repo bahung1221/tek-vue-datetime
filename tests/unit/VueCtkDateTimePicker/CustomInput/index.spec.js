@@ -3,7 +3,7 @@ import { shallowMount } from '@vue/test-utils'
 import CustomInput from '@/VueDateTimePicker/_subs/CustomInput'
 import CustomButton from '@/VueDateTimePicker/_subs/CustomButton'
 
-describe('VueCtkDateTimePicker/CustomInput', () => {
+describe('VueDateTimePicker/CustomInput', () => {
   let wrapper
 
   beforeEach(() => (

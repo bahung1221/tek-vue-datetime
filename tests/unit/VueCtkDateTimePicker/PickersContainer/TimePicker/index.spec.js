@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 
 import TimePicker from '@/VueDateTimePicker/_subs/PickersContainer/_subs/TimePicker'
 
-describe('VueCtkDateTimePicker/PickersContainer/TimePicker', () => {
+describe('VueDateTimePicker/PickersContainer/TimePicker', () => {
   let wrapper
 
   beforeEach(() => (

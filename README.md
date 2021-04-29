@@ -1,28 +1,8 @@
 <!-- ![tek-vue-datetime](./assets/logo_sticky.png) -->
 
-TekVueDateTime is a fork of [VueCtkDateTimePicker](https://github.com/chronotruck/vue-ctk-date-time-picker).
-
-# Why I forked VueCtkDateTimePicker instead create PR for it?
-VueCtkDateTimePicker is an awesome datetime picker I haven't seen ever. I love its styles, its UX behaviour especially its animations.
-
-Unfortunately, VueCtkDateTimePicker isn't maintained anymore by these authors, and it still have some issues that I must resolve to make it work on my projects.
-
-So features that were added in this fork repo are:
-- [x] Replace **moment** by **dayjs**: Moment is too large. Dayjs is very lightweight.
-- [x] Remove **moment-range** dependency.
-- [x] Remove **vue** from dependencies list
-- [x] Add **ranges of minute** feature when using time picker: See [PR from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/pull/310).
-- [x] Add **years navigation** arrows: See [Issue from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/issues/264)
-- [x] Move **dayjs** to peerDependencies to avoid duplicate
-- [x] Use [portal](https://github.com/LinusBorg/vue-simple-portal) to fix model was obscured by other fixed elements (e.g. fixed header)
-
-You can see the bundle size different of this package and the original one by below links:
-- This folk: https://bundlephobia.com/result?p=tek-vue-datetime
-- Original: https://bundlephobia.com/result?p=vue-ctk-date-time-picker
-
 # TekVueDateTime
 
-> A vue component for select dates (range mode available) & time
+> A vue component for select date, date time and date range with elegant transition
 
 ![tek-vue-datetime](./assets/illu-animated.gif)
 
@@ -43,14 +23,14 @@ yarn add tek-vue-datetime
 ## ES6 Modules / CommonJS
 
 ```js
-import VueCtkDateTimePicker from 'tek-vue-datetime';
+import VueDateTimePicker from 'tek-vue-datetime';
 import 'tek-vue-datetime/dist/tek-vue-datetime.css';
 
-Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
+Vue.component('VueDateTimePicker', VueDateTimePicker);
 ```
 
 ```html
-<VueCtkDateTimePicker v-model="yourValue" />
+<VueDateTimePicker v-model="yourValue" />
 ```
 
 ## UMD
@@ -63,7 +43,7 @@ Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 />
 
 <div id="app">
-  <VueCtkDateTimePicker v-model="yourValue"></VueCtkDateTimePicker>
+  <VueDateTimePicker v-model="yourValue"></VueDateTimePicker>
 </div>
 
 <script src="https://unpkg.com/vue" charset="utf-8"></script>
@@ -90,13 +70,13 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 ## Use custom element to trigger the component
 
 ```html
-<VueCtkDateTimePicker :no-value-to-custom-elem="(true|false)" />
+<VueDateTimePicker :no-value-to-custom-elem="(true|false)" />
   ...
   <input type="text" />
   ... or
   <button type="button">Label</button>
   ...
-</VueCtkDateTimePicker>
+</VueDateTimePicker>
 ```
 
 # Props API
@@ -311,5 +291,25 @@ Work in progress
 This project is licensed under [MIT License](http://en.wikipedia.org/wiki/MIT_License)
 
 # Credit
+TekVueDateTime is develop based on [VueDateTimePicker](https://github.com/chronotruck/vue-ctk-date-time-picker).
 
-Open source time proudly sponsored by [Chronotruck](https://www.chronotruck.com)
+# Why I forked VueDateTimePicker instead create PR for it?
+VueDateTimePicker is an awesome datetime picker. I love its styles, its UX behaviour especially its animations.
+
+Unfortunately, VueDateTimePicker isn't maintained anymore by these authors, and it still have some issues (both logic & design issues) that I must resolve to make it work on my projects.
+
+So features that were added in this fork repo are:
+- [x] Replace **moment** by **dayjs**: Moment is too large. Dayjs is very lightweight.
+- [x] Huge re-write of styles & `month year selecting` behaviour.
+- [x] Support two months for date range picker.
+- [x] Remove **moment-range** dependency.
+- [x] Remove **vue** from dependencies list
+- [x] Add **ranges of minute** feature when using time picker: See [PR from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/pull/310).
+- [x] Add **years navigation** arrows: See [Issue from original repo](https://github.com/chronotruck/vue-ctk-date-time-picker/issues/264)
+- [x] Move **dayjs** to peerDependencies to avoid duplicate
+- [x] Use [portal](https://github.com/LinusBorg/vue-simple-portal) to fix model was obscured by other fixed elements (e.g. fixed header)
+
+You can see the bundle size different of this package and the original one by below links:
+- This folk: https://bundlephobia.com/result?p=tek-vue-datetime
+- Original: https://bundlephobia.com/result?p=vue-ctk-date-time-picker
+

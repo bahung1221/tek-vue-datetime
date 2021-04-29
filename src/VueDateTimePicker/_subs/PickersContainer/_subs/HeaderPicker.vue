@@ -119,6 +119,12 @@
       range: { type: Boolean, default: null }
     },
     computed: {
+      dateFormat () {
+        return 'YYYY-MM-DD'
+      },
+      dateTimeFormat () {
+        return `${this.dateFormat} ${this.timeFormat || 'HH:mm'}`
+      },
       bgStyle () {
         return {
           padding: this.onlyTime ? '10px 0' : '10px 0 10px 10px',
@@ -129,9 +135,9 @@
         const date = this.value
           ? this.range
             ? (this.value.end || this.value.start)
-              ? dayjs(this.value.end ? this.value.end : this.value.start, 'YYYY-MM-DD HH:mm')
+              ? dayjs(this.value.end ? this.value.end : this.value.start, this.dateTimeFormat)
               : dayjs()
-            : dayjs(this.value, 'YYYY-MM-DD HH:mm')
+            : dayjs(this.value, this.dateTimeFormat)
           : dayjs()
         return date
       },

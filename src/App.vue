@@ -8,7 +8,7 @@
     >
       <header>
         <h1>TekVueDateTime</h1>
-        <h3>A VueJs component for select date & time</h3>
+        <h3>A VueJs component for select date, date time and date range</h3>
         <div
           class="container lm-mt-4"
         >
@@ -47,9 +47,8 @@
             <p>v-model = {{ value2 || 'null' }}</p>
             <br>
             <div class="flex">
-              <CtkDateTimePicker
+              <VueDateTimePicker
                 v-model="value2"
-                color="purple"
                 locale="vi"
                 no-label
                 :format="'YYYY-MM-DD HH:mm'"
@@ -269,8 +268,6 @@
             value: '14-01-2019',
             options: {
               onlyDate: true,
-              color: 'coral',
-              buttonColor: 'coral',
               buttonNowTranslation: 'Now',
               id: 'DatePicker',
               format: 'DD-MM-YYYY',
@@ -311,7 +308,7 @@
             },
             value: {
               start: '2021-04-05',
-              end: '2021-04-20'
+              end: '2021-05-20'
             },
             options: {
               slot: {
@@ -337,29 +334,7 @@
               format: 'hh:mm a',
               formatted: 'hh:mm a',
               onlyTime: true,
-              color: 'firebrick',
-              minuteInterval: '15',
-              startMinute: 0,
-              endMinute: 59,
-              label: 'Select time',
-              inputSize: 'sm',
-              id: 'TimePicker',
-              noLabel: true
-            }
-          },
-          {
-            id: '4',
-            title: 'Time Picker - 24 Hours Mode',
-            description: 'Time selector',
-            editOption: false,
-            initial: '11:00',
-            value: '11:00',
-            options: {
-              format: 'hh:mm',
-              formatted: 'hh:mm',
-              onlyTime: true,
-              color: 'firebrick',
-              minuteInterval: '15',
+              minuteInterval: '10',
               startMinute: 0,
               endMinute: 59,
               label: 'Select time',
@@ -370,6 +345,26 @@
           },
           {
             id: '5',
+            title: 'Time Picker - 24 Hours Mode',
+            description: 'Time selector',
+            editOption: false,
+            initial: '11:00',
+            value: '11:00',
+            options: {
+              format: 'HH:mm',
+              formatted: 'HH:mm',
+              onlyTime: true,
+              minuteInterval: '15',
+              startMinute: 0,
+              endMinute: 59,
+              label: 'Select time',
+              inputSize: 'sm',
+              id: 'TimePicker',
+              noLabel: true
+            }
+          },
+          {
+            id: '6',
             title: 'Inline Picker',
             description: 'Inline selector with keyboard accessibility disabled & disabled weekly dates (available for all pickers)',
             editOption: false,
@@ -444,7 +439,7 @@
         minuteInterval2: 10,
         hint: 'Error message',
         errorHint: true,
-        timeFormat: 'hh:mm a',
+        timeFormat: 'HH:mm a',
         minDate: '2021-04-03',
         maxDate: '2021-04-12',
         disabledDates: ['2021-04-03', '2021-04-07', '2021-04-09', '2021-04-11', '2021-04-13', '2021-04-15', '2021-04-17', '2021-04-19'],
@@ -476,7 +471,7 @@ button, input, textarea, label {
 
 <style lang="scss">
   @import "./assets/scss/main.scss";
-  html, body, #app, #vueCtkDateTimePicker {
+  html, body, #app, #VueDateTimePicker {
     margin: 0;
     min-height: 100%;
     min-width: 100%;

@@ -51,10 +51,10 @@
 <script>
   import dayjs from 'dayjs'
 
-  const ArrayHourRange = (start, end, twoDigit, isAfternoon, disabledHours, isTwelveFormat) => {
+  const ArrayHourRange = (start, end, twoDigit, isAfternoon, disabledHours) => {
     return Array(end - start + 1).fill().map((_, idx) => {
       const n = start + idx
-      const number = !isAfternoon ? n : n + 12
+      const number = n
       const numberToTest = (number < 10 ? '0' : '') + number
       return {
         value: number,
@@ -272,13 +272,8 @@
       },
       onScrollHours: debounce(function (scroll) {
         const value = this.getValue(scroll)
-        const hour = this.isTwelveFormat
-          ? this.apm
-            ? this.apm.toLowerCase() === 'am'
-              ? value + 1
-              : (value + 1 + 12)
-            : value
-          : value
+        const hour = this.isTwelveFormat ? value + 1 : value
+
         if (this.isHoursDisabled(hour)) return
         this.hour = hour === 24 && !this.isTwelveFormat ? 23 : hour
         this.emitValue()
@@ -292,19 +287,19 @@
       }, 100),
       onScrollApms: debounce(function (scroll) {
         const value = this.getValue(scroll)
-        if (this.apms && this.apms[value] && this.apm !== this.apms[value].value) {
-          const newHour = this.apm === 'pm' || this.apm === 'PM' ? this.hour - 12 : this.hour + 12
-          this.hour = newHour
-        }
         this.apm = this.apms[value].value
         this.emitValue()
       }, 100),
       isActive (type, value) {
-        return (type === 'hours'
-          ? this.hour
-          : type === 'minutes'
-            ? this.minute
-            : this.apm ? this.apm : null) === value
+        const activeValue = (
+          type === 'hours'
+            ? this.hour
+            : type === 'minutes'
+              ? this.minute
+              : this.apm ? this.apm : null
+        )
+
+        return activeValue === value
       },
       isHoursDisabled (h) {
         const hourToTest = this.apmType
@@ -317,11 +312,9 @@
         return this._disabledMinutes.includes(m)
       },
       buildComponent () {
-        if (this.isTwelveFormat && !this.apms) window.console.error(`VueCtkDateTimePicker - Format Error : To have the twelve hours format, the format must have "A" or "a" (Ex : ${this.format} a)`)
-        const tmpHour = parseInt(dayjs(this.value, this.format).format('HH'))
-        const hourToSet = this.isTwelveFormat && (tmpHour === 12 || tmpHour === 0)
-          ? tmpHour === 0 ? 12 : 24
-          : tmpHour
+        if (this.isTwelveFormat && !this.apms) window.console.error(`VueDateTimePicker - Format Error : To have the twelve hours format, the format must have "A" or "a" (Ex : ${this.format} a)`)
+        const hourFormat = this.isTwelveFormat ? 'hh' : 'HH'
+        const hourToSet = parseInt(dayjs(this.value, this.format).format(hourFormat))
 
         /**
          * Here we have two different behaviours. If the behaviour `nearestIfDisabled` is enabled
@@ -332,12 +325,11 @@
           ? this.getAvailableHour()
           : hourToSet
 
-        this.minute = parseInt(dayjs(this.value, this.format).format('mm'))
-        this.apm = this.apms && this.value
-          ? this.hour > 12
-            ? this.apms.length > 1 ? this.apms[1].value : this.apms[0].value
-            : this.apms[0].value
-          : null
+        const dayObj = dayjs(this.value, this.format)
+
+        this.minute = parseInt(dayObj.format('mm'))
+        this.apm = dayObj.format('a')
+
         this.columnPad()
       },
       columnPad () {
@@ -392,20 +384,20 @@
         } else if (type === 'minutes') {
           this.minute = item
         } else if (type === 'apms' && this.apm !== item) {
-          const newHour = item === 'pm' || item === 'PM' ? this.hour + 12 : this.hour - 12
-          this.hour = newHour
           this.apm = item
         }
         this.emitValue()
       },
       emitValue () {
         const tmpHour = this.hour ? this.hour : this.getAvailableHour()
-        let hour = this.isTwelveFormat && (tmpHour === 24 || tmpHour === 12)
-          ? this.apm.toLowerCase() === 'am' ? 0 : 12
-          : tmpHour
-        hour = (hour < 10 ? '0' : '') + hour
+        const hour = (tmpHour < 10 ? '0' : '') + tmpHour
         const minute = this.minute ? (this.minute < 10 ? '0' : '') + this.minute : '00'
-        const time = `${hour}:${minute}`
+
+        let time = `${hour}:${minute}`
+        if (this.isTwelveFormat) {
+          time += ` ${this.apm}`
+        }
+
         this.$emit('input', time)
       }
     }

@@ -441,6 +441,7 @@
             fill: var(--tvd-primary-color);
             width: 6px;
             height: 6px;
+            z-index: 1;
           }
         }
         .datepicker-day-text {

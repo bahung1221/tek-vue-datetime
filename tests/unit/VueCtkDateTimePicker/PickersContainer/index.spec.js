@@ -4,7 +4,7 @@ import PickersContainer from '@/VueDateTimePicker/_subs/PickersContainer'
 import HeaderPicker from '@/VueDateTimePicker/_subs/PickersContainer/_subs/HeaderPicker'
 import ButtonValidate from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
 
-describe('VueCtkDateTimePicker/PickersContainer', () => {
+describe('VueDateTimePicker/PickersContainer', () => {
   let wrapper
 
   beforeEach(() => (

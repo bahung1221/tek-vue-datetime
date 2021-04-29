@@ -1,21 +1,21 @@
 import { shallowMount } from '@vue/test-utils'
 
-import VueCtkDateTimePicker from '@/VueDateTimePicker'
+import VueDateTimePicker from '@/VueDateTimePicker'
 import CustomInput from '@/VueDateTimePicker/_subs/CustomInput'
 import PickersContainer from '@/VueDateTimePicker/_subs/PickersContainer'
 
-describe('VueCtkDateTimePicker', () => {
+describe('VueDateTimePicker', () => {
   let wrapper
 
   beforeEach(() => (
-    wrapper = shallowMount(VueCtkDateTimePicker, {
+    wrapper = shallowMount(VueDateTimePicker, {
       propsData: {}
     })
   ))
 
   describe('input', () => {
     it('should be defined if the "inline" prop is not specified and there isnt a default slot', () => {
-      const wrapper = shallowMount(VueCtkDateTimePicker, {
+      const wrapper = shallowMount(VueDateTimePicker, {
         propsData: {
           inline: false
         }
@@ -26,7 +26,7 @@ describe('VueCtkDateTimePicker', () => {
     })
 
     it('should not be defined if the "inline" prop is specified and there is a slot value', () => {
-      const wrapper = shallowMount(VueCtkDateTimePicker, {
+      const wrapper = shallowMount(VueDateTimePicker, {
         propsData: {
           inline: true
         },
@@ -41,7 +41,7 @@ describe('VueCtkDateTimePicker', () => {
 
     describe('id attr', () => {
       it('should have the id prop from the attribute', () => {
-        const wrapper = shallowMount(VueCtkDateTimePicker, {
+        const wrapper = shallowMount(VueDateTimePicker, {
           propsData: {
             inline: false
           },
@@ -57,7 +57,7 @@ describe('VueCtkDateTimePicker', () => {
 
     describe('disabled attr', () => {
       it('should have the disabled prop from the attribute', () => {
-        const wrapper = shallowMount(VueCtkDateTimePicker, {
+        const wrapper = shallowMount(VueDateTimePicker, {
           propsData: {
             inline: false
           },
@@ -73,7 +73,7 @@ describe('VueCtkDateTimePicker', () => {
 
     describe('name attr', () => {
       it('should have the name attr', () => {
-        const wrapper = shallowMount(VueCtkDateTimePicker, {
+        const wrapper = shallowMount(VueDateTimePicker, {
           propsData: {
             inline: false
           },
@@ -90,7 +90,7 @@ describe('VueCtkDateTimePicker', () => {
 
   describe('picker container', () => {
     it('should be defined if the "disabled" attribute is not defined', () => {
-      const wrapper = shallowMount(VueCtkDateTimePicker, {
+      const wrapper = shallowMount(VueDateTimePicker, {
         propsData: {
           inline: false
         },
@@ -104,7 +104,7 @@ describe('VueCtkDateTimePicker', () => {
     })
 
     it('should not be defined if the "disabled" attribute is defined', () => {
-      const wrapper = shallowMount(VueCtkDateTimePicker, {
+      const wrapper = shallowMount(VueDateTimePicker, {
         propsData: {
           inline: false
         },
@@ -119,7 +119,7 @@ describe('VueCtkDateTimePicker', () => {
 
     describe('id attribute', () => {
       it('should have the id attribute', () => {
-        const wrapper = shallowMount(VueCtkDateTimePicker, {
+        const wrapper = shallowMount(VueDateTimePicker, {
           propsData: {
             inline: false
           },

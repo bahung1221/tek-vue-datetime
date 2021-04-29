@@ -155,7 +155,7 @@
   }
 
   export default {
-    name: 'VueCtkDateTimePicker',
+    name: 'VueDateTimePicker',
     components: {
       CustomInput,
       PickersContainer
@@ -205,8 +205,8 @@
       dateTime: {
         get () {
           const dateTime = this.range
-            ? { start: this.value && this.value.start ? dayjs(this.value.start, this.formatOutput).format('YYYY-MM-DD') : null,
-                end: this.value && this.value.end ? dayjs(this.value.end, this.formatOutput).format('YYYY-MM-DD') : null }
+            ? { start: this.value && this.value.start ? dayjs(this.value.start, this.formatOutput).format(this.dateFormat) : null,
+                end: this.value && this.value.end ? dayjs(this.value.end, this.formatOutput).format(this.dateFormat) : null }
             : this.getDateTime()
           return dateTime
         },
@@ -216,6 +216,7 @@
           } else if (this.autoClose && !this.range) {
             this.closePicker()
           }
+
           const newValue = this.range ? this.getRangeDateToSend(value) : this.getDateTimeToSend(value)
           this.$emit('input', newValue)
           if (this.hasCustomElem && !this.noValueToCustomElem) {
@@ -227,6 +228,18 @@
       },
       formatOutput () {
         return this.outputFormat || this.format
+      },
+      isTwelveFormat () {
+        return this.format.includes('A') || this.format.includes('a')
+      },
+      timeFormat () {
+        return this.isTwelveFormat ? 'hh:mm a' : 'HH:mm'
+      },
+      dateFormat () {
+        return 'YYYY-MM-DD'
+      },
+      dateTimeFormat () {
+        return `${this.dateFormat} ${this.timeFormat}`
       },
       /**
        * Returns true if the field is disabled
@@ -275,7 +288,7 @@
           this.setValueToCustomElem()
         }
       }
-      if (this.format === 'YYYY-MM-DD hh:mm a' && this.onlyTime) {
+      if (this.format === this.dateTimeFormat && this.onlyTime) {
         console.warn(`A (time) format must be indicated/ (Ex : format="HH:mm")`)
       }
     },
@@ -341,10 +354,10 @@
         return start || end
           ? {
             start: start
-              ? dayjs(start, 'YYYY-MM-DD').set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput)
+              ? dayjs(start, this.dateFormat).set({ hour: 0, minute: 0, second: 0 }).format(this.formatOutput)
               : null,
             end: end
-              ? dayjs(end, 'YYYY-MM-DD').set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput)
+              ? dayjs(end, this.dateFormat).set({ hour: 23, minute: 59, second: 59 }).format(this.formatOutput)
               : null
           }
           : {
@@ -355,16 +368,19 @@
       getDateTimeToSend (value) {
         const dateTime = typeof value !== 'undefined' ? value : this.value
         const dateToSend = dateTime
-          ? dayjs(dateTime, 'YYYY-MM-DD HH:mm')
+          ? dayjs(dateTime, this.dateTimeFormat)
           : null
-        const dateTimeToSend = dateToSend ? nearestMinutes(this.startMinute, this.minuteInterval, dayjs(dateToSend), 'YYYY-MM-DD HH:mm').format(this.formatOutput) : null
+
+        const dateTimeToSend = dateToSend
+          ? nearestMinutes(this.startMinute, this.minuteInterval, dayjs(dateToSend), this.dateTimeFormat).format(this.formatOutput)
+          : null
         return dateTimeToSend
       },
       getDateTime () {
         const date = this.value
           ? dayjs(this.value, this.formatOutput)
           : null
-        return date ? nearestMinutes(this.startMinute, this.minuteInterval, date, this.formatOutput).format('YYYY-MM-DD HH:mm') : null
+        return date ? nearestMinutes(this.startMinute, this.minuteInterval, date, this.formatOutput).format(this.dateTimeFormat) : null
       },
       clickOutsidePicker () {
         if (!this.isMobile && this.hasPickerOpen) {

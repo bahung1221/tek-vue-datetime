@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 
 import ButtonValidate from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
 
-describe('VueCtkDateTimePicker/PickersContainer/ButtonValidate', () => {
+describe('VueDateTimePicker/PickersContainer/ButtonValidate', () => {
   let wrapper
 
   beforeEach(() => (
