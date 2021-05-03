@@ -216,6 +216,7 @@
     right: 0;
     color: var(--tvd-text-color);
     padding: 10px;
+    z-index: 1;
     .h-100 {
       height: 100%;
     }
