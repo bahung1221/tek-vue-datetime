@@ -470,9 +470,12 @@
       setValueAndClosePicker (value) {
         this.closePicker()
         this.$emit('input', value)
-        this.$nextTick(() => {
-          this.setValueToCustomElem()
-        })
+
+        if (this.hasCustomElem && !this.noValueToCustomElem) {
+          this.$nextTick(() => {
+            this.setValueToCustomElem()
+          })
+        }
       },
       toggleDatePicker (val) {
         if (this.isDisabled) return
