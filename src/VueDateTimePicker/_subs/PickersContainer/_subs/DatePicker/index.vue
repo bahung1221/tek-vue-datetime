@@ -103,6 +103,7 @@
                 disabled: (isDisabled(day) || isWeekEndDay(day)),
                 enable: !(isDisabled(day) || isWeekEndDay(day)),
                 between: isBetween(day) && range,
+                'hover-between': isHoverBetween(day) && range,
                 first: firstInRange(day) && range,
                 last: lastInRange(day) && !!value.end && range,
                 today: isToday(day)
@@ -112,6 +113,7 @@
               tabindex="-1"
               class="datepicker-day flex align-center justify-content-center"
               @click="selectDate(day)"
+              @mouseover="hoverDate(day)"
             >
               <span
                 v-if="isToday(day)"
@@ -176,6 +178,7 @@
     props: {
       id: { type: String, default: null },
       value: { type: [String, Object], default: null },
+      hoverValue: { type: Object, default: null },
       minDate: { type: String, default: null },
       maxDate: { type: String, default: null },
       locale: { type: String, default: null },
@@ -277,8 +280,21 @@
         return date.indexOf(day.format('YYYY-MM-DD')) > -1
       },
       isBetween (day) {
+        if (!this.range) {
+          return false
+        }
+
         return this.value && this.value.end
           ? dayjs(day).isBetween(dayjs(this.value.start), dayjs(this.value.end), 'days', '[]')
+          : false
+      },
+      isHoverBetween (day) {
+        if (!this.range || !this.value || !this.value.start || this.value.end) {
+          return false
+        }
+
+        return this.value.start && this.hoverValue
+          ? dayjs(day).isBetween(dayjs(this.value.start), dayjs(this.hoverValue), 'days', '[]')
           : false
       },
       firstInRange (day) {
@@ -305,9 +321,17 @@
             this.value.end = day.format('YYYY-MM-DD')
           }
           this.$emit('input', this.value)
+          this.$emit('hover-date', null)
         } else {
           this.$emit('input', dayjs(day).format('YYYY-MM-DD'))
         }
+      },
+      hoverDate (day) {
+        if (!this.range || !this.value || !this.value.start || this.value.end) {
+          return
+        }
+
+        this.$emit('hover-date', day)
       },
       changeMonth (val) {
         this.transitionDaysName = `slide${val}`
@@ -481,7 +505,17 @@
             font-weight: 600;
           }
         }
-
+        &.hover-between {
+          .datepicker-day-effect {
+            background: var(--tvd-secondary-color);
+            transform: scale(1);
+            border-radius: 0;
+            width: 100%;
+          }
+          .datepicker-day-keyboard-selected, &.first .datepicker-day-keyboard-selected, &.last .datepicker-day-keyboard-selected {
+            background-color: rgba(0, 0, 0, 0.66);
+          }
+        }
         &.between {
           .datepicker-day-effect {
             background: var(--tvd-primary-variant-color);
@@ -489,19 +523,21 @@
             border-radius: 0;
             width: 100%;
           }
-          &.first .datepicker-day-effect {
-            background-color: var(--tvd-primary-color);
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-          }
-          &.last .datepicker-day-effect {
-            background-color: var(--tvd-primary-color);
-            border-top-right-radius: 4px;
-            border-bottom-right-radius: 4px;
-          }
           .datepicker-day-keyboard-selected, &.first .datepicker-day-keyboard-selected, &.last .datepicker-day-keyboard-selected {
             background-color: rgba(0, 0, 0, 0.66);
           }
+        }
+        &.first .datepicker-day-effect {
+          transform: scale(1);
+          background-color: var(--tvd-primary-color);
+          border-radius: 4px 0 0 4px;
+          width: 100%;
+        }
+        &.last .datepicker-day-effect {
+          transform: scale(1);
+          background-color: var(--tvd-primary-color);
+          border-radius: 0 4px 4px 0;
+          width: 100%;
         }
         &.selected {
           .datepicker-day-text {

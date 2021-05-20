@@ -42,6 +42,7 @@ export default {
   buttonNowTranslation: { type: String, default: null },
   noButtonNow: { type: Boolean, default: false },
   noButtonValidate: { type: Boolean, default: false },
+  buttonDoneTranslation: { type: String, default: null },
   firstDayOfWeek: { type: Number, default: null },
   noValueToCustomElem: { type: Boolean, default: false },
   behaviour: { type: Object, default: () => ({}) },

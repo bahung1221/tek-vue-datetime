@@ -195,6 +195,7 @@
                 :no-weekends-days="demo.options.noWeekendDays"
                 :no-button="demo.options.noButton"
                 :button-now-translation="demo.options.buttonNowTranslation"
+                :button-done-translation="demo.options.buttonDoneTranslation"
                 :no-button-now="demo.options.noButtonNow"
                 :locale="demo.options.locale"
                 :input-size="demo.options.inputSize"
@@ -249,7 +250,7 @@
         ],
         stringOptions: [
           'id', 'label', 'hint', 'buttonColor', 'position', 'format', 'formatted', 'outputFormat',
-          'minDate', 'maxDate', 'inputSize', 'buttonNowTranslation', 'disabledWeekly',
+          'minDate', 'maxDate', 'inputSize', 'buttonNowTranslation', 'buttonDoneTranslation', 'disabledWeekly',
           'primaryColor', 'primaryVariantColor', 'secondaryColor', 'textColor', 'backgroundColor', 'borderColor', 'lightTextColor'
         ],
         optionsNotEditable: [
@@ -320,7 +321,8 @@
               label: 'Select date range',
               id: 'RangeDatePicker',
               noHeader: true,
-              noMonthYearSelect: true
+              noMonthYearSelect: true,
+              buttonDoneTranslation: 'Done',
             }
           },
           {

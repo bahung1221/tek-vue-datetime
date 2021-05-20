@@ -38,6 +38,7 @@
                   v-for="(num, index) in months"
                   :key="`date-${num}`"
                   v-model="date"
+                  :hover-value="hoverValue"
                   :month="
                     months === 1
                       ? month
@@ -61,6 +62,7 @@
                   :no-keyboard="noKeyboard"
                   :no-month-year-select="noMonthYearSelect"
                   :locale="locale"
+                  @hover-date="hoverDate"
                   @change-month="changeMonth"
                   @change-year-month="changeYearMonth"
                   @close="$emit('close')"
@@ -89,6 +91,7 @@
               v-if="!hasNoButton && !(inline && range)"
               class="button-validate flex-fixed"
               :button-now-translation="buttonNowTranslation"
+              :button-done-translation="buttonDoneTranslation"
               :only-time="onlyTime"
               :no-button-now="noButtonNow"
               :range="range"
@@ -144,6 +147,7 @@
       enabledDates: { type: Array, default: null },
       range: { type: Boolean, default: null },
       buttonNowTranslation: { type: String, default: null },
+      buttonDoneTranslation: { type: String, default: null },
       noButtonNow: { type: Boolean, default: false },
       firstDayOfWeek: { type: Number, default: null },
       noKeyboard: { type: Boolean, default: false },
@@ -155,6 +159,7 @@
       const months = this.range ? 2 : 1
 
       return {
+        hoverValue: null,
         months,
         month: this.getMonth(),
         monthEnd: months > 1 ? this.getMonthEnd() : null,
@@ -366,6 +371,9 @@
         }
 
         return new Month(date.month() + step, date.year())
+      },
+      hoverDate (val) {
+        this.hoverValue = val
       },
       changeMonth (val) {
         let month = this.month.month + (val === 'prev' ? -1 : +1)

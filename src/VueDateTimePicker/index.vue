@@ -60,6 +60,7 @@
       :disabled-hours="disabledHours"
       :enabled-dates="enabledDates"
       :button-now-translation="buttonNowTranslation"
+      :button-done-translation="buttonDoneTranslation"
       :no-button-now="noButtonNow"
       :first-day-of-week="firstDayOfWeek"
       :no-keyboard="noKeyboard"

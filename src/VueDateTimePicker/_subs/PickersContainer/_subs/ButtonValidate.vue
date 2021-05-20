@@ -32,7 +32,15 @@
         class="datepicker-button-effect"
         :style="[bgStyle]"
       />
+      <span
+        v-if="buttonDoneTranslation"
+        class="datepicker-button-content"
+        :style="[colorStyle]"
+      >
+        {{ buttonDoneTranslation }}
+      </span>
       <svg
+        v-else
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -55,10 +63,8 @@
   export default {
     name: 'ButtonValidate',
     props: {
-      /**
-       * TODO: Remove wrong default values
-       */
       buttonNowTranslation: { type: String, default: null },
+      buttonDoneTranslation: { type: String, default: null },
       onlyTime: { type: Boolean, default: null },
       noButtonNow: { type: Boolean, default: null },
       range: { type: Boolean, default: null },

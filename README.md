@@ -126,10 +126,11 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | no-button                   | Boolean           | no       | false                       |
 | input-size                  | String (sm or lg) | no       | null                        |
 | button-now-translation      | String            | no       | 'Now'                       |
+| button-done-translation     | String            | no       | null                        |
 | no-button-now               | Boolean           | no       | false                       |
 | first-day-of-week           | Int (0 to 7)      | no       | -                           |
 | disabled-dates (9)          | Array`<string>`   | no       | []                          |
-| disabled-hours (10)          | Array`<string>`   | no       | -                           |
+| disabled-hours (10)         | Array`<string>`   | no       | -                           |
 | disabled-weekly (11)        | Array`<integer>`  | no       | []                          |
 | no-keyboard (12)            | Boolean           | no       | false                       |
 | right (13)                  | Boolean           | no       | false                       |
