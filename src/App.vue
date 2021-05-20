@@ -322,7 +322,7 @@
               id: 'RangeDatePicker',
               noHeader: true,
               noMonthYearSelect: true,
-              buttonDoneTranslation: 'Done',
+              buttonDoneTranslation: 'Done'
             }
           },
           {
