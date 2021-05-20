@@ -270,20 +270,35 @@
       },
       pickerOpen (val) {
         if (!val) {
-          this.$nextTick(() => {
+          // TODO: cheat
+          setTimeout(() => {
             this.resetDateTime()
-          })
+          }, 50)
         }
       },
       locale (value) {
         updateDayjsLocale(value, this.firstDayOfWeek)
       },
       value (value, oldValue) {
+        if (this.range && value && oldValue && (value.start === oldValue.start) && (value.end === oldValue.end)) {
+          return
+        }
         if (value === oldValue) {
           return
         }
 
-        this.setDateTime(value)
+        const dateTime = this.range
+          ? {
+            start: value && value.start
+              ? dayjs(value.start, this.formatOutput).format(this.dateFormat)
+              : null,
+            end: value && value.end
+              ? dayjs(value.end, this.formatOutput).format(this.dateFormat)
+              : null
+          }
+          : this.getDateTime(value)
+
+        this.setDateTime(dateTime)
       }
     },
     created () {
@@ -330,30 +345,26 @@
       setDateTime (value) {
         const newValue = this.range ? this.getRangeDateToSend(value) : this.getDateTimeToSend(value)
 
-        if (this.autoClose && this.range && (value.end && value.start)) {
-          this.closePicker()
-          this.$emit('input', newValue)
-        } else if (this.autoClose && !this.range) {
-          this.closePicker()
-          this.$emit('input', newValue)
+        if (
+          this.range && newValue &&
+          this.value &&
+          (newValue.start === this.value.start) &&
+          (newValue.end === this.value.end)
+        ) {
+          return
+        }
+        if (newValue === this.value) {
+          return
         }
 
-        this.dateTime = this.range
-          ? {
-            start: newValue && newValue.start
-              ? dayjs(newValue.start, this.formatOutput).format(this.dateFormat)
-              : null,
-            end: newValue && newValue.end
-              ? dayjs(newValue.end, this.formatOutput).format(this.dateFormat)
-              : null
-          }
-          : this.getDateTime(newValue)
-
-        if (this.hasCustomElem && !this.noValueToCustomElem) {
-          this.$nextTick(() => {
-            this.setValueToCustomElem()
-          })
+        if (
+          (this.autoClose && this.range && (value.end && value.start)) ||
+          (this.autoClose && !this.range)
+        ) {
+          this.setValueAndClosePicker(newValue)
         }
+
+        this.dateTime = value
       },
       setCssVariables (el) {
         el.style.setProperty('--tvd-primary-color', this.primaryColor)
@@ -368,15 +379,13 @@
         /**
          * TODO: Find a way (perhaps), to bind default attrs to custom element.
          */
-        const target = this.$slots.default[0]
+        const target = this.$slots.default && this.$slots.default[0]
         if (target) {
           if (target.tag === 'input') {
             target.elm.value = this.dateFormatted
           } else {
             target.elm.innerHTML = this.dateFormatted ? this.dateFormatted : this.label
           }
-        } else {
-          window.console.warn(`Impossible to find custom element`)
         }
       },
       addEventToTriggerElement () {
@@ -458,6 +467,13 @@
           this.setBodyOverflow(false)
         }
       },
+      setValueAndClosePicker (value) {
+        this.closePicker()
+        this.$emit('input', value)
+        this.$nextTick(() => {
+          this.setValueToCustomElem()
+        })
+      },
       toggleDatePicker (val) {
         if (this.isDisabled) return
         const isOpen = (val === false || val === true) ? val : !this.pickerOpen
@@ -508,8 +524,7 @@
         const value = this.range ? this.getRangeDateToSend(this.dateTime) : this.getDateTimeToSend(this.dateTime)
 
         this.$emit('submit')
-        this.$emit('input', value)
-        this.closePicker()
+        this.setValueAndClosePicker(value)
       }
     }
   }
