@@ -123,11 +123,12 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | inline                      | Boolean           | no       | false                       |
 | overlay                     | Boolean           | no       | false                       |
 | range                       | Boolean           | no       | false                       |
-| no-button                   | Boolean           | no       | false                       |
 | input-size                  | String (sm or lg) | no       | null                        |
-| button-now-translation      | String            | no       | 'Now'                       |
-| button-done-translation     | String            | no       | null                        |
+| no-button                   | Boolean           | no       | false                       |
 | no-button-now               | Boolean           | no       | false                       |
+| no-button-submit            | Boolean           | no       | false                       |
+| button-now-translation      | String            | no       | 'Now'                       |
+| button-submit-translation   | String            | no       | null                        |
 | first-day-of-week           | Int (0 to 7)      | no       | -                           |
 | disabled-dates (9)          | Array`<string>`   | no       | []                          |
 | disabled-hours (10)         | Array`<string>`   | no       | -                           |
@@ -218,7 +219,7 @@ To override those values, pass a new object with the values you want to override
 | formatted-value | value (formatted with 'formatted' props)          |
 | is-shown        | Component is shown                                |
 | is-hidden       | Component is hidden                               |
-| validate        | Click on validate button (so component is closed) |
+| submit          | Click on submit button (so component is closed) |
 | destroy         | Component is destroy                              |
 
 # Keyboard Accessible

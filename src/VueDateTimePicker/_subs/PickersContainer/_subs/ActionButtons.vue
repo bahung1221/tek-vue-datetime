@@ -5,7 +5,7 @@
     <button
       v-if="hasButtonNow"
       class="datepicker-button now flex align-center justify-content-center"
-      :class="{'right-margin': hasButtonValidate}"
+      :class="{'right-margin': hasButtonSubmit}"
       tabindex="-1"
       type="button"
       @click="emitNow()"
@@ -22,22 +22,22 @@
       </span>
     </button>
     <button
-      v-if="hasButtonValidate"
+      v-if="hasButtonSubmit"
       type="button"
       tabindex="-1"
-      class="datepicker-button validate flex align-center justify-content-center"
-      @click.stop="$emit('validate')"
+      class="datepicker-button submit flex align-center justify-content-center"
+      @click.stop="$emit('submit')"
     >
       <span
         class="datepicker-button-effect"
         :style="[bgStyle]"
       />
       <span
-        v-if="buttonDoneTranslation"
+        v-if="buttonSubmitTranslation"
         class="datepicker-button-content"
         :style="[colorStyle]"
       >
-        {{ buttonDoneTranslation }}
+        {{ buttonSubmitTranslation }}
       </span>
       <svg
         v-else
@@ -61,14 +61,14 @@
   import dayjs from 'dayjs'
 
   export default {
-    name: 'ButtonValidate',
+    name: 'ActionButtons',
     props: {
       buttonNowTranslation: { type: String, default: null },
-      buttonDoneTranslation: { type: String, default: null },
+      buttonSubmitTranslation: { type: String, default: null },
       onlyTime: { type: Boolean, default: null },
       noButtonNow: { type: Boolean, default: null },
       range: { type: Boolean, default: null },
-      hasButtonValidate: { type: Boolean, default: null }
+      hasButtonSubmit: { type: Boolean, default: null }
     },
     computed: {
       colorStyle () {
@@ -152,7 +152,7 @@
           margin-right: 10px;
         }
       }
-      &.validate {
+      &.submit {
         border: 1px solid var(--tvd-border-color);
       }
     }

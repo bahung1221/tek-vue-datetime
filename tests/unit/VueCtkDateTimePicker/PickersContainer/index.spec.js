@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 
 import PickersContainer from '@/VueDateTimePicker/_subs/PickersContainer'
 import HeaderPicker from '@/VueDateTimePicker/_subs/PickersContainer/_subs/HeaderPicker'
-import ButtonValidate from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
+import ActionButtons from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ActionButtons'
 
 describe('VueDateTimePicker/PickersContainer', () => {
   let wrapper
@@ -90,7 +90,7 @@ describe('VueDateTimePicker/PickersContainer', () => {
           }
         })
 
-        let footer = wrapper.find(ButtonValidate)
+        let footer = wrapper.find(ActionButtons)
         expect(footer.exists()).toBeTruthy()
         wrapper.destroy()
 
@@ -102,7 +102,7 @@ describe('VueDateTimePicker/PickersContainer', () => {
           }
         })
 
-        footer = wrapper.find(ButtonValidate)
+        footer = wrapper.find(ActionButtons)
         expect(footer.exists()).toBeTruthy()
         wrapper.destroy()
 
@@ -115,7 +115,7 @@ describe('VueDateTimePicker/PickersContainer', () => {
           }
         })
 
-        footer = wrapper.find(ButtonValidate)
+        footer = wrapper.find(ActionButtons)
         expect(footer.exists()).toBeTruthy()
         wrapper.destroy()
       })
@@ -128,7 +128,7 @@ describe('VueDateTimePicker/PickersContainer', () => {
           }
         })
 
-        const footer = wrapper.find(ButtonValidate)
+        const footer = wrapper.find(ActionButtons)
         expect(footer.exists()).toBeFalsy()
       })
 

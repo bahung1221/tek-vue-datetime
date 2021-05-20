@@ -20,7 +20,7 @@
             <HeaderPicker
               v-if="!noHeader"
               :key="componentKey"
-              v-model="value"
+              :value="value"
               :only-time="onlyTime"
               :format="format"
               :time-format="timeFormat"
@@ -87,16 +87,16 @@
                 :behaviour="behaviour"
               />
             </div>
-            <ButtonValidate
+            <ActionButtons
               v-if="!hasNoButton && !(inline && range)"
-              class="button-validate flex-fixed"
+              class="action-buttons flex-fixed"
               :button-now-translation="buttonNowTranslation"
-              :button-done-translation="buttonDoneTranslation"
+              :button-submit-translation="buttonSubmitTranslation"
               :only-time="onlyTime"
               :no-button-now="noButtonNow"
               :range="range"
-              :has-button-validate="hasButtonValidate"
-              @validate="$emit('validate')"
+              :has-button-submit="hasButtonSubmit"
+              @submit="$emit('submit')"
               @now="setNow"
             />
           </div>
@@ -113,14 +113,14 @@
   import DatePicker from './_subs/DatePicker'
   import TimePicker from './_subs/TimePicker'
   import HeaderPicker from './_subs/HeaderPicker'
-  import ButtonValidate from './_subs/ButtonValidate'
+  import ActionButtons from './_subs/ActionButtons'
 
   import Month from '@/VueDateTimePicker/modules/month'
 
   export default {
     name: 'PickersContainer',
     components: {
-      DatePicker, TimePicker, HeaderPicker, ButtonValidate, Portal
+      DatePicker, TimePicker, HeaderPicker, ActionButtons, Portal
     },
     inheritAttrs: false,
     props: {
@@ -138,7 +138,7 @@
       locale: { type: String, default: null },
       maxDate: { type: String, default: null },
       minDate: { type: String, default: null },
-      hasButtonValidate: { type: Boolean, default: null },
+      hasButtonSubmit: { type: Boolean, default: null },
       hasNoButton: { type: Boolean, default: null },
       noWeekendsDays: { type: Boolean, default: null },
       disabledWeekly: { type: Array, default: null },
@@ -147,7 +147,7 @@
       enabledDates: { type: Array, default: null },
       range: { type: Boolean, default: null },
       buttonNowTranslation: { type: String, default: null },
-      buttonDoneTranslation: { type: String, default: null },
+      buttonSubmitTranslation: { type: String, default: null },
       noButtonNow: { type: Boolean, default: false },
       firstDayOfWeek: { type: Number, default: null },
       noKeyboard: { type: Boolean, default: false },

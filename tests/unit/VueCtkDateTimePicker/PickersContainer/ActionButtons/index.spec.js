@@ -1,12 +1,12 @@
 import { shallowMount } from '@vue/test-utils'
 
-import ButtonValidate from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ButtonValidate'
+import ActionButtons from '@/VueDateTimePicker/_subs/PickersContainer/_subs/ActionButtons'
 
-describe('VueDateTimePicker/PickersContainer/ButtonValidate', () => {
+describe('VueDateTimePicker/PickersContainer/ActionButtons', () => {
   let wrapper
 
   beforeEach(() => (
-    wrapper = shallowMount(ButtonValidate, {
+    wrapper = shallowMount(ActionButtons, {
       propsData: {
         visible: true
       }
@@ -90,23 +90,23 @@ describe('VueDateTimePicker/PickersContainer/ButtonValidate', () => {
     })
 
     describe('right margin', () => {
-      it('should have the class if there is a validate button', () => {
+      it('should have the class if there is a submit button', () => {
         wrapper.setProps({
           noButtonNow: false,
           range: false,
           onlyTime: false,
-          hasButtonValidate: true
+          hasButtonSubmit: true
         })
         const button = wrapper.find('.now')
         expect(button.classes()).toContain('right-margin')
       })
 
-      it('should not have the class if validate button not present', () => {
+      it('should not have the class if submit button not present', () => {
         wrapper.setProps({
           noButtonNow: false,
           range: false,
           onlyTime: false,
-          hasButtonValidate: false
+          hasButtonSubmit: false
         })
         const button = wrapper.find('.now')
         expect(button.classes()).not.toContain('right-margin')
@@ -114,12 +114,12 @@ describe('VueDateTimePicker/PickersContainer/ButtonValidate', () => {
     })
   })
 
-  describe('validate button', () => {
-    it('should be defined if the "hasButtonValidate" is true', () => {
+  describe('submit button', () => {
+    it('should be defined if the "hasButtonSubmit" is true', () => {
       wrapper.setProps({
-        hasButtonValidate: true
+        hasButtonSubmit: true
       })
-      const button = wrapper.find('.validate')
+      const button = wrapper.find('.submit')
       expect(button.exists()).toBeTruthy()
       expect(button.is('button')).toBeTruthy()
       expect(button.attributes().tabindex).toEqual('-1')
@@ -128,26 +128,26 @@ describe('VueDateTimePicker/PickersContainer/ButtonValidate', () => {
       classes.forEach(C => expect(button.classes()).toContain(C))
     })
 
-    it('should emit a validate event on click', () => {
+    it('should emit a submit event on click', () => {
       wrapper.setProps({
-        hasButtonValidate: true
+        hasButtonSubmit: true
       })
-      const button = wrapper.find('.validate')
+      const button = wrapper.find('.submit')
       button.trigger('click')
-      expect(wrapper.emitted().validate).toBeTruthy()
+      expect(wrapper.emitted().submit).toBeTruthy()
     })
 
-    it('should be undefined if the "hasButtonValidate" is false', () => {
+    it('should be undefined if the "hasButtonSubmit" is false', () => {
       wrapper.setProps({
-        hasButtonValidate: false
+        hasButtonSubmit: false
       })
-      const button = wrapper.find('.validate')
+      const button = wrapper.find('.submit')
       expect(button.exists()).toBeFalsy()
     })
 
     /**
      * TODO: Test the button content.
-     * See if we don't want to change the validate content value.
+     * See if we don't want to change the submit content value.
      */
   })
 

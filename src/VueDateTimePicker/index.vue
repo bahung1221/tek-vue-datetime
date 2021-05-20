@@ -37,7 +37,7 @@
       v-if="!isDisabled"
       :id="`${$attrs.id}-picker-container`"
       ref="agenda"
-      v-model="dateTime"
+      :value="dateTime"
       :visible="hasPickerOpen"
       :position="pickerPosition"
       :inline="inline"
@@ -53,21 +53,22 @@
       :format="format"
       :no-weekends-days="noWeekendsDays"
       :disabled-weekly="disabledWeekly"
-      :has-button-validate="hasButtonValidate"
+      :has-button-submit="hasButtonSubmit"
       :has-no-button="hasNoButton"
       :range="range"
       :disabled-dates="disabledDates"
       :disabled-hours="disabledHours"
       :enabled-dates="enabledDates"
       :button-now-translation="buttonNowTranslation"
-      :button-done-translation="buttonDoneTranslation"
+      :button-submit-translation="buttonSubmitTranslation"
       :no-button-now="noButtonNow"
       :first-day-of-week="firstDayOfWeek"
       :no-keyboard="noKeyboard"
       :no-month-year-select="noMonthYearSelect"
       :right="right"
       :behaviour="_behaviour"
-      @validate="validate"
+      @input="setDateTime"
+      @submit="submit"
       @close="closePicker"
     />
   </div>
@@ -167,7 +168,27 @@
     inheritAttrs: false,
     props,
     data () {
+      const formatOutput = this.outputFormat || this.format
+      let dateTime
+
+      if (this.range) {
+        dateTime = {
+          start: this.value && this.value.start
+            ? dayjs(this.value.start, formatOutput).format(this.dateFormat)
+            : null,
+          end: this.value && this.value.end
+            ? dayjs(this.value.end, formatOutput).format(this.dateFormat)
+            : null
+        }
+      } else {
+        const date = this.value
+          ? dayjs(this.value, formatOutput)
+          : null
+        dateTime = date ? nearestMinutes(this.startMinute, this.minuteInterval, date, formatOutput).format(this.dateTimeFormat) : null
+      }
+
       return {
+        dateTime,
         pickerOpen: false,
         pickerPosition: this.position
       }
@@ -184,7 +205,7 @@
       hasNoButton () {
         return this.noButton
       },
-      hasButtonValidate () {
+      hasButtonSubmit () {
         return !this.inline && !this.autoClose
       },
       hasOnlyDate () {
@@ -202,30 +223,6 @@
       },
       hasInput () {
         return !this.inline && !this.$slots.default
-      },
-      dateTime: {
-        get () {
-          const dateTime = this.range
-            ? { start: this.value && this.value.start ? dayjs(this.value.start, this.formatOutput).format(this.dateFormat) : null,
-                end: this.value && this.value.end ? dayjs(this.value.end, this.formatOutput).format(this.dateFormat) : null }
-            : this.getDateTime()
-          return dateTime
-        },
-        set (value) {
-          if (this.autoClose && this.range && (value.end && value.start)) {
-            this.closePicker()
-          } else if (this.autoClose && !this.range) {
-            this.closePicker()
-          }
-
-          const newValue = this.range ? this.getRangeDateToSend(value) : this.getDateTimeToSend(value)
-          this.$emit('input', newValue)
-          if (this.hasCustomElem && !this.noValueToCustomElem) {
-            this.$nextTick(() => {
-              this.setValueToCustomElem()
-            })
-          }
-        }
       },
       formatOutput () {
         return this.outputFormat || this.format
@@ -271,8 +268,22 @@
         if (this.isDisabled) return
         this.pickerOpen = val
       },
+      pickerOpen (val) {
+        if (!val) {
+          this.$nextTick(() => {
+            this.resetDateTime()
+          })
+        }
+      },
       locale (value) {
         updateDayjsLocale(value, this.firstDayOfWeek)
+      },
+      value (value, oldValue) {
+        if (value === oldValue) {
+          return
+        }
+
+        this.setDateTime(value)
       }
     },
     created () {
@@ -300,6 +311,50 @@
       }
     },
     methods: {
+      resetDateTime () {
+        if (this.range) {
+          this.dateTime = {
+            start: this.value && this.value.start
+              ? dayjs(this.value.start, this.formatOutput).format(this.dateFormat)
+              : null,
+            end: this.value && this.value.end
+              ? dayjs(this.value.end, this.formatOutput).format(this.dateFormat)
+              : null
+          }
+
+          return
+        }
+
+        this.dateTime = this.getDateTime()
+      },
+      setDateTime (value) {
+        const newValue = this.range ? this.getRangeDateToSend(value) : this.getDateTimeToSend(value)
+
+        if (this.autoClose && this.range && (value.end && value.start)) {
+          this.closePicker()
+          this.$emit('input', newValue)
+        } else if (this.autoClose && !this.range) {
+          this.closePicker()
+          this.$emit('input', newValue)
+        }
+
+        this.dateTime = this.range
+          ? {
+            start: newValue && newValue.start
+              ? dayjs(newValue.start, this.formatOutput).format(this.dateFormat)
+              : null,
+            end: newValue && newValue.end
+              ? dayjs(newValue.end, this.formatOutput).format(this.dateFormat)
+              : null
+          }
+          : this.getDateTime(newValue)
+
+        if (this.hasCustomElem && !this.noValueToCustomElem) {
+          this.$nextTick(() => {
+            this.setValueToCustomElem()
+          })
+        }
+      },
       setCssVariables (el) {
         el.style.setProperty('--tvd-primary-color', this.primaryColor)
         el.style.setProperty('--tvd-primary-variant-color', this.primaryVariantColor)
@@ -377,9 +432,13 @@
           : null
         return dateTimeToSend
       },
-      getDateTime () {
-        const date = this.value
-          ? dayjs(this.value, this.formatOutput)
+      getDateTime (value) {
+        if (!value) {
+          value = this.value
+        }
+
+        const date = value
+          ? dayjs(value, this.formatOutput)
           : null
         return date ? nearestMinutes(this.startMinute, this.minuteInterval, date, this.formatOutput).format(this.dateTimeFormat) : null
       },
@@ -445,8 +504,11 @@
           }
         }
       },
-      validate () {
-        this.$emit('validate')
+      submit () {
+        const value = this.range ? this.getRangeDateToSend(this.dateTime) : this.getDateTimeToSend(this.dateTime)
+
+        this.$emit('submit')
+        this.$emit('input', value)
         this.closePicker()
       }
     }
