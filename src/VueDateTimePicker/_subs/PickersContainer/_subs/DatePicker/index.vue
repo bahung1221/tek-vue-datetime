@@ -539,6 +539,9 @@
           border-radius: 0 4px 4px 0;
           width: 100%;
         }
+        &.first.last .datepicker-day-effect {
+          border-radius: 4px;
+        }
         &.selected {
           .datepicker-day-text {
             color: var(--tvd-light-text-color);
