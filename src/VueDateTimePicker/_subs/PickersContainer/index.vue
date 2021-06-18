@@ -410,12 +410,11 @@
       z-index: 5;
       border-radius: 4px;
       overflow: hidden;
-      background: #FFF;
+      background: var(--tvd-background-color);
       -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
       box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
       max-width: 400px;
       .pickers-container {
-        background: var(--tvd-background-color);
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
         .pickers-container-month {
