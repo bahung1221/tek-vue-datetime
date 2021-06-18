@@ -486,10 +486,10 @@
         &.disabled {
           .time-picker-column-item-text {
             color: var(--tvd-text-color);
-            opacity: 0.7;
+            opacity: 0.5;
             &:hover {
               color: var(--tvd-text-color) !important;
-              opacity: 0.7 !important;
+              opacity: 0.5 !important;
             }
           }
           .time-picker-column-item-effect {

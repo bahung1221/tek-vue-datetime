@@ -556,9 +556,10 @@
           }
         }
         &.disabled {
+          cursor: default;
           .datepicker-day-text {
             color: var(--tvd-text-color);
-            opacity: 0.7;
+            opacity: 0.5;
           }
           &.selected {
             color: var(--tvd-light-text-color);
