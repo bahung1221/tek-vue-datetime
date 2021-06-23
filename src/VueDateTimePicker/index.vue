@@ -287,18 +287,8 @@
           return
         }
 
-        const dateTime = this.range
-          ? {
-            start: value && value.start
-              ? dayjs(value.start, this.formatOutput).format(this.dateFormat)
-              : null,
-            end: value && value.end
-              ? dayjs(value.end, this.formatOutput).format(this.dateFormat)
-              : null
-          }
-          : this.getDateTime(value)
-
-        this.setDateTime(dateTime)
+        this.resetDateTime()
+        this.setDateTime(this.dateTime)
       }
     },
     created () {
