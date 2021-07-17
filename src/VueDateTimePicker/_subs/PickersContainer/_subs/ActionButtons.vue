@@ -114,11 +114,13 @@
       border: 1px solid transparent;
       border-radius: 4px;
       height: 30px;
-      font-size: 16px;
       outline: none;
       cursor: pointer;
       -webkit-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-      font-weight: 600;
+      span {
+        font-weight: 600;
+        font-size: 16px;
+      }
       &-content {
         position: relative;
       }
