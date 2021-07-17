@@ -1,24 +1,27 @@
 <template>
   <div
-    class="datepicker-buttons-container flex justify-content-right"
+    v-if="hasButtonSubmit || hasButtonCancel"
+    class="datepicker-buttons-container flex"
+    :class="{
+      'justify-content-right': !hasButtonCancel,
+    }"
   >
     <button
-      v-if="hasButtonNow"
-      class="datepicker-button now flex align-center justify-content-center"
-      :class="{'right-margin': hasButtonSubmit}"
-      tabindex="-1"
+      v-if="hasButtonCancel"
       type="button"
-      @click="emitNow()"
+      tabindex="-1"
+      class="datepicker-button cancel flex align-center justify-content-center"
+      @click.stop="$emit('cancel')"
     >
       <span
-        :style="[bgStyle]"
         class="datepicker-button-effect"
+        :style="[cancelBgStyle]"
       />
       <span
         class="datepicker-button-content"
-        :style="[colorStyle]"
+        :style="[cancelColorStyle]"
       >
-        {{ buttonNowTranslation || 'Now' }}
+        {{ buttonCancelTranslation || 'Cancel' }}
       </span>
     </button>
     <button
@@ -26,6 +29,9 @@
       type="button"
       tabindex="-1"
       class="datepicker-button submit flex align-center justify-content-center"
+      :class="{
+        'has-border': !buttonSubmitTranslation
+      }"
       @click.stop="$emit('submit')"
     >
       <span
@@ -58,17 +64,15 @@
 </template>
 
 <script>
-  import dayjs from 'dayjs'
-
   export default {
     name: 'ActionButtons',
     props: {
-      buttonNowTranslation: { type: String, default: null },
-      buttonSubmitTranslation: { type: String, default: null },
       onlyTime: { type: Boolean, default: null },
-      noButtonNow: { type: Boolean, default: null },
       range: { type: Boolean, default: null },
-      hasButtonSubmit: { type: Boolean, default: null }
+      hasButtonSubmit: { type: Boolean, default: null },
+      hasButtonCancel: { type: Boolean, default: null },
+      buttonSubmitTranslation: { type: String, default: null },
+      buttonCancelTranslation: { type: String, default: null }
     },
     computed: {
       colorStyle () {
@@ -77,18 +81,20 @@
           fill: 'var(--tvd-primary-color)'
         }
       },
+      cancelColorStyle () {
+        return {
+          color: 'var(--tvd-text-color-dimmer)'
+        }
+      },
       bgStyle () {
         return {
           backgroundColor: 'var(--tvd-primary-color)'
         }
       },
-      hasButtonNow () {
-        return !this.onlyTime && !this.noButtonNow && !this.range
-      }
-    },
-    methods: {
-      emitNow () {
-        this.$emit('now', dayjs().format('YYYY-MM-DD HH:mm'))
+      cancelBgStyle () {
+        return {
+          backgroundColor: 'var(--tvd-primary-variant-color)'
+        }
       }
     }
   }
@@ -96,11 +102,11 @@
 
 <style lang="scss" scoped>
   .datepicker-buttons-container {
-    padding: 5px;
-    border-top: 1px solid var(--tvd-border-color);
+    padding: 10px 5px 15px;
     background-color: var(--tvd-background-color);
     z-index: 1;
     display: flex !important;
+    justify-content: space-between;
     .datepicker-button {
       padding: 0 20px;
       position: relative;
@@ -108,11 +114,11 @@
       border: 1px solid transparent;
       border-radius: 4px;
       height: 30px;
-      font-size: 14px;
+      font-size: 16px;
       outline: none;
       cursor: pointer;
       -webkit-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-      font-weight: 500;
+      font-weight: 600;
       &-content {
         position: relative;
       }
@@ -140,6 +146,8 @@
         .datepicker-button-effect {
           transform: scale(1);
         }
+      }
+      &.submit:hover {
         svg {
           fill: var(--tvd-light-text-color) !important;
         }
@@ -147,12 +155,7 @@
           color: var(--tvd-light-text-color) !important;
         }
       }
-      &.now {
-        &.right-margin {
-          margin-right: 10px;
-        }
-      }
-      &.submit {
+      &.has-border {
         border: 1px solid var(--tvd-border-color);
       }
     }

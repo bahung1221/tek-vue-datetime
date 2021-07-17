@@ -125,9 +125,7 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | range                       | Boolean           | no       | false                       |
 | input-size                  | String (sm or lg) | no       | null                        |
 | no-button                   | Boolean           | no       | false                       |
-| no-button-now               | Boolean           | no       | false                       |
 | no-button-submit            | Boolean           | no       | false                       |
-| button-now-translation      | String            | no       | 'Now'                       |
 | button-submit-translation   | String            | no       | null                        |
 | first-day-of-week           | Int (0 to 7)      | no       | -                           |
 | disabled-dates (9)          | Array`<string>`   | no       | []                          |
@@ -210,6 +208,7 @@ To override those values, pass a new object with the values you want to override
 | Behaviour              | Description                                                                                                                                                                                                                                                                                                                                                                       | Type    | Default |
 | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
 | time.nearestIfDisabled | If `true`, it will select the nearest available hour in the timepicker, if the current selected hour is disabled. Per example, if the hour is 12 but all the hours have been disabled until 14, then the 14 will be selected by default. Set `false` to disable this behaviour; the current hour will remain selected even if it has been disabled. The user cannot re-select it. | Boolean | true    |
+| range.reverse          | If `true`, in range picker the first click will select one date and the second click on the same click will active range selecting mode                                                                                                                                                                                                                                           | Boolean | false    |
 
 # Events API
 

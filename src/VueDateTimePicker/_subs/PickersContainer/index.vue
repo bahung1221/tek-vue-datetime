@@ -56,6 +56,8 @@
                   :disabled-dates="disabledDates"
                   :enabled-dates="enabledDates"
                   :range="range"
+                  :is-range-selecting="isRangeSelecting"
+                  :reverse-range-behaviour="behaviour && behaviour.range && behaviour.range.reverse"
                   :height="height"
                   :first-day-of-week="firstDayOfWeek"
                   :visible="visible"
@@ -63,6 +65,7 @@
                   :no-month-year-select="noMonthYearSelect"
                   :locale="locale"
                   @hover-date="hoverDate"
+                  @change-range-selecting="changeRangeSelection"
                   @change-month="changeMonth"
                   @change-year-month="changeYearMonth"
                   @close="$emit('close')"
@@ -90,13 +93,15 @@
             <ActionButtons
               v-if="!hasNoButton && !(inline && range)"
               class="action-buttons flex-fixed"
-              :button-now-translation="buttonNowTranslation"
-              :button-submit-translation="buttonSubmitTranslation"
               :only-time="onlyTime"
               :no-button-now="noButtonNow"
               :range="range"
               :has-button-submit="hasButtonSubmit"
+              :has-button-cancel="hasButtonCancel"
+              :button-submit-translation="buttonSubmitTranslation"
+              :button-cancel-translation="buttonCancelTranslation"
               @submit="$emit('submit')"
+              @cancel="$emit('close')"
               @now="setNow"
             />
           </div>
@@ -139,6 +144,7 @@
       maxDate: { type: String, default: null },
       minDate: { type: String, default: null },
       hasButtonSubmit: { type: Boolean, default: null },
+      hasButtonCancel: { type: Boolean, default: null },
       hasNoButton: { type: Boolean, default: null },
       noWeekendsDays: { type: Boolean, default: null },
       disabledWeekly: { type: Array, default: null },
@@ -148,6 +154,7 @@
       range: { type: Boolean, default: null },
       buttonNowTranslation: { type: String, default: null },
       buttonSubmitTranslation: { type: String, default: null },
+      buttonCancelTranslation: { type: String, default: null },
       noButtonNow: { type: Boolean, default: false },
       firstDayOfWeek: { type: Number, default: null },
       noKeyboard: { type: Boolean, default: false },
@@ -157,9 +164,17 @@
     },
     data () {
       const months = this.range ? 2 : 1
+      const start = this.value && this.value.start ? this.value.start : this.value
+      const end = this.value && this.value.end ? this.value.end : this.value
+
+      const date = [
+        ...dayjs.isDayjs(start) ? [start.format('YYYY-MM-DD')] : [start],
+        ...dayjs.isDayjs(end) ? [end.format('YYYY-MM-DD')] : [end]
+      ]
 
       return {
         hoverValue: null,
+        isRangeSelecting: this.range && date[0] !== date[1],
         months,
         month: this.getMonth(),
         monthEnd: months > 1 ? this.getMonthEnd() : null,
@@ -374,6 +389,9 @@
       },
       hoverDate (val) {
         this.hoverValue = val
+      },
+      changeRangeSelection (val) {
+        this.isRangeSelecting = val
       },
       changeMonth (val) {
         let month = this.month.month + (val === 'prev' ? -1 : +1)

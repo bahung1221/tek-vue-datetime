@@ -103,9 +103,9 @@
                 disabled: (isDisabled(day) || isWeekEndDay(day)),
                 enable: !(isDisabled(day) || isWeekEndDay(day)),
                 between: isBetween(day) && range,
-                'hover-between': isHoverBetween(day) && range,
-                first: firstInRange(day) && range,
-                last: lastInRange(day) && !!value.end && range,
+                'hover-between': isHoverBetween(day) && isRangeSelecting,
+                first: firstInRange(day) && isRangeSelecting,
+                last: lastInRange(day) && !!value.end && isRangeSelecting,
                 today: isToday(day)
               }"
               :disabled="isDisabled(day) || isWeekEndDay(day)"
@@ -128,6 +128,20 @@
                   fill-rule="evenodd"
                 /></svg>
               </span>
+              <span
+                v-show="firstInRange(day)"
+                class="datepicker-date-first-placeholder"
+                :class="{
+                  active: isRangeSelecting && selectedRange > 0,
+                }"
+              />
+              <span
+                v-show="lastInRange(day)"
+                class="datepicker-date-last-placeholder"
+                :class="{
+                  active: isRangeSelecting,
+                }"
+              />
               <span
                 v-show="!isDisabled(day) || isSelected(day)"
                 class="datepicker-day-effect"
@@ -186,6 +200,8 @@
       noWeekendsDays: { type: Boolean, default: null },
       disabledWeekly: { type: Array, default: () => ([]) },
       range: { type: Boolean, default: false },
+      isRangeSelecting: { type: Boolean, default: false },
+      reverseRangeBehaviour: { type: Boolean, default: null },
       disabledDates: { type: Array, default: () => ([]) },
       enabledDates: { type: Array, default: () => ([]) },
       month: { type: Object, default: null },
@@ -224,6 +240,29 @@
       },
       weekDays () {
         return getWeekDays(this.locale, this.firstDayOfWeek)
+      },
+      selectedRange () {
+        if (!this.range || !this.value || !this.value.start) {
+          return 0
+        }
+
+        if (this.value.end) {
+          return dayjs(this.value.end)
+            .diff(
+              dayjs(this.value.start),
+              'days'
+            )
+        }
+
+        if (!this.hoverValue) {
+          return 0
+        }
+
+        return dayjs(this.hoverValue)
+          .diff(
+            dayjs(this.value.start),
+            'days'
+          )
       }
     },
     watch: {
@@ -277,6 +316,11 @@
           ...dayjs.isDayjs(start) ? [start.format('YYYY-MM-DD')] : [start],
           ...dayjs.isDayjs(end) ? [end.format('YYYY-MM-DD')] : [end]
         ]
+
+        if (this.range && date[0] === date[1]) {
+          return day.format('YYYY-MM-DD') === date[0]
+        }
+
         return date.indexOf(day.format('YYYY-MM-DD')) > -1
       },
       isBetween (day) {
@@ -293,8 +337,14 @@
           return false
         }
 
+        const start = dayjs(this.value.start)
+        const hover = dayjs(this.hoverValue)
+        if (hover.isBefore(start)) {
+          return false
+        }
+
         return this.value.start && this.hoverValue
-          ? dayjs(day).isBetween(dayjs(this.value.start), dayjs(this.hoverValue), 'days', '[]')
+          ? dayjs(day).isBetween(start, hover, 'days', '[]')
           : false
       },
       firstInRange (day) {
@@ -313,8 +363,18 @@
         return this.noWeekendsDays ? weekendsDaysNumbers.indexOf(dayConst) > -1 : false
       },
       selectDate (day) {
+        if (this.reverseRangeBehaviour) {
+          this.selectDateReverseBehavior(day)
+          return
+        }
+
+        this.selectDateNormalBehavior(day)
+      },
+
+      selectDateNormalBehavior (day) {
         if (this.range) {
           if (!this.value.start || this.value.end || day.isBefore(dayjs(this.value.start))) {
+            this.isRangeSelecting = true
             this.value.start = day.format('YYYY-MM-DD')
             this.value.end = null
           } else {
@@ -322,10 +382,57 @@
           }
           this.$emit('input', this.value)
           this.$emit('hover-date', null)
-        } else {
-          this.$emit('input', dayjs(day).format('YYYY-MM-DD'))
+
+          return
         }
+
+        this.$emit('input', dayjs(day).format('YYYY-MM-DD'))
       },
+
+      selectDateReverseBehavior (day) {
+        const val = day.format('YYYY-MM-DD')
+
+        if (this.range) {
+          if (this.value.start && this.value.end && this.value.start !== this.value.end) {
+            this.value.start = val
+            this.value.end = val
+            this.$emit('input', this.value)
+            this.$emit('hover-date', null)
+            this.$emit('change-range-selecting', false)
+            return
+          }
+
+          if (val === this.value.start && !this.isRangeSelecting) {
+            this.value.end = null
+
+            this.$emit('input', this.value)
+            this.$emit('hover-date', null)
+            this.$emit('change-range-selecting', true)
+            return
+          }
+
+          if (val === this.value.start && this.isRangeSelecting) {
+            this.$emit('change-range-selecting', false)
+            return
+          }
+
+          if (!this.isRangeSelecting) {
+            this.value.start = val
+            this.value.end = val
+          } else if (day.isBefore(dayjs(this.value.start))) {
+            this.value.start = val
+          } else if (this.isRangeSelecting) {
+            this.value.end = val
+          }
+
+          this.$emit('input', this.value)
+          this.$emit('hover-date', null)
+          return
+        }
+
+        this.$emit('input', dayjs(day).format('YYYY-MM-DD'))
+      },
+
       hoverDate (day) {
         if (!this.range || !this.value || !this.value.start || this.value.end) {
           return
@@ -373,7 +480,7 @@
       padding: 5px !important;
     }
     .calendar {
-      padding: 10px 10px 0;
+      padding: 10px 15px 0;
       position: relative;
     }
     .datepicker-controls {
@@ -463,6 +570,26 @@
           background: var(--tvd-secondary-color);
           transform: scale(0);
         }
+        .datepicker-date-first-placeholder, .datepicker-date-last-placeholder {
+          margin: auto;
+          background: var(--tvd-primary-variant-color);
+          transform: scale(0);
+          position: absolute;
+          width: 50%;
+          height: 30px;
+          top: 0;
+          bottom: 0;
+          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          &.active {
+            transform: scale(1);
+          }
+        }
+        .datepicker-date-first-placeholder {
+          right: 0;
+        }
+        .datepicker-date-last-placeholder {
+          left: 0;
+        }
         .datepicker-today {
           background-color: var(--tvd-primary-variant-color);
           svg {
@@ -516,7 +643,7 @@
             background-color: rgba(0, 0, 0, 0.66);
           }
         }
-        &.between {
+        &.between:not(.selected) {
           .datepicker-day-effect {
             background: var(--tvd-primary-variant-color);
             transform: scale(1);
@@ -527,17 +654,29 @@
             background-color: rgba(0, 0, 0, 0.66);
           }
         }
-        &.first .datepicker-day-effect {
-          transform: scale(1);
-          background-color: var(--tvd-primary-color);
-          border-radius: 4px 0 0 4px;
-          width: 100%;
+        &.first {
+          .datepicker-day-effect {
+            width: 30px;
+            height: 30px;
+            transform: scale(1);
+            background-color: var(--tvd-primary-color);
+            border-radius: 50%;
+          }
+          &.hover-between .datepicker-date-first-placeholder {
+            background: var(--tvd-secondary-color);
+          }
         }
-        &.last .datepicker-day-effect {
-          transform: scale(1);
-          background-color: var(--tvd-primary-color);
-          border-radius: 0 4px 4px 0;
-          width: 100%;
+        &.last {
+          .datepicker-day-effect {
+            width: 30px;
+            height: 30px;
+            transform: scale(1);
+            background-color: var(--tvd-primary-color);
+            border-radius: 50%;
+          }
+          &.hover-between .datepicker-date-last-placeholder {
+            background: var(--tvd-secondary-color);
+          }
         }
         &.first.last .datepicker-day-effect {
           border-radius: 4px;

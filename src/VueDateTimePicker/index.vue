@@ -54,14 +54,15 @@
       :no-weekends-days="noWeekendsDays"
       :disabled-weekly="disabledWeekly"
       :has-button-submit="hasButtonSubmit"
+      :has-button-cancel="hasButtonCancel"
       :has-no-button="hasNoButton"
       :range="range"
+      :reverse-range-behavior="reverseRangeBehavior"
       :disabled-dates="disabledDates"
       :disabled-hours="disabledHours"
       :enabled-dates="enabledDates"
-      :button-now-translation="buttonNowTranslation"
       :button-submit-translation="buttonSubmitTranslation"
-      :no-button-now="noButtonNow"
+      :button-cancel-translation="buttonCancelTranslation"
       :first-day-of-week="firstDayOfWeek"
       :no-keyboard="noKeyboard"
       :no-month-year-select="noMonthYearSelect"
@@ -153,6 +154,9 @@
   const defaultBehaviour = {
     time: {
       nearestIfDisabled: true
+    },
+    range: {
+      reverse: false
     }
   }
 
@@ -208,6 +212,9 @@
       hasButtonSubmit () {
         return !this.inline && !this.autoClose
       },
+      hasButtonCancel () {
+        return !this.inline && !this.autoClose && !!this.buttonCancelTranslation
+      },
       hasOnlyDate () {
         return this.onlyDate || this.range
       },
@@ -253,12 +260,16 @@
        * @returns {Object}
        */
       _behaviour () {
-        const { time } = defaultBehaviour
+        const { time, range } = defaultBehaviour
 
         return {
           time: {
             ...time,
             ...this.behaviour.time
+          },
+          range: {
+            ...range,
+            ...this.behaviour.range
           }
         }
       }
@@ -361,6 +372,7 @@
         el.style.setProperty('--tvd-primary-variant-color', this.primaryVariantColor)
         el.style.setProperty('--tvd-secondary-color', this.secondaryColor)
         el.style.setProperty('--tvd-text-color', this.textColor)
+        el.style.setProperty('--tvd-text-color-dimmer', this.textColorDimmer)
         el.style.setProperty('--tvd-light-text-color', this.lightTextColor)
         el.style.setProperty('--tvd-background-color', this.backgroundColor)
         el.style.setProperty('--tvd-border-color', this.borderColor)

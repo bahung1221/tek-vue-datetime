@@ -94,8 +94,7 @@ describe('VueDateTimePicker/PickersContainer/ActionButtons', () => {
         wrapper.setProps({
           noButtonNow: false,
           range: false,
-          onlyTime: false,
-          hasButtonSubmit: true
+          onlyTime: false
         })
         const button = wrapper.find('.now')
         expect(button.classes()).toContain('right-margin')
@@ -105,8 +104,7 @@ describe('VueDateTimePicker/PickersContainer/ActionButtons', () => {
         wrapper.setProps({
           noButtonNow: false,
           range: false,
-          onlyTime: false,
-          hasButtonSubmit: false
+          onlyTime: false
         })
         const button = wrapper.find('.now')
         expect(button.classes()).not.toContain('right-margin')

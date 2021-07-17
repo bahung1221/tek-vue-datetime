@@ -88,7 +88,7 @@
       color: var(--tvd-text-color);
     }
     &.with-border {
-      border: 1px solid var(--tvd-border-color);;
+      border: 1px solid var(--tvd-border-color);
     }
     &.no-effect {
       cursor: default;
