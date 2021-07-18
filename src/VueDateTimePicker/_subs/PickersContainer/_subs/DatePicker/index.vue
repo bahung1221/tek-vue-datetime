@@ -648,7 +648,7 @@
         }
         &.between:not(.selected) {
           .datepicker-day-effect {
-            background: var(--tvd-primary-variant-color);
+            background: var(--tvd-secondary-color);
             opacity: 1;
             border-radius: 0;
             width: 100%;
