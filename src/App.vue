@@ -205,6 +205,7 @@
                 :right="demo.options.right"
                 :no-clear-button="demo.options.noClearButton"
                 :no-month-year-select="demo.options.noMonthYearSelect"
+                :no-transition="demo.options.noTransition"
                 :behaviour="demo.options.behaviour"
               >
                 <input
@@ -246,7 +247,8 @@
         booleanOptions: [
           'noHeader', 'autoClose', 'error', 'overlay', 'noWeekendDays',
           'noButton', 'onlyDate', 'range', 'onlyTime', 'inline', 'persistent', 'disabled',
-          'noValueToCustomElem', 'noKeyboard', 'right', 'noClearButton', 'noLabel', 'noMonthYearSelect'
+          'noValueToCustomElem', 'noKeyboard', 'right',
+          'noClearButton', 'noLabel', 'noMonthYearSelect', 'noTransition'
         ],
         stringOptions: [
           'id', 'label', 'hint', 'buttonColor', 'position', 'format', 'formatted', 'outputFormat',
@@ -356,6 +358,7 @@
               noMonthYearSelect: true,
               buttonSubmitTranslation: 'Apply',
               buttonCancelTranslation: 'Cancel',
+              noTransition: true,
               behaviour: {
                 range: {
                   reverse: true

@@ -66,6 +66,7 @@
       :first-day-of-week="firstDayOfWeek"
       :no-keyboard="noKeyboard"
       :no-month-year-select="noMonthYearSelect"
+      :no-transition="noTransition"
       :right="right"
       :behaviour="_behaviour"
       @input="setDateTime"

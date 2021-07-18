@@ -134,6 +134,7 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | no-keyboard (12)            | Boolean           | no       | false                       |
 | right (13)                  | Boolean           | no       | false                       |
 | noClearButton               | Boolean           | no       | false                       |
+| noTransition                | Boolean           | no       | false                       |
 | behaviour                   | Object            | no       | [See behaviour](#Behaviour) |
 | id (14)                     | String            | no       | undefined                   |
 

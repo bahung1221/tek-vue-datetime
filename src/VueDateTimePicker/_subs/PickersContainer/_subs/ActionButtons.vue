@@ -14,11 +14,7 @@
       @click.stop="$emit('cancel')"
     >
       <span
-        class="datepicker-button-effect"
-        :style="[cancelBgStyle]"
-      />
-      <span
-        class="datepicker-button-content"
+        class="datepicker-button-content text"
         :style="[cancelColorStyle]"
       >
         {{ buttonCancelTranslation || 'Cancel' }}
@@ -35,12 +31,13 @@
       @click.stop="$emit('submit')"
     >
       <span
+        v-if="!buttonSubmitTranslation"
         class="datepicker-button-effect"
         :style="[bgStyle]"
       />
       <span
         v-if="buttonSubmitTranslation"
-        class="datepicker-button-content"
+        class="datepicker-button-content text"
         :style="[colorStyle]"
       >
         {{ buttonSubmitTranslation }}
@@ -102,7 +99,7 @@
 
 <style lang="scss" scoped>
   .datepicker-buttons-container {
-    padding: 10px 5px 15px;
+    padding: 10px 5px 25px;
     background-color: var(--tvd-background-color);
     z-index: 1;
     display: flex !important;
@@ -119,10 +116,15 @@
       -webkit-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
       span {
         font-weight: 600;
-        font-size: 16px;
+        font-size: 15px;
       }
       &-content {
         position: relative;
+        &.text {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
       svg {
         position: relative;
@@ -153,7 +155,7 @@
         svg {
           fill: var(--tvd-light-text-color) !important;
         }
-        .datepicker-button-content {
+        .datepicker-button-content:not(.text) {
           color: var(--tvd-light-text-color) !important;
         }
       }

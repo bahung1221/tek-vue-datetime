@@ -50,5 +50,6 @@ export default {
   noKeyboard: { type: Boolean, default: false },
   right: { type: Boolean, default: false },
   noClearButton: { type: Boolean, default: false },
-  noMonthYearSelect: { type: Boolean, default: false }
+  noMonthYearSelect: { type: Boolean, default: false },
+  noTransition: { type: Boolean, default: false }
 }

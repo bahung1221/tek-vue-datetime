@@ -36,7 +36,7 @@
               v-for="m in [month]"
               :key="m.month"
               :no-effect="noMonthYearSelect"
-              class="date-buttons lm-fs-14 padding-button"
+              class="date-buttons padding-button"
               @click="openSelectYearMonth('month')"
             >
               {{ monthFormatted }}
@@ -50,7 +50,7 @@
               v-for="y in [year]"
               :key="y"
               :no-effect="noMonthYearSelect"
-              class="date-buttons lm-fs-14 padding-button"
+              class="date-buttons padding-button"
               @click="openSelectYearMonth('year')"
             >
               {{ year }}
@@ -139,7 +139,7 @@
                 v-show="lastInRange(day)"
                 class="datepicker-date-last-placeholder"
                 :class="{
-                  active: isRangeSelecting,
+                  active: isRangeSelecting && selectedRange > 0,
                 }"
               />
               <span
@@ -498,8 +498,8 @@
         outline: none;
         width: 100%;
         svg {
-          height: 15px;
-          width: 15px;
+          height: 17px;
+          width: 17px;
           fill: var(--tvd-text-color);
         }
         &.datepicker-prev {
@@ -522,8 +522,11 @@
       .date-buttons {
         background-color: transparent;
         text-transform: capitalize;
-        font-weight: 600;
         color: var(--tvd-text-color);
+        /deep/ span {
+          font-size: 15px;
+          font-weight: 600;
+        }
       }
     }
     .month-container {
@@ -568,20 +571,20 @@
         .datepicker-day-effect {
           margin: auto;
           background: var(--tvd-secondary-color);
-          transform: scale(0);
+          opacity: 0;
         }
         .datepicker-date-first-placeholder, .datepicker-date-last-placeholder {
           margin: auto;
           background: var(--tvd-primary-variant-color);
-          transform: scale(0);
+          opacity: 0;
           position: absolute;
           width: 50%;
           height: 30px;
           top: 0;
           bottom: 0;
-          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          transition: all 250ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
           &.active {
-            transform: scale(1);
+            opacity: 1;
           }
         }
         .datepicker-date-first-placeholder {
@@ -623,7 +626,7 @@
         }
         &:hover {
           .datepicker-day-effect {
-            transform: scale(1);
+            opacity: 1;
           }
         }
         &.today {
@@ -635,7 +638,7 @@
         &.hover-between {
           .datepicker-day-effect {
             background: var(--tvd-secondary-color);
-            transform: scale(1);
+            opacity: 1;
             border-radius: 0;
             width: 100%;
           }
@@ -646,7 +649,7 @@
         &.between:not(.selected) {
           .datepicker-day-effect {
             background: var(--tvd-primary-variant-color);
-            transform: scale(1);
+            opacity: 1;
             border-radius: 0;
             width: 100%;
           }
@@ -658,7 +661,7 @@
           .datepicker-day-effect {
             width: 30px;
             height: 30px;
-            transform: scale(1);
+            opacity: 1;
             background-color: var(--tvd-primary-color);
             border-radius: 50%;
           }
@@ -670,7 +673,7 @@
           .datepicker-day-effect {
             width: 30px;
             height: 30px;
-            transform: scale(1);
+            opacity: 1;
             background-color: var(--tvd-primary-color);
             border-radius: 50%;
           }
@@ -687,7 +690,6 @@
           }
           .datepicker-day-effect {
             background-color: var(--tvd-primary-color);
-            transform: scale(1);
             opacity: 1;
           }
           .datepicker-day-keyboard-selected {
@@ -704,7 +706,6 @@
             color: var(--tvd-light-text-color);
           }
           .datepicker-day-effect {
-            transform: scale(0);
             opacity: 0;
           }
         }

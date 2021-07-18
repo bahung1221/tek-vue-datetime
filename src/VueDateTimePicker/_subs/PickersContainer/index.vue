@@ -3,7 +3,7 @@
     <!-- Add root prefix to apply `tek-vue-datetime` styles when model was portal to body - only mobile -->
     <div :class="{'date-time-picker': isMobile}">
       <Transition
-        :name="position === 'bottom' ? 'slide' : 'slideinvert'"
+        :name="transitionName"
       >
         <div
           v-show="visible || inline"
@@ -24,7 +24,7 @@
               :only-time="onlyTime"
               :format="format"
               :time-format="timeFormat"
-              :transition-name="transitionName"
+              :transition-name="slideTransitionName"
               :no-time="onlyDate"
               :range="range"
             />
@@ -160,7 +160,8 @@
       noKeyboard: { type: Boolean, default: false },
       right: { type: Boolean, default: false },
       behaviour: { type: Object, default: () => ({}) },
-      noMonthYearSelect: { type: Boolean, default: false }
+      noMonthYearSelect: { type: Boolean, default: false },
+      noTransition: { type: Boolean, default: false }
     },
     data () {
       const months = this.range ? 2 : 1
@@ -178,11 +179,19 @@
         months,
         month: this.getMonth(),
         monthEnd: months > 1 ? this.getMonthEnd() : null,
-        transitionName: 'slidevnext',
+        slideTransitionName: 'slidevnext',
         componentKey: 0
       }
     },
     computed: {
+      transitionName () {
+        if (this.noTransition) {
+          return null
+        }
+
+        return this.position === 'bottom' ? 'slide' : 'slideinvert'
+      },
+
       width () {
         let size = 320
 
