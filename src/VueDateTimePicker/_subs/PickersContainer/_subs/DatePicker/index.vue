@@ -575,7 +575,7 @@
         }
         .datepicker-date-first-placeholder, .datepicker-date-last-placeholder {
           margin: auto;
-          background: var(--tvd-primary-variant-color);
+          background: var(--tvd-secondary-color);
           opacity: 0;
           position: absolute;
           width: 50%;
@@ -594,7 +594,7 @@
           left: 0;
         }
         .datepicker-today {
-          background-color: var(--tvd-primary-variant-color);
+          background-color: var(--tvd-secondary-color);
           svg {
             position: absolute;
             bottom: 3px;
