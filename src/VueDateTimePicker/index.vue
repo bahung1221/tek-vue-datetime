@@ -55,6 +55,7 @@
       :disabled-weekly="disabledWeekly"
       :has-button-submit="hasButtonSubmit"
       :has-button-cancel="hasButtonCancel"
+      :has-bottom-text="hasBottomText"
       :has-no-button="hasNoButton"
       :range="range"
       :reverse-range-behavior="reverseRangeBehavior"
@@ -63,6 +64,7 @@
       :enabled-dates="enabledDates"
       :button-submit-translation="buttonSubmitTranslation"
       :button-cancel-translation="buttonCancelTranslation"
+      :bottom-text-translation="bottomTextTranslation"
       :first-day-of-week="firstDayOfWeek"
       :no-keyboard="noKeyboard"
       :no-month-year-select="noMonthYearSelect"
@@ -215,6 +217,9 @@
       },
       hasButtonCancel () {
         return !this.inline && !this.autoClose && !!this.buttonCancelTranslation
+      },
+      hasBottomText () {
+        return !!this.bottomTextTranslation
       },
       hasOnlyDate () {
         return this.onlyDate || this.range

@@ -1,15 +1,15 @@
 # TekVueDateTime
 
-> A vue component for select date, date time and date range with elegant transition
+> A vue component for select date, date time and date range with elegant transition and customizable theme colors.
 
 TekVueDateTime is developed based on [VueCtkDateTimePicker](https://github.com/chronotruck/vue-ctk-date-time-picker).
 
-VueCtkDateTimePicker is an awesome datetime picker. I love its styles, its UX behaviour especially its transitions.
-Unfortunately, VueCtkDateTimePicker isn't maintained anymore by these authors, and it still have some issues (both logic & design issues) that I must resolve to make it work on my projects.
+VueCtkDateTimePicker is an awesome datetime picker. I love its styles, its behaviour especially its transitions.
+Unfortunately, VueCtkDateTimePicker isn't maintained anymore by these authors, and it still have some issues (both logic & UX issues) that I must resolve to make it work on my projects.
 
 So I forked it with a huge re-write to improve the UX/UI and also replace `moment` by `dayjs`.
 
-You can see the bundle size different of this package and the original one by below links:
+You can see the bundle size different of this package, and the original one by below links:
 - This folk: https://bundlephobia.com/result?p=tek-vue-datetime
 - Original: https://bundlephobia.com/result?p=vue-ctk-date-time-picker
 
@@ -98,15 +98,8 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | label                       | String            | no       | Select date & time          |
 | hint (1)                    | String            | no       | -                           |
 | error (2)                   | Boolean           | no       | false                       |
-| primary-color (3)           | String (hex)      | no       | #1e90ff                     |
-| primary-variant-color (3)   | String (hex)      | no       | #e4efff                     |
-| secondary-color (3)         | String (hex)      | no       | #eaeaea                     |
-| text-color (3)              | String (hex)      | no       | #333333                     |
-| background-color (3)        | String (hex)      | no       | #ffffff                     |
-| border-color (3)            | String (hex)      | no       | #cecece                     |
-| light-text-color (3)        | String (hex)      | no       | #ffffff                     |
 | position                    | String            | no       | null                        |
-| locale (6)                  | String            | no       | Browser Locale              |
+| locale (3)                  | String            | no       | Browser Locale              |
 | persistent                  | Boolean           | no       | false                       |
 | minute-interval             | Integer           | no       | 1                           |
 | output-format               | String            | no       | null                        |
@@ -115,9 +108,9 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | only-date                   | Boolean           | no       | false                       |
 | no-label                    | Boolean           | no       | false                       |
 | no-header                   | Boolean           | no       | false                       |
-| no-value-to-custom-elem (7) | Boolean           | no       | false                       |
-| min-date (8)                | String            | no       | -                           |
-| max-date (8)                | String            | no       | -                           |
+| no-value-to-custom-elem (4) | Boolean           | no       | false                       |
+| min-date (5)                | String            | no       | -                           |
+| max-date (5)                | String            | no       | -                           |
 | no-weekends-days            | Boolean           | no       | false                       |
 | auto-close                  | Boolean           | no       | false                       |
 | inline                      | Boolean           | no       | false                       |
@@ -127,31 +120,31 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | no-button                   | Boolean           | no       | false                       |
 | no-button-submit            | Boolean           | no       | false                       |
 | button-submit-translation   | String            | no       | null                        |
+| button-cancel-translation   | String            | no       | null                        |
+| bottom-text-translation     | String            | no       | null                        |
 | first-day-of-week           | Int (0 to 7)      | no       | -                           |
-| disabled-dates (9)          | Array`<string>`   | no       | []                          |
-| disabled-hours (10)         | Array`<string>`   | no       | -                           |
-| disabled-weekly (11)        | Array`<integer>`  | no       | []                          |
-| no-keyboard (12)            | Boolean           | no       | false                       |
-| right (13)                  | Boolean           | no       | false                       |
+| disabled-dates (6)          | Array`<string>`   | no       | []                          |
+| disabled-hours (7)          | Array`<string>`   | no       | -                           |
+| disabled-weekly (8)         | Array`<integer>`  | no       | []                          |
+| no-keyboard (9)             | Boolean           | no       | false                       |
+| right (10)                  | Boolean           | no       | false                       |
 | noClearButton               | Boolean           | no       | false                       |
 | noTransition                | Boolean           | no       | false                       |
 | behaviour                   | Object            | no       | [See behaviour](#Behaviour) |
-| id (14)                     | String            | no       | undefined                   |
+| id (11)                     | String            | no       | undefined                   |
+| primary-color (12)          | String (hex)      | no       | #1e90ff                     |
+| primary-variant-color (12)  | String (hex)      | no       | #e4efff                     |
+| secondary-color (12)        | String (hex)      | no       | #eaeaea                     |
+| text-color (12)             | String (hex)      | no       | #333333                     |
+| background-color (12)       | String (hex)      | no       | #ffffff                     |
+| border-color (12)           | String (hex)      | no       | #cecece                     |
+| light-text-color (12)       | String (hex)      | no       | #ffffff                     |
 
 (1) hint : Is a text that replaces the label/placeholder (Ex : Error designation)
 
 (2) error : When is `true` --> Input border & label are red
 
-(3) theme: Custom colors for the picker
-  - primaryColor: The main color of the picker, using for selected background, header background
-  - primaryVariantColor: The variant color of the picker, using for current day background and selected range background
-  - secondaryColor: The neutral color, using for hover background
-  - textColor: Text color of all the picker
-  - lightTextColor: Text color in active state (selected)
-  - backgroundColor: background color of the picker
-  - borderColor: border-top color of bottom bar (contains submit button)
-
-(6) locale:
+(3) locale:
 - Default value is the locale of the browser - Ex : Set `locale="vi"` to force to Vietnamese language
 - You must manual import `dayjs locale` to use this feature, `TekVueDateTime` doesn't import any locale to avoid redundant locales
 
@@ -162,21 +155,30 @@ import 'dayjs/locale/vi'
 dayjs.locale('vi')
 ```
 
-(7) no-value-to-custom-elem : No value will set to your elem (you can get the formatted value with @formatted-value event)
+(4) no-value-to-custom-elem : No value will set to your elem (you can get the formatted value with @formatted-value event)
 
-(8) min-date && max-date should be in the same format as property format specified. If format not set - it is set to 'YYYY-MM-DD hh:mm a' by default
+(5) min-date && max-date should be in the same format as property format specified. If format not set - it is set to 'YYYY-MM-DD hh:mm a' by default
 
-(9) Disabled-Dates is an Array of dates in 'YYYY-MM-DD' format (ex: `['2018-04-03', '2018-04-07', '2018-04-09']`)
+(6) Disabled-Dates is an Array of dates in 'YYYY-MM-DD' format (ex: `['2018-04-03', '2018-04-07', '2018-04-09']`)
 
-(10) disabled-hours : Must be an Array of hours in 24h format ('00' to '23') : `['00','01','02','03','04','05','06','07','19','20','21','22','23']`
+(7) disabled-hours : Must be an Array of hours in 24h format ('00' to '23') : `['00','01','02','03','04','05','06','07','19','20','21','22','23']`
 
-(11) disabled-weekly : Days of the week which are disabled every week, in Array format with day index, Sunday as 0 and Saturday as 6: `[0,4,6]`
+(8) disabled-weekly : Days of the week which are disabled every week, in Array format with day index, Sunday as 0 and Saturday as 6: `[0,4,6]`
 
-(12) no-keyboard : Disable keyboard accessibility & navigation
+(9) no-keyboard : Disable keyboard accessibility & navigation
 
-(13) right : add this attribute to align the picker on right
+(10) right : add this attribute to align the picker on right
 
-(14) id : it assign id such as 'passedstring-input' to input help diffrentiate between two date-time-picker on same component.
+(11) id : it assign id such as 'passedstring-input' to input help diffrentiate between two date-time-picker on same component.
+
+(12) theme: Custom colors for the picker
+- primaryColor: The main color of the picker, using for selected background, header background
+- primaryVariantColor: The variant color of the picker, using for current day background and selected range background
+- secondaryColor: The neutral color, using for hover background
+- textColor: Text color of all the picker
+- lightTextColor: Text color in active state (selected)
+- backgroundColor: background color of the picker
+- borderColor: border-top color of bottom bar (contains submit button)
 
 > Any additionnal attribute passed to the component will be automatically be binded to the input component. (eg. if you passes a `type` attribute, the `<input>` will receive it).
 

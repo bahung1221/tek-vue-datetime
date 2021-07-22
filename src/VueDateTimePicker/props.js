@@ -44,6 +44,7 @@ export default {
   noButtonSubmit: { type: Boolean, default: false },
   buttonSubmitTranslation: { type: String, default: null },
   buttonCancelTranslation: { type: String, default: null },
+  bottomTextTranslation: { type: String, default: null },
   firstDayOfWeek: { type: Number, default: null },
   noValueToCustomElem: { type: Boolean, default: false },
   behaviour: { type: Object, default: () => ({}) },

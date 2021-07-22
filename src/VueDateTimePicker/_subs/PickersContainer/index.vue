@@ -98,8 +98,10 @@
               :range="range"
               :has-button-submit="hasButtonSubmit"
               :has-button-cancel="hasButtonCancel"
+              :has-bottom-text="hasBottomText"
               :button-submit-translation="buttonSubmitTranslation"
               :button-cancel-translation="buttonCancelTranslation"
+              :bottom-text-translation="bottomTextTranslation"
               @submit="$emit('submit')"
               @cancel="$emit('close')"
               @now="setNow"
@@ -145,6 +147,7 @@
       minDate: { type: String, default: null },
       hasButtonSubmit: { type: Boolean, default: null },
       hasButtonCancel: { type: Boolean, default: null },
+      hasBottomText: { type: Boolean, default: null },
       hasNoButton: { type: Boolean, default: null },
       noWeekendsDays: { type: Boolean, default: null },
       disabledWeekly: { type: Array, default: null },
@@ -155,6 +158,7 @@
       buttonNowTranslation: { type: String, default: null },
       buttonSubmitTranslation: { type: String, default: null },
       buttonCancelTranslation: { type: String, default: null },
+      bottomTextTranslation: { type: String, default: null },
       noButtonNow: { type: Boolean, default: false },
       firstDayOfWeek: { type: Number, default: null },
       noKeyboard: { type: Boolean, default: false },

@@ -196,6 +196,7 @@
                 :no-button="demo.options.noButton"
                 :button-submit-translation="demo.options.buttonSubmitTranslation"
                 :button-cancel-translation="demo.options.buttonCancelTranslation"
+                :bottom-text-translation="demo.options.bottomTextTranslation"
                 :locale="demo.options.locale"
                 :input-size="demo.options.inputSize"
                 :persistent="demo.options.persistent"
@@ -252,8 +253,10 @@
         ],
         stringOptions: [
           'id', 'label', 'hint', 'buttonColor', 'position', 'format', 'formatted', 'outputFormat',
-          'minDate', 'maxDate', 'inputSize', 'buttonSubmitTranslation', 'buttonCancelTranslation', 'disabledWeekly',
-          'primaryColor', 'primaryVariantColor', 'secondaryColor', 'textColor', 'backgroundColor', 'borderColor', 'lightTextColor'
+          'minDate', 'maxDate', 'inputSize',
+          'buttonSubmitTranslation', 'buttonCancelTranslation', 'bottomTextTranslation',
+          'disabledWeekly', 'primaryColor', 'primaryVariantColor', 'secondaryColor', 'textColor',
+          'backgroundColor', 'borderColor', 'lightTextColor'
         ],
         optionsNotEditable: [
           'disabledDates', 'disabledHours'
@@ -338,7 +341,7 @@
           {
             id: '4',
             title: 'Custom theme colors',
-            description: 'Date Range Picker with custom theme colors',
+            description: 'Date Range Picker with custom theme colors and reverse behavior',
             editOption: false,
             initial: {
               start: '2021-04-05',
@@ -358,6 +361,7 @@
               noMonthYearSelect: true,
               buttonSubmitTranslation: 'Apply',
               buttonCancelTranslation: 'Cancel',
+              bottomTextTranslation: '(Double click to select range)',
               noTransition: true,
               behaviour: {
                 range: {

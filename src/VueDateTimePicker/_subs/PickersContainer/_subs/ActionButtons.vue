@@ -1,62 +1,74 @@
 <template>
   <div
-    v-if="hasButtonSubmit || hasButtonCancel"
+    v-if="hasButtonSubmit || hasButtonCancel || hasBottomText"
     class="datepicker-buttons-container flex"
-    :class="{
-      'justify-content-right': !hasButtonCancel,
-    }"
   >
-    <button
-      v-if="hasButtonCancel"
-      type="button"
-      tabindex="-1"
-      class="datepicker-button cancel flex align-center justify-content-center"
-      @click.stop="$emit('cancel')"
-    >
-      <span
-        class="datepicker-button-content text"
-        :style="[cancelColorStyle]"
+    <template>
+      <button
+        v-if="hasButtonCancel"
+        type="button"
+        tabindex="-1"
+        class="datepicker-button cancel flex align-center justify-content-center"
+        @click.stop="$emit('cancel')"
       >
-        {{ buttonCancelTranslation || 'Cancel' }}
-      </span>
-    </button>
-    <button
-      v-if="hasButtonSubmit"
-      type="button"
-      tabindex="-1"
-      class="datepicker-button submit flex align-center justify-content-center"
-      :class="{
-        'has-border': !buttonSubmitTranslation
-      }"
-      @click.stop="$emit('submit')"
-    >
-      <span
-        v-if="!buttonSubmitTranslation"
-        class="datepicker-button-effect"
-        :style="[bgStyle]"
-      />
-      <span
-        v-if="buttonSubmitTranslation"
-        class="datepicker-button-content text"
-        :style="[colorStyle]"
+        <span
+          class="datepicker-button-content text"
+          :style="[cancelColorStyle]"
+        >
+          {{ buttonCancelTranslation || 'Cancel' }}
+        </span>
+      </button>
+      <span v-else />
+    </template>
+    <template>
+      <p
+        v-if="hasBottomText && !onlyTime"
+        class="datepicker-bottom-text"
       >
-        {{ buttonSubmitTranslation }}
-      </span>
-      <svg
-        v-else
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        :style="[colorStyle]"
+        {{ bottomTextTranslation }}
+      </p>
+      <span v-else />
+    </template>
+    <template>
+      <button
+        v-if="hasButtonSubmit"
+        type="button"
+        tabindex="-1"
+        class="datepicker-button submit flex align-center justify-content-center"
+        :class="{
+          'has-border': !buttonSubmitTranslation
+        }"
+        @click.stop="$emit('submit')"
       >
-        <path
-          d="M0 0h24v24H0z"
-          fill="none"
+        <span
+          v-if="!buttonSubmitTranslation"
+          class="datepicker-button-effect"
+          :style="[bgStyle]"
         />
-        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-      </svg>
-    </button>
+        <span
+          v-if="buttonSubmitTranslation"
+          class="datepicker-button-content text"
+          :style="[colorStyle]"
+        >
+          {{ buttonSubmitTranslation }}
+        </span>
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          :style="[colorStyle]"
+        >
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+        </svg>
+      </button>
+      <span v-else />
+    </template>
   </div>
 </template>
 
@@ -68,8 +80,10 @@
       range: { type: Boolean, default: null },
       hasButtonSubmit: { type: Boolean, default: null },
       hasButtonCancel: { type: Boolean, default: null },
+      hasBottomText: { type: Boolean, default: null },
       buttonSubmitTranslation: { type: String, default: null },
-      buttonCancelTranslation: { type: String, default: null }
+      buttonCancelTranslation: { type: String, default: null },
+      bottomTextTranslation: { type: String, default: null }
     },
     computed: {
       colorStyle () {
@@ -102,7 +116,8 @@
     padding: 10px 5px 25px;
     background-color: var(--tvd-background-color);
     z-index: 1;
-    display: flex !important;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
     .datepicker-button {
       padding: 0 20px;
@@ -162,6 +177,11 @@
       &.has-border {
         border: 1px solid var(--tvd-border-color);
       }
+    }
+    .datepicker-bottom-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--tvd-text-color);
     }
   }
 </style>
