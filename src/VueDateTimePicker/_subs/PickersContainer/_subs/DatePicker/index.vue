@@ -695,6 +695,9 @@
           .datepicker-day-keyboard-selected {
             background-color: rgba(0, 0, 0, 0.66);
           }
+          .datepicker-today {
+            background-color: unset;
+          }
         }
         &.disabled {
           cursor: default;
