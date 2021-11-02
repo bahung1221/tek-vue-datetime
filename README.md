@@ -106,6 +106,7 @@ Here is an example of [UMD implementation](https://codepen.io/louismazel/pen/jQW
 | minute-interval             | Integer           | no       | 1                           |
 | only-time                   | Boolean           | no       | false                       |
 | only-date                   | Boolean           | no       | false                       |
+| only-month                  | Boolean           | no       | false                       |
 | no-label                    | Boolean           | no       | false                       |
 | no-header                   | Boolean           | no       | false                       |
 | no-value-to-custom-elem (4) | Boolean           | no       | false                       |

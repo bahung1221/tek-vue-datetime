@@ -81,7 +81,9 @@
         :week-days="weekDays"
       />
       <div
-        :style="{height: (range || (monthDays.length + weekStart) > 35) ? '210px' : '180px'}"
+        :style="{
+          height: monthContainerHeight,
+        }"
         class="month-container"
       >
         <TransitionGroup :name="transitionDaysName">
@@ -168,7 +170,7 @@
         :mode="selectingYearMonth"
         :month="month"
         @input="selectYearMonth"
-        @back="selectingYearMonth = null"
+        @back="onMonthYearBack"
         @change-mode="mode => selectingYearMonth = mode"
       />
     </div>
@@ -198,6 +200,7 @@
       locale: { type: String, default: null },
       inline: { type: Boolean, default: null },
       noWeekendsDays: { type: Boolean, default: null },
+      onlyMonth: { type: Boolean, default: null },
       disabledWeekly: { type: Array, default: () => ([]) },
       range: { type: Boolean, default: false },
       isRangeSelecting: { type: Boolean, default: false },
@@ -216,7 +219,7 @@
       return {
         transitionDaysName: 'slidenext',
         transitionLabelName: 'slidevnext',
-        selectingYearMonth: null,
+        selectingYearMonth: this.onlyMonth ? 'month' : null,
         isKeyboardActive: true
       }
     },
@@ -228,6 +231,13 @@
       },
       monthDays () {
         return this.month.getMonthDays()
+      },
+      monthContainerHeight () {
+        if (this.onlyMonth) {
+          return '180px'
+        }
+
+        return (this.range || (this.monthDays.length + this.weekStart) > 35) ? '210px' : '180px'
       },
       weekStart () {
         return this.month.getWeekStart()
@@ -362,6 +372,16 @@
         const weekendsDaysNumbers = [6, 0]
         return this.noWeekendsDays ? weekendsDaysNumbers.indexOf(dayConst) > -1 : false
       },
+
+      onMonthYearBack () {
+        // Can't back
+        if (this.onlyMonth) {
+          return
+        }
+
+        this.selectingYearMonth = null
+      },
+
       selectDate (day) {
         if (this.reverseRangeBehaviour) {
           this.selectDateReverseBehavior(day)
@@ -459,7 +479,18 @@
           ? month < this.month.month
           : year < this.month.year
         this.transitionLabelName = isBefore ? `slidevprev` : `slidevnext`
-        this.selectingYearMonth = null
+
+        if (this.onlyMonth) {
+          if (this.selectingYearMonth === 'year') {
+            this.selectingYearMonth = 'month'
+          } else {
+            this.$emit('select-month', event)
+            return
+          }
+        } else {
+          this.selectingYearMonth = null
+        }
+
         this.$emit('change-year-month', event)
       },
       getDayText (day) {

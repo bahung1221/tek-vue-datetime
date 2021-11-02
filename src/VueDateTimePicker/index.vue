@@ -41,9 +41,11 @@
       :visible="hasPickerOpen"
       :position="pickerPosition"
       :inline="inline"
+      :auto-close="autoClose"
       :no-header="noHeader"
       :only-time="onlyTime"
       :only-date="hasOnlyDate"
+      :only-month="onlyMonth"
       :minute-interval="minuteInterval"
       :start-minute="startMinute"
       :end-minute="endMinute"
@@ -532,7 +534,9 @@
         }
       },
       submit () {
-        const value = this.range ? this.getRangeDateToSend(this.dateTime) : this.getDateTimeToSend(this.dateTime)
+        const value = this.range
+          ? this.getRangeDateToSend(this.dateTime)
+          : this.getDateTimeToSend(this.dateTime)
 
         this.$emit('submit')
         this.setValueAndClosePicker(value)

@@ -51,6 +51,7 @@
                   :inline="inline"
                   :no-weekends-days="noWeekendsDays"
                   :disabled-weekly="disabledWeekly"
+                  :only-month="onlyMonth"
                   :min-date="minDate"
                   :max-date="maxDate"
                   :disabled-dates="disabledDates"
@@ -68,6 +69,7 @@
                   @change-range-selecting="changeRangeSelection"
                   @change-month="changeMonth"
                   @change-year-month="changeYearMonth"
+                  @select-month="selectMonth"
                   @close="$emit('close')"
                 />
               </div>
@@ -102,7 +104,7 @@
               :button-submit-translation="buttonSubmitTranslation"
               :button-cancel-translation="buttonCancelTranslation"
               :bottom-text-translation="bottomTextTranslation"
-              @submit="$emit('submit')"
+              @submit="onSubmit"
               @cancel="$emit('close')"
               @now="setNow"
             />
@@ -137,6 +139,7 @@
       inline: { type: Boolean, default: false },
       noHeader: { type: Boolean, default: null },
       onlyDate: { type: Boolean, default: false },
+      onlyMonth: { type: Boolean, default: false },
       onlyTime: { type: Boolean, default: null },
       minuteInterval: { type: [String, Number], default: 1 },
       startMinute: { type: Number, default: 0 },
@@ -155,6 +158,7 @@
       disabledHours: { type: Array, default: null },
       enabledDates: { type: Array, default: null },
       range: { type: Boolean, default: null },
+      autoClose: { type: Boolean, default: null },
       buttonNowTranslation: { type: String, default: null },
       buttonSubmitTranslation: { type: String, default: null },
       buttonCancelTranslation: { type: String, default: null },
@@ -423,6 +427,24 @@
       },
       changeYearMonth ({ month, year }) {
         this.month = new Month(month, year, this.locale)
+      },
+      selectMonth ({ month, year }) {
+        this.changeYearMonth({ month, year })
+
+        if (this.onlyMonth && this.autoClose) {
+          const date = dayjs().year(year).month(month - 1).startOf('month')
+          this.date = dayjs(date).format('YYYY-MM-DD')
+
+          this.$emit('submit')
+        }
+      },
+      onSubmit () {
+        if (this.onlyMonth) {
+          const date = dayjs().year(this.month.year).month(this.month.month - 1).startOf('month')
+          this.date = dayjs(date).format('YYYY-MM-DD')
+        }
+
+        this.$emit('submit')
       }
     }
   }

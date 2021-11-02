@@ -29,6 +29,7 @@ export default {
   autoClose: { type: Boolean, default: false },
   onlyTime: { type: Boolean, default: false },
   onlyDate: { type: Boolean, default: false },
+  onlyMonth: { type: Boolean, default: false },
   noHeader: { type: Boolean, default: false },
   range: { type: Boolean, default: false },
   reverseRangeBehavior: { type: Boolean, default: false },

@@ -161,6 +161,7 @@
                 v-model="demo.value"
                 :only-date="demo.options.onlyDate"
                 :only-time="demo.options.onlyTime"
+                :only-month="demo.options.onlyMonth"
                 :range="demo.options.range"
                 :format="demo.options.format"
                 :formatted="demo.options.formatted"
@@ -229,7 +230,7 @@
 </template>
 
 <script>
-  import VueDateTimePicker from './VueDateTimePicker'
+  import VueDateTimePicker from './VueDateTimePicker/index.vue'
   import CheckboxInput from './CheckboxInput'
   // import dayjs from 'dayjs'
   // import 'dayjs/locale/vi'
@@ -320,6 +321,23 @@
           },
           {
             id: '4',
+            title: 'Month Picker',
+            description: 'Month Picker',
+            editOption: false,
+            value: '2021-04-05',
+            options: {
+              formatted: 'YYYY-MM-DD',
+              format: 'YYYY-MM-DD',
+              label: 'Select month',
+              id: 'MonthPicker',
+              noHeader: true,
+              onlyDate: true,
+              onlyMonth: true
+              // autoClose: true,
+            }
+          },
+          {
+            id: '5',
             title: 'Time Picker - With minute-interval="15" & start-minute="0" & end-minute="59"',
             description: 'Time selector',
             editOption: false,
@@ -339,7 +357,7 @@
             }
           },
           {
-            id: '4',
+            id: '6',
             title: 'Custom theme colors',
             description: 'Date Range Picker with custom theme colors and reverse behavior',
             editOption: false,
@@ -380,7 +398,7 @@
             }
           },
           {
-            id: '6',
+            id: '7',
             title: 'Time Picker - 24 Hours Mode',
             description: 'Time selector',
             editOption: false,
@@ -400,7 +418,7 @@
             }
           },
           {
-            id: '7',
+            id: '8',
             title: 'Inline Picker',
             description: 'Inline selector with keyboard accessibility disabled & disabled weekly dates (available for all pickers)',
             editOption: false,
@@ -416,7 +434,7 @@
             }
           },
           {
-            id: '8',
+            id: '9',
             title: 'Enabled/Disabled dates Picker',
             description: '',
             editOption: false,
