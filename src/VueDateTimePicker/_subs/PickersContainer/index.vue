@@ -290,6 +290,10 @@
       },
       minTime () {
         const time = dayjs(this.minDate).format(this.timeFormat)
+        if (!this.date) {
+          return time
+        }
+
         if (
           this.minDate &&
           time !== '00:00' &&
@@ -301,6 +305,10 @@
       },
       maxTime () {
         const time = dayjs(this.maxDate).format(this.timeFormat)
+        if (!this.date) {
+          return time
+        }
+
         if (this.maxDate &&
           time !== '00:00' &&
           dayjs(this.date).isSame(dayjs(this.maxDate, 'YYYY-MM-DD'))) {
