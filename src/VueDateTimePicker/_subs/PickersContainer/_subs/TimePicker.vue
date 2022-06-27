@@ -215,7 +215,8 @@
             const minTime = dayjs(this.minTime, 'HH:mm')
             const minTimeHour = parseInt(dayjs(this.minTime, 'HH:mm').format('HH'), 10)
             minEnabledMinute = minTimeHour === this.hour ? parseInt(minTime.format('mm'), 10) : minEnabledMinute
-          } else if (this.maxTime) {
+          }
+          if (this.maxTime) {
             const maxTime = dayjs(this.maxTime, 'HH:mm')
             const maxTimeHour = parseInt(dayjs(this.maxTime, 'HH:mm').format('HH'), 10)
             maxEnabledMinute = maxTimeHour === this.hour ? parseInt(maxTime.format('mm'), 10) : maxEnabledMinute

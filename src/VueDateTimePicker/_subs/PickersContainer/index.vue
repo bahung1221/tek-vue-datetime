@@ -249,7 +249,12 @@
         }
       },
       minTime () {
+        if (this.onlyTime && this.minDate) {
+          return this.minDate
+        }
+
         const time = dayjs(this.minDate).format(this.timeFormat)
+
         if (
           this.minDate &&
           time !== '00:00' &&
@@ -260,7 +265,12 @@
         return ''
       },
       maxTime () {
+        if (this.onlyTime && this.maxDate) {
+          return this.maxDate
+        }
+
         const time = dayjs(this.maxDate).format(this.timeFormat)
+
         if (this.maxDate &&
           time !== '00:00' &&
           dayjs(this.date).isSame(dayjs(this.maxDate, 'YYYY-MM-DD'))) {
